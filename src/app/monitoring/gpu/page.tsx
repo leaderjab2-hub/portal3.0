@@ -130,28 +130,28 @@ export default function GPUMonitoring() {
       </div>
 
       <div className="flex-1 bg-white border border-gray-200 rounded-[10px] flex flex-col overflow-hidden">
-        <div className="h-[52px] shrink-0 border-b border-gray-200 flex items-center px-4">
-          <div className="flex h-full">
-            <button className="px-5 h-full border-b-[2px] border-primary-500 text-primary-600 font-semibold text-[13px] flex items-center">
+        <div className="flex flex-col md:flex-row md:h-[56px] shrink-0 border-b border-gray-200 bg-white">
+          <div className="flex h-[48px] md:h-full border-b md:border-b-0 border-gray-100">
+            <button className="flex-1 md:flex-none px-5 h-full border-b-[3px] border-primary-500 text-primary-600 font-extrabold text-[13px] flex items-center justify-center uppercase tracking-tight">
               노드 모니터링
             </button>
-            <button className="px-5 h-full text-gray-600 font-medium text-[13px] flex items-center hover:text-gray-900 hover:bg-gray-50">
+            <button className="flex-1 md:flex-none px-5 h-full text-gray-500 font-bold text-[13px] flex items-center justify-center hover:text-gray-900 transition-colors uppercase tracking-tight">
               CPU 모니터링
             </button>
           </div>
-          <div className="flex-1" />
-          <div className="flex items-center gap-2">
-            <div className="flex border border-gray-200 rounded-[7px] overflow-hidden text-[12px] bg-gray-50 h-[34px]">
-              <button className="px-3 py-1 font-semibold text-gray-600 hover:bg-white border-r border-gray-200">1일</button>
-              <button className="px-3 py-1 font-semibold text-gray-600 hover:bg-white border-r border-gray-200">3일</button>
-              <button className="px-3 py-1 font-bold text-primary-600 bg-white border-r border-gray-200">1주</button>
-              <button className="px-3 py-1 font-semibold text-gray-600 hover:bg-white">1개월</button>
+          <div className="flex-1 hidden md:block" />
+          <div className="p-3 md:p-0 flex flex-wrap items-center gap-2 md:pr-4">
+            <div className="flex border border-gray-200 rounded-[8px] overflow-hidden text-[11px] bg-gray-50 h-[34px] shadow-sm">
+              <button className="px-3 py-1 font-bold text-gray-500 hover:bg-white border-r border-gray-100 transition-colors">1D</button>
+              <button className="px-3 py-1 font-bold text-gray-500 hover:bg-white border-r border-gray-100 transition-colors">3D</button>
+              <button className="px-3 py-1 font-black text-primary-600 bg-white border-r border-gray-100">1W</button>
+              <button className="px-3 py-1 font-bold text-gray-500 hover:bg-white transition-colors">1M</button>
             </div>
-            <div className="flex items-center gap-2 border border-gray-200 rounded-[7px] px-3 h-[34px] bg-white">
-              <Calendar size={14} className="text-gray-400" />
-              <span className="text-[12px] font-mono text-gray-600">2026.03.18 - 2026.03.19</span>
+            <div className="flex flex-1 md:flex-none items-center gap-2 border border-gray-200 rounded-[8px] px-3 h-[34px] bg-white shadow-sm">
+              <Calendar size={13} className="text-gray-400" />
+              <span className="text-[11px] font-mono font-bold text-gray-600 truncate">2026.03.18 - 03.19</span>
             </div>
-            <button className="h-[34px] w-[34px] flex items-center justify-center border border-gray-200 rounded-[7px] text-gray-600 hover:bg-gray-50 ml-1">
+            <button className="h-[34px] w-[34px] flex items-center justify-center border border-gray-200 rounded-[8px] text-gray-500 hover:bg-gray-50 transition-all hover:rotate-180 duration-500 active:scale-90">
               <RotateCcw size={14} />
             </button>
           </div>

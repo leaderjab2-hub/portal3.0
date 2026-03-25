@@ -37,32 +37,32 @@ function CreateAdminModal({ isOpen, onClose, onConfirm }: { isOpen: boolean, onC
   };
 
   return (
-    <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center backdrop-blur-sm">
-      <div className="bg-white rounded-[12px] p-8 w-full max-w-[560px] shadow-2xl relative">
-        <h2 className="text-[20px] font-bold text-gray-900 mb-6">관리자 계정 생성</h2>
+    <div className="fixed inset-0 bg-black/50 z-[100] flex items-center justify-center backdrop-blur-sm p-4 sm:p-0">
+      <div className="bg-white rounded-[16px] p-5 sm:p-8 w-full max-w-[500px] shadow-2xl relative transition-all">
+        <h2 className="text-[18px] sm:text-[20px] font-extrabold text-gray-900 mb-5 sm:mb-6">관리자 계정 생성</h2>
         
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-4 sm:gap-5">
            <div>
-              <label className="block text-[13px] font-bold text-gray-700 mb-1.5">이름 <span className="text-red-500">*</span></label>
-              <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="이름을 입력하세요" className="w-full border border-gray-200 rounded-[8px] p-3 text-[13px] text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-all" />
+              <label className="block text-[12px] sm:text-[13px] font-bold text-gray-700 mb-1.5">이름 <span className="text-red-500">*</span></label>
+              <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="이름을 입력하세요" className="w-full border border-gray-200 rounded-[10px] p-2.5 sm:p-3 text-[13px] text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all font-medium" />
            </div>
            <div>
-              <label className="block text-[13px] font-bold text-gray-700 mb-1.5">이메일 <span className="text-red-500">*</span></label>
-              <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="example@skt.com" className={`w-full border rounded-[8px] p-3 text-[13px] text-gray-900 placeholder:text-gray-400 focus:outline-none transition-all ${emailError ? 'border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-500' : 'border-gray-200 focus:border-primary-500 focus:ring-1 focus:ring-primary-500'}`} />
-              {emailError && <p className="text-red-500 text-[11px] mt-1.5 font-bold">{emailError}</p>}
+              <label className="block text-[12px] sm:text-[13px] font-bold text-gray-700 mb-1.5">이메일 <span className="text-red-500">*</span></label>
+              <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="example@skt.com" className={`w-full border rounded-[10px] p-2.5 sm:p-3 text-[13px] text-gray-900 placeholder:text-gray-400 focus:outline-none transition-all font-medium ${emailError ? 'border-red-300 bg-red-50/20 focus:border-red-500 focus:ring-2 focus:ring-red-500/20' : 'border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20'}`} />
+              {emailError && <p className="text-red-500 text-[11px] mt-1.5 font-bold flex items-center gap-1.5"><X size={12}/> {emailError}</p>}
            </div>
            <div>
-              <label className="block text-[13px] font-bold text-gray-700 mb-1.5">권한 <span className="text-red-500">*</span></label>
-              <select value={role} onChange={e => setRole(e.target.value)} className="w-full border border-gray-200 rounded-[8px] p-3 text-[13px] text-gray-900 font-medium focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 bg-white transition-all cursor-pointer">
+              <label className="block text-[12px] sm:text-[13px] font-bold text-gray-700 mb-1.5">권한 <span className="text-red-500">*</span></label>
+              <select value={role} onChange={e => setRole(e.target.value)} className="w-full border border-gray-200 rounded-[10px] p-2.5 sm:p-3 text-[13px] text-gray-900 font-bold focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 bg-white transition-all cursor-pointer">
                  <option value="관리자">관리자</option>
                  <option value="인프라 관리자">인프라 관리자</option>
               </select>
            </div>
         </div>
 
-        <div className="mt-8 flex justify-end gap-2.5">
-           <button onClick={onClose} className="px-5 py-2.5 rounded-[8px] text-[13px] font-bold text-gray-600 bg-white border border-gray-200 hover:bg-gray-50 transition-colors outline-none">취소</button>
-           <button onClick={handleSubmit} disabled={!isFormValid} className={`px-6 py-2.5 rounded-[8px] text-[13px] font-bold transition-all outline-none ${isFormValid ? 'bg-primary-600 text-white hover:bg-primary-700 shadow-sm shadow-primary-500/20' : 'bg-gray-200 text-gray-400 cursor-not-allowed'}`}>확인</button>
+        <div className="mt-8 flex justify-end gap-2.5 border-t border-gray-100 pt-5">
+           <button onClick={onClose} className="flex-1 sm:flex-none px-5 py-2.5 rounded-[10px] text-[13px] font-bold text-gray-600 bg-white border border-gray-200 hover:bg-gray-50 transition-colors">취소</button>
+           <button onClick={handleSubmit} disabled={!isFormValid} className={`flex-1 sm:flex-none px-6 py-2.5 rounded-[10px] text-[13px] font-extrabold transition-all outline-none ${isFormValid ? 'bg-gray-900 text-white hover:bg-black shadow-lg shadow-black/10 active:scale-95' : 'bg-gray-200 text-gray-400 cursor-not-allowed'}`}>확인</button>
         </div>
       </div>
     </div>

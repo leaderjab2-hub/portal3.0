@@ -50,23 +50,23 @@ function BillingRegistrationModal({ onClose, tenant, subtenant }: { onClose: () 
   const expectedBalance = currentBalance - deductionNum;
   
   return (
-    <div className="fixed inset-0 z-50 bg-gray-900/50 flex flex-col items-center justify-center backdrop-blur-sm">
-      <div className="bg-[#F8FAFC] w-[700px] max-h-[90vh] rounded-[14px] shadow-2xl flex flex-col overflow-hidden">
-        <div className="h-[60px] border-b border-gray-200 px-6 flex items-center justify-between bg-white shrink-0">
-          <h2 className="text-[16px] font-bold text-gray-900 flex items-center gap-2">
-            <div className="w-1.5 h-1.5 rounded-full bg-primary-500"/>
+    <div className="fixed inset-0 z-[100] bg-gray-900/60 flex flex-col items-center justify-center backdrop-blur-sm p-4 sm:p-0">
+      <div className="bg-[#F8FAFC] w-full max-w-[700px] max-h-[95vh] sm:max-h-[90vh] rounded-[16px] shadow-2xl flex flex-col overflow-hidden transition-all">
+        <div className="h-[56px] sm:h-[64px] border-b border-gray-200 px-5 sm:px-6 flex items-center justify-between bg-white shrink-0">
+          <h2 className="text-[17px] sm:text-[18px] font-extrabold text-gray-900 flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary-500 animate-pulse"/>
             빌링 등록
           </h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-900"><X size={20} /></button>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-900 transition-colors"><X size={20} /></button>
         </div>
-        <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
-          <section className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
-             <h3 className="text-sm font-bold text-gray-800 border-l-4 border-primary-500 pl-2 mb-4">기본 정보</h3>
-             <div className="grid grid-cols-2 gap-4">
-                <div><label className="text-xs text-gray-500 block mb-1">Tenant (읽기전용)</label><input type="text" readOnly value={tenant} className="w-full border border-gray-200 bg-gray-50 rounded p-2 text-sm text-gray-600 font-semibold" /></div>
-                <div><label className="text-xs text-gray-500 block mb-1">Subtenant (읽기전용)</label><input type="text" readOnly value={subtenant} className="w-full border border-gray-200 bg-gray-50 rounded p-2 text-sm text-gray-600 font-semibold" /></div>
-                <div><label className="text-xs text-gray-500 block mb-1">청구 시작일 <span className="text-red-500">*</span></label><input type="date" className="w-full border border-gray-200 rounded p-2 text-sm text-gray-800" /></div>
-                <div><label className="text-xs text-gray-500 block mb-1">청구 종료일 <span className="text-red-500">*</span></label><input type="date" className="w-full border border-gray-200 rounded p-2 text-sm text-gray-800" /></div>
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 flex flex-col gap-5 sm:gap-6 scrollbar-hide">
+          <section className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm transition-all hover:shadow-md">
+             <h3 className="text-sm font-extrabold text-gray-800 border-l-4 border-primary-500 pl-3 mb-4">기본 정보</h3>
+             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                <div><label className="text-[11px] font-extrabold text-gray-400 uppercase tracking-tight block mb-1.5">Tenant (읽기전용)</label><input type="text" readOnly value={tenant} className="w-full border border-gray-200 bg-gray-50/50 rounded-[10px] p-2.5 text-[13px] text-gray-700 font-bold focus:outline-none" /></div>
+                <div><label className="text-[11px] font-extrabold text-gray-400 uppercase tracking-tight block mb-1.5">Subtenant (읽기전용)</label><input type="text" readOnly value={subtenant} className="w-full border border-gray-200 bg-gray-50/50 rounded-[10px] p-2.5 text-[13px] text-gray-700 font-bold focus:outline-none" /></div>
+                <div><label className="text-[11px] font-extrabold text-gray-500 uppercase tracking-tight block mb-1.5">청구 시작일 <span className="text-red-500">*</span></label><input type="date" className="w-full border border-gray-200 rounded-[10px] p-2.5 text-[13px] text-gray-900 font-bold focus:outline-none focus:border-primary-500 transition-all shadow-sm" /></div>
+                <div><label className="text-[11px] font-extrabold text-gray-500 uppercase tracking-tight block mb-1.5">청구 종료일 <span className="text-red-500">*</span></label><input type="date" className="w-full border border-gray-200 rounded-[10px] p-2.5 text-[13px] text-gray-900 font-bold focus:outline-none focus:border-primary-500 transition-all shadow-sm" /></div>
              </div>
           </section>
 
@@ -141,9 +141,9 @@ function BillingRegistrationModal({ onClose, tenant, subtenant }: { onClose: () 
           </section>
 
         </div>
-        <div className="h-[64px] border-t border-gray-200 px-6 flex items-center justify-end gap-3 bg-white shrink-0">
-          <button onClick={onClose} className="px-4 py-2 border border-gray-200 rounded-lg text-[13px] font-bold text-gray-600 hover:bg-gray-50">취소</button>
-          <button onClick={onClose} className="px-6 py-2 bg-primary-500 rounded-lg text-[13px] font-bold text-white hover:bg-primary-600 shadow-sm shadow-primary-500/20">확정 저장</button>
+        <div className="h-[70px] sm:h-[80px] border-t border-gray-200 px-6 sm:px-8 flex items-center justify-end gap-3 sm:gap-4 bg-white shrink-0">
+          <button onClick={onClose} className="h-[44px] px-6 rounded-[12px] text-[14px] font-bold text-gray-600 hover:bg-gray-100 transition-all active:scale-[0.98]">취소</button>
+          <button onClick={onClose} className="h-[44px] flex-1 sm:flex-none px-10 rounded-[12px] text-[14px] font-black text-white bg-gray-900 border border-gray-900 shadow-lg shadow-gray-900/10 hover:bg-black transition-all active:scale-[0.98] uppercase tracking-wider">빌링 등록 완료</button>
         </div>
       </div>
     </div>

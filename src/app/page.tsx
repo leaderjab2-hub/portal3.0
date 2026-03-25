@@ -130,7 +130,7 @@ export default function HomeDashboard() {
 
       <div className="flex flex-col lg:grid lg:grid-cols-[300px_1fr_1fr] gap-4 items-stretch relative">
         {/* 1열 - 300px 고정: GPU 사용 현황 */}
-        <div className="bg-white border border-gray-200 rounded-[10px] p-6 flex flex-col relative overflow-visible h-full">
+        <div className="bg-white border border-gray-200 rounded-[10px] p-6 flex flex-col relative overflow-visible h-full min-h-[450px] lg:min-h-0">
           <h2 className="text-[14px] font-semibold text-gray-900 mb-6">GPU 사용 현황</h2>
           
           <div className="flex flex-col items-center mb-8 flex-1 justify-center">
@@ -191,7 +191,7 @@ export default function HomeDashboard() {
         </div>
 
         {/* 2열 - 1fr: 인스턴스 내비게이터 */}
-        <div className="bg-white border border-gray-200 rounded-[10px] p-6 flex flex-col relative overflow-hidden h-full">
+        <div className="bg-white border border-gray-200 rounded-[10px] p-6 flex flex-col relative overflow-hidden h-full min-h-[400px] lg:min-h-0">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-[14px] font-semibold text-gray-900">인스턴스 내비게이터</h2>
             <Link href="/monitoring/gpu" className="text-[12px] font-semibold text-gray-600 border border-gray-200 px-3 py-1.5 rounded-[5px] hover:bg-gray-50 flex items-center gap-1">
@@ -260,11 +260,11 @@ export default function HomeDashboard() {
         </div>
 
         {/* 3열 - 1fr: 차트 카드 스택 */}
-        <div className="flex flex-col gap-4 relative h-full">
+        <div className="flex flex-col gap-4 relative h-full lg:min-h-0">
           {/* 주간 GPU 사용률 */}
-          <div className="bg-white border border-gray-200 rounded-[10px] p-6 relative flex flex-col flex-1 min-h-0">
+          <div className="bg-white border border-gray-200 rounded-[10px] p-6 relative flex flex-col flex-none md:flex-1 h-full min-h-[350px]">
             <h2 className="text-[14px] font-semibold text-gray-900 mb-6">주간 GPU 사용률</h2>
-            <div className="flex-1 w-full min-h-0 relative">
+            <div className="h-[250px] md:h-auto md:flex-1 w-full min-h-0 relative">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={gpuUsageData} margin={{ top: 5, right: 0, left: -20, bottom: 0 }}>
                   <defs>
@@ -286,7 +286,7 @@ export default function HomeDashboard() {
           </div>
 
           {/* 리소스 사용 TOP3 인스턴스 */}
-          <div className="bg-white border border-gray-200 rounded-[10px] py-6 relative flex-none flex flex-col overflow-hidden">
+          <div className="bg-white border border-gray-200 rounded-[10px] py-6 relative flex-none flex flex-col overflow-hidden min-h-[400px] lg:min-h-0">
             <div className="px-6 flex justify-between items-center mb-4">
               <h2 className="text-[14px] font-semibold text-gray-900">리소스 사용 TOP3 인스턴스</h2>
               <div className="flex gap-2">

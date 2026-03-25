@@ -41,14 +41,14 @@ function CreateNoticeModal({ isOpen, onClose, onConfirm }: { isOpen: boolean, on
   };
 
   return (
-    <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center backdrop-blur-sm">
-      <div className="bg-white rounded-[12px] p-8 w-full max-w-[700px] shadow-2xl relative max-h-[90vh] flex flex-col">
-        <h2 className="text-[20px] font-bold text-gray-900 mb-6 shrink-0">공지사항 작성</h2>
+    <div className="fixed inset-0 bg-black/50 z-[100] flex items-center justify-center backdrop-blur-sm p-4 sm:p-0">
+      <div className="bg-white rounded-[16px] p-5 sm:p-8 w-full max-w-[700px] shadow-2xl relative max-h-[95vh] sm:max-h-[90vh] flex flex-col transition-all">
+        <h2 className="text-[18px] sm:text-[20px] font-extrabold text-gray-900 mb-5 sm:mb-6 shrink-0">공지사항 작성</h2>
         
-        <div className="flex flex-col gap-5 overflow-y-auto pr-2 pb-2">
+        <div className="flex-1 flex flex-col gap-4 sm:gap-5 overflow-y-auto pr-1 pb-2 custom-scrollbar">
            <div>
-              <label className="block text-[13px] font-bold text-gray-700 mb-1.5">유형 <span className="text-red-500">*</span></label>
-              <select value={type} onChange={e => setType(e.target.value)} className="w-full border border-gray-200 rounded-[8px] p-3 text-[13px] text-gray-900 font-medium focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 bg-white cursor-pointer">
+              <label className="block text-[12px] sm:text-[13px] font-bold text-gray-700 mb-1.5 font-mono uppercase tracking-tight">유형 <span className="text-red-500">*</span></label>
+              <select value={type} onChange={e => setType(e.target.value)} className="w-full border border-gray-200 rounded-[10px] p-2.5 sm:p-3 text-[13px] text-gray-900 font-bold focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 bg-white cursor-pointer transition-all">
                  <option value="일반">일반</option>
                  <option value="점검">점검</option>
                  <option value="업데이트">업데이트</option>
@@ -57,50 +57,49 @@ function CreateNoticeModal({ isOpen, onClose, onConfirm }: { isOpen: boolean, on
            
            <div>
               <div className="flex justify-between items-end mb-1.5">
-                <label className="block text-[13px] font-bold text-gray-700">제목 <span className="text-red-500">*</span></label>
-                <span className="text-[11px] font-medium text-gray-400">{title.length}/50</span>
+                <label className="block text-[12px] sm:text-[13px] font-bold text-gray-700 font-mono uppercase tracking-tight">제목 <span className="text-red-500">*</span></label>
+                <span className="text-[10px] sm:text-[11px] font-medium text-gray-400">{title.length}/50</span>
               </div>
-              <input type="text" value={title} onChange={e => setTitle(e.target.value.substring(0, 50))} placeholder="제목을 입력하세요" className="w-full border border-gray-200 rounded-[8px] p-3 text-[13px] text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500" />
+              <input type="text" value={title} onChange={e => setTitle(e.target.value.substring(0, 50))} placeholder="제목을 입력하세요" className="w-full border border-gray-200 rounded-[10px] p-2.5 sm:p-3 text-[13px] text-gray-900 placeholder:text-gray-400 font-bold focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all" />
            </div>
 
            <div>
-              <label className="block text-[13px] font-bold text-gray-700 mb-1.5">내용 <span className="text-red-500">*</span></label>
-              <div className="border border-gray-200 rounded-[8px] overflow-hidden focus-within:border-primary-500 focus-within:ring-1 focus-within:ring-primary-500 transition-all">
-                <div className="flex items-center gap-1.5 bg-[#FAFAFA] px-3 py-2 border-b border-gray-200">
-                  <button className="p-1 hover:bg-gray-200 rounded text-gray-600"><Bold size={14}/></button>
-                  <button className="p-1 hover:bg-gray-200 rounded text-gray-600"><Italic size={14}/></button>
-                  <button className="p-1 hover:bg-gray-200 rounded text-gray-600"><Underline size={14}/></button>
-                  <div className="w-[1px] h-[14px] bg-gray-300 mx-1"></div>
-                  <button className="p-1 text-[12px] font-bold hover:bg-gray-200 rounded text-gray-600">H1</button>
-                  <button className="p-1 text-[12px] font-bold hover:bg-gray-200 rounded text-gray-600">H2</button>
-                  <button className="p-1 text-[12px] font-bold hover:bg-gray-200 rounded text-gray-600">H3</button>
-                  <div className="w-[1px] h-[14px] bg-gray-300 mx-1"></div>
-                  <button className="p-1 hover:bg-gray-200 rounded text-gray-600"><AlignLeft size={14}/></button>
-                  <button className="p-1 hover:bg-gray-200 rounded text-gray-600"><AlignCenter size={14}/></button>
-                  <button className="p-1 hover:bg-gray-200 rounded text-gray-600"><AlignRight size={14}/></button>
-                  <div className="w-[1px] h-[14px] bg-gray-300 mx-1"></div>
-                  <button className="p-1 hover:bg-gray-200 rounded text-gray-600"><List size={14}/></button>
+              <label className="block text-[12px] sm:text-[13px] font-bold text-gray-700 mb-1.5 font-mono uppercase tracking-tight">내용 <span className="text-red-500">*</span></label>
+              <div className="border border-gray-200 rounded-[12px] overflow-hidden focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-500/20 transition-all">
+                <div className="flex flex-wrap items-center gap-1 sm:gap-1.5 bg-gray-50 px-2 sm:px-3 py-2 border-b border-gray-100">
+                  <button className="p-1 hover:bg-white hover:shadow-sm rounded text-gray-600 transition-all"><Bold size={14}/></button>
+                  <button className="p-1 hover:bg-white hover:shadow-sm rounded text-gray-600 transition-all"><Italic size={14}/></button>
+                  <button className="p-1 hover:bg-white hover:shadow-sm rounded text-gray-600 transition-all"><Underline size={14}/></button>
+                  <div className="w-[1px] h-[14px] bg-gray-200 mx-1 hidden sm:block"></div>
+                  <button className="p-1 text-[11px] font-bold hover:bg-white hover:shadow-sm rounded text-gray-600 transition-all">H1</button>
+                  <button className="p-1 text-[11px] font-bold hover:bg-white hover:shadow-sm rounded text-gray-600 transition-all">H2</button>
+                  <button className="p-1 text-[11px] font-bold hover:bg-white hover:shadow-sm rounded text-gray-600 transition-all">H3</button>
+                  <div className="w-[1px] h-[14px] bg-gray-200 mx-1"></div>
+                  <button className="p-1 hover:bg-white hover:shadow-sm rounded text-gray-600 transition-all"><AlignLeft size={13}/></button>
+                  <button className="p-1 hover:bg-white hover:shadow-sm rounded text-gray-600 transition-all"><AlignCenter size={13}/></button>
+                  <div className="w-[1px] h-[14px] bg-gray-200 mx-1"></div>
+                  <button className="p-1 hover:bg-white hover:shadow-sm rounded text-gray-600 transition-all"><List size={13}/></button>
                 </div>
-                <textarea value={content} onChange={e => setContent(e.target.value)} placeholder="공지 내용을 입력하세요" className="w-full p-4 h-[200px] bg-white text-[13px] text-gray-800 focus:outline-none resize-none" />
+                <textarea value={content} onChange={e => setContent(e.target.value)} placeholder="공지 내용을 입력하세요" className="w-full p-3 sm:p-4 h-[180px] sm:h-[220px] bg-white text-[13px] text-gray-800 focus:outline-none resize-none font-medium leading-relaxed" />
               </div>
            </div>
 
            <div>
               <div className="flex justify-between items-end mb-1.5">
-                <label className="block text-[13px] font-bold text-gray-700">파일 첨부 <span className="text-gray-400 font-normal">(선택)</span></label>
-                <span className="text-[11px] font-medium text-gray-400">최대 5장, 10MB 이하</span>
+                <label className="block text-[12px] sm:text-[13px] font-bold text-gray-700 font-mono uppercase tracking-tight">파일 첨부 <span className="text-gray-400 font-normal">(선택)</span></label>
+                <span className="text-[10px] sm:text-[11px] font-medium text-gray-400 hidden sm:inline">최대 5장, 10MB 이하</span>
               </div>
-              <div className="border border-dashed border-gray-300 bg-gray-50 rounded-[8px] flex flex-col items-center justify-center p-6 hover:bg-gray-100 cursor-pointer transition-colors">
-                <UploadCloud size={24} className="text-gray-400 mb-2"/>
-                <span className="text-[12px] font-bold text-gray-600">클릭하거나 파일을 이곳에 드래그하세요</span>
-                <span className="text-[11px] text-gray-400 mt-1">png, jpg, pdf, txt, csv, xlsx, pptx 형식 지원</span>
+              <div className="border border-dashed border-gray-300 bg-gray-50 rounded-[12px] flex flex-col items-center justify-center p-5 sm:p-6 hover:bg-white hover:border-primary-300 cursor-pointer transition-all group">
+                <UploadCloud size={20} className="text-gray-400 mb-2 group-hover:text-primary-500 transition-colors"/>
+                <span className="text-[11px] sm:text-[12px] font-bold text-gray-600">클릭하거나 파일을 이곳에 드래그하세요</span>
+                <span className="text-[10px] text-gray-400 mt-1 text-center">png, jpg, pdf, txt, csv, xlsx, pptx 형식 지원</span>
               </div>
            </div>
         </div>
 
-        <div className="mt-8 flex justify-end gap-2.5 shrink-0">
-           <button onClick={onClose} className="px-5 py-2.5 rounded-[8px] text-[13px] font-bold text-gray-600 bg-white border border-gray-200 hover:bg-gray-50 transition-colors outline-none">취소</button>
-           <button onClick={handleSubmit} disabled={!isFormValid} className={`px-6 py-2.5 rounded-[8px] text-[13px] font-bold transition-all outline-none ${isFormValid ? 'bg-primary-600 text-white hover:bg-primary-700 shadow-sm shadow-primary-500/20' : 'bg-gray-200 text-gray-400 cursor-not-allowed'}`}>확인</button>
+        <div className="mt-6 sm:mt-8 flex justify-end gap-2.5 shrink-0 pt-4 border-t border-gray-100">
+           <button onClick={onClose} className="flex-1 sm:flex-none px-5 py-2.5 rounded-[10px] text-[13px] font-bold text-gray-600 bg-white border border-gray-200 hover:bg-gray-50 transition-colors">취소</button>
+           <button onClick={handleSubmit} disabled={!isFormValid} className={`flex-1 sm:flex-none px-6 py-2.5 rounded-[10px] text-[13px] font-extrabold transition-all outline-none ${isFormValid ? 'bg-primary-600 text-white hover:bg-primary-700 shadow-lg shadow-primary-500/20 active:scale-95' : 'bg-gray-200 text-gray-400 cursor-not-allowed'}`}>공지 등록</button>
         </div>
       </div>
     </div>

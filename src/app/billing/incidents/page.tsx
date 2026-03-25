@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Calendar, AlertTriangle, Building2, Server, Plus, X, Settings } from 'lucide-react';
+import { Calendar, AlertTriangle, Building2, Server, Plus, X, Settings, Box, FileText } from 'lucide-react';
 import CompanyListPanel from '@/components/CompanyListPanel';
 
 import { tenants, incidents, gpuNodes } from '@/lib/mockData';
@@ -103,27 +103,28 @@ function IncidentModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => vo
 
   if (!isOpen) return null;
   return (
-    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
-      <div className="bg-white rounded-xl w-[600px] max-h-[90vh] overflow-y-auto shadow-xl">
-        <div className="flex justify-between items-center p-5 border-b border-gray-100">
-          <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2"><AlertTriangle className="text-red-500" size={20}/>장애 등록</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600"><X size={20}/></button>
+    <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 sm:p-0 backdrop-blur-sm">
+      <div className="bg-white rounded-[16px] w-full max-w-[600px] max-h-[95vh] sm:max-h-[90vh] overflow-hidden flex flex-col shadow-2xl transition-all">
+        <div className="flex justify-between items-center p-5 border-b border-gray-100 shrink-0">
+          <h2 className="text-[18px] font-extrabold text-gray-900 flex items-center gap-2"><AlertTriangle className="text-red-500" size={20}/>장애 등록</h2>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition-colors"><X size={20}/></button>
         </div>
-        <div className="p-6 flex flex-col gap-6">
+        <div className="p-5 sm:p-7 flex-1 overflow-y-auto flex flex-col gap-6 scrollbar-hide">
           <section>
-            <h3 className="text-sm font-bold text-gray-800 mb-3 border-l-4 border-red-500 pl-2">장애 기본 정보</h3>
-            <div className="grid grid-cols-2 gap-4">
-              <div><label className="block text-xs text-gray-500 mb-1">발생 시간 <span className="text-red-500">*</span></label><input type="datetime-local" value={startD} onChange={e => setStartD(e.target.value)} className="w-full border border-gray-200 rounded p-2 text-sm" /></div>
-              <div><label className="block text-xs text-gray-500 mb-1">복구 시간 <span className="text-red-500">*</span></label><input type="datetime-local" value={endD} onChange={e => setEndD(e.target.value)} className="w-full border border-gray-200 rounded p-2 text-sm" /></div>
+            <h3 className="text-sm font-extrabold text-gray-800 mb-4 border-l-4 border-red-500 pl-3">장애 기본 정보</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div><label className="block text-[12px] font-bold text-gray-500 mb-1.5 font-mono uppercase tracking-tight">발생 시간 <span className="text-red-500">*</span></label><input type="datetime-local" value={startD} onChange={e => setStartD(e.target.value)} className="w-full border border-gray-200 rounded-[10px] p-2.5 text-[13px] font-bold focus:outline-none focus:border-red-500 transition-all" /></div>
+              <div><label className="block text-[12px] font-bold text-gray-500 mb-1.5 font-mono uppercase tracking-tight">복구 시간 <span className="text-red-500">*</span></label><input type="datetime-local" value={endD} onChange={e => setEndD(e.target.value)} className="w-full border border-gray-200 rounded-[10px] p-2.5 text-[13px] font-bold focus:outline-none focus:border-red-500 transition-all" /></div>
             </div>
-            <div className="mt-3"><label className="block text-xs text-gray-500 mb-1">소요 시간</label><input type="text" readOnly value={durationStr} className={`w-full bg-gray-50 border rounded p-2 text-sm ${isError ? 'text-red-500 font-bold border-red-200 bg-red-50' : 'text-gray-500 border-gray-200'}`}/></div>
+            <div className="mt-4"><label className="block text-[12px] font-bold text-gray-500 mb-1.5 font-mono uppercase tracking-tight">소요 시간</label><input type="text" readOnly value={durationStr} className={`w-full bg-gray-50 border rounded-[10px] p-3 text-[13px] font-extrabold shadow-inner ${isError ? 'text-red-600 border-red-200 bg-red-50' : 'text-gray-600 border-gray-100'}`}/></div>
           </section>
+          
           <section>
-            <h3 className="text-sm font-bold text-gray-800 mb-3 border-l-4 border-red-500 pl-2">영향 범위</h3>
-            <div className="grid grid-cols-2 gap-4">
+            <h3 className="text-sm font-extrabold text-gray-800 mb-4 border-l-4 border-red-500 pl-3">영향 범위</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                 <label className="block text-xs text-gray-500 mb-1">발생 노드 <span className="text-red-500">*</span></label>
-                 <select value={nodeType} onChange={e => {setNodeType(e.target.value); setInstanceId('');}} className="w-full border border-gray-200 rounded p-2 text-sm">
+                 <label className="block text-[12px] font-bold text-gray-500 mb-1.5 font-mono uppercase tracking-tight">발생 유형 <span className="text-red-500">*</span></label>
+                 <select value={nodeType} onChange={e => {setNodeType(e.target.value); setInstanceId('');}} className="w-full border border-gray-200 rounded-[10px] p-2.5 text-[13px] font-bold focus:outline-none focus:border-red-500 bg-white cursor-pointer transition-colors">
                     <option value="GPU">GPU</option>
                     <option value="CPU">CPU</option>
                     <option value="Storage">Storage</option>
@@ -131,8 +132,8 @@ function IncidentModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => vo
                  </select>
               </div>
               <div>
-                 <label className="block text-xs text-gray-500 mb-1">인스턴스 명</label>
-                 <select value={instanceId} onChange={e => setInstanceId(e.target.value)} disabled={nodeType !== 'GPU'} className="w-full border border-gray-200 rounded p-2 text-sm bg-white disabled:bg-gray-50 disabled:text-gray-400">
+                 <label className="block text-[12px] font-bold text-gray-500 mb-1.5 font-mono uppercase tracking-tight">인스턴스 명</label>
+                 <select value={instanceId} onChange={e => setInstanceId(e.target.value)} disabled={nodeType !== 'GPU'} className="w-full border border-gray-200 rounded-[10px] p-2.5 text-[13px] font-bold bg-white disabled:bg-gray-50 disabled:text-gray-400 cursor-pointer transition-colors">
                     <option value="">{nodeType === 'GPU' ? '인스턴스 선택' : '해당 없음'}</option>
                     {nodeType === 'GPU' && allocatedInstances.map(n => (
                       <option key={n.name} value={n.name}>{n.name}</option>
@@ -140,31 +141,32 @@ function IncidentModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => vo
                  </select>
               </div>
             </div>
-            <div className="mt-4 p-4 border border-gray-200 rounded-lg bg-gray-50 flex flex-col gap-3">
-               <div className="flex justify-between items-center"><span className="text-xs font-bold text-gray-700">고객사별 GPU 수량</span><button className="text-xs text-primary-600 font-semibold">+ 추가 고객사</button></div>
-               <div className="flex gap-2 items-center">
-                  <input type="text" readOnly value={mappedCompany ? `${mappedCompany} (자동매핑)` : '인스턴스를 선택해주세요'} className={`flex-1 border bg-white rounded p-1.5 text-xs font-semibold ${mappedCompany ? 'border-primary-200 text-primary-700 bg-primary-50' : 'border-gray-200 text-gray-400'}`}/>
-                  <input type="number" placeholder="직접입력" className="w-20 border border-gray-200 rounded p-1.5 text-xs"/>
+            <div className="mt-4 p-4 border border-gray-200 rounded-[12px] bg-gray-50/50 flex flex-col gap-3">
+               <div className="flex justify-between items-center"><span className="text-[12px] font-extrabold text-gray-700">고객사별 GPU 수량</span><button className="text-[11px] text-primary-600 font-bold hover:underline">+ 추가 고객사</button></div>
+               <div className="flex flex-col sm:flex-row gap-2 items-stretch sm:items-center">
+                  <input type="text" readOnly value={mappedCompany ? `${mappedCompany} (자동매핑)` : '인스턴스를 선택해주세요'} className={`flex-1 border bg-white rounded-[8px] p-2 text-[12px] font-bold ${mappedCompany ? 'border-primary-200 text-primary-700 bg-primary-50' : 'border-gray-100 text-gray-400'}`}/>
+                  <input type="number" placeholder="수량 입력" className="w-full sm:w-20 border border-gray-200 rounded-[8px] p-2 text-[12px] font-bold focus:outline-none focus:border-red-400 transition-all"/>
                </div>
             </div>
           </section>
+
           <section>
-            <h3 className="text-sm font-bold text-gray-800 mb-3 border-l-4 border-red-500 pl-2">크레딧 산출</h3>
-            <div className="p-4 rounded-lg bg-emerald-50/50 border border-emerald-100 flex justify-between items-center">
-               <span className="text-sm text-emerald-800 font-medium">크레딧 산출액 (예상)</span>
-               <span className="font-mono text-lg font-bold text-emerald-600">+₩ 14,500</span>
+            <h3 className="text-sm font-extrabold text-gray-800 mb-4 border-l-4 border-red-500 pl-3">크레딧 산출</h3>
+            <div className="p-4 rounded-[12px] bg-emerald-50 border border-emerald-100 flex justify-between items-center shadow-sm">
+               <span className="text-[13px] text-emerald-800 font-bold">크레딧 산출액 (예상)</span>
+               <span className="font-mono text-xl font-black text-emerald-600">+₩ 14,500</span>
             </div>
-            <p className="text-[11px] text-gray-400 mt-2">* 고객에게 적립되는 크레딧 (예상)</p>
+            <p className="text-[11px] text-gray-400 mt-2 font-medium">* 고객에게 적립되는 크레딧 (본사 확정 전 예상수치)</p>
           </section>
-          <section>
-            <h3 className="text-sm font-bold text-gray-800 mb-3 border-l-4 border-red-500 pl-2">부가 정보</h3>
-            <textarea placeholder="장애 복구 방법 기록" className="w-full border border-gray-200 rounded p-2 text-sm h-20 mb-3"></textarea>
-            <textarea placeholder="메모 (선택)" className="w-full border border-gray-200 rounded p-2 text-sm h-16"></textarea>
+          
+          <section className="mb-4">
+            <h3 className="text-sm font-extrabold text-gray-800 mb-4 border-l-4 border-red-500 pl-3">부가 정보</h3>
+            <textarea placeholder="조치 내용 및 메모 입력" className="w-full border border-gray-200 rounded-[12px] p-4 text-[13px] min-h-[100px] resize-none focus:outline-none focus:border-red-400 transition-all" />
           </section>
         </div>
-        <div className="p-4 border-t border-gray-100 flex justify-end gap-2 bg-gray-50 rounded-b-xl">
-          <button onClick={onClose} className="px-4 py-2 rounded text-sm font-medium border border-gray-200 bg-white hover:bg-gray-50 text-gray-700 outline-none">취소</button>
-          <button className="px-5 py-2 rounded text-sm font-medium bg-red-600 hover:bg-red-700 text-white outline-none">등록</button>
+        <div className="p-5 border-t border-gray-100 flex gap-3 shrink-0 bg-gray-50/20">
+          <button onClick={onClose} className="flex-1 h-[44px] rounded-[10px] text-[14px] font-bold text-gray-600 bg-white border border-gray-200 hover:bg-gray-100 transition-colors">취소</button>
+          <button onClick={onClose} className="flex-1 h-[44px] rounded-[10px] text-[14px] font-extrabold text-white bg-red-500 hover:bg-red-600 transition-colors shadow-lg shadow-red-500/20 active:scale-95">장애 등록 완료</button>
         </div>
       </div>
     </div>
@@ -176,60 +178,87 @@ function PMModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) 
 
   if (!isOpen) return null;
   return (
-    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
-      <div className="bg-white rounded-xl w-[600px] max-h-[90vh] overflow-y-auto shadow-xl">
-        <div className="flex justify-between items-center p-5 border-b border-gray-100">
-          <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2"><Settings className={pmType === '긴급' ? 'text-amber-500' : 'text-blue-500'} size={20}/>PM 등록</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600"><X size={20}/></button>
+    <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center backdrop-blur-sm p-4 sm:p-0">
+      <div className="bg-white rounded-[16px] w-full max-w-[600px] max-h-[95vh] sm:max-h-[90vh] flex flex-col shadow-2xl overflow-hidden transition-all">
+        <div className="flex justify-between items-center px-6 py-5 border-b border-gray-100 flex-none bg-white">
+          <h2 className="text-[17px] sm:text-[18px] font-extrabold text-gray-900 flex items-center gap-2.5">
+            <div className={`w-2 h-2 rounded-full animate-pulse ${pmType === '긴급' ? 'bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.5)]' : 'bg-primary-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]'}`}/>
+            PM 등록
+          </h2>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-900 transition-colors"><X size={20}/></button>
         </div>
-        <div className="p-6 flex flex-col gap-6">
-          <section>
-            <h3 className={`text-sm font-bold text-gray-800 mb-3 border-l-4 ${pmType === '긴급' ? 'border-amber-500' : 'border-blue-500'} pl-2`}>PM 기본 정보</h3>
-            <div className="mb-4">
-              <label className="block text-xs text-gray-500 mb-1">PM 구분 <span className="text-red-500">*</span></label>
-              <select value={pmType} onChange={e => setPmType(e.target.value)} className="w-full border border-gray-200 rounded p-2 text-sm font-semibold">
-                <option value="정기">정기 PM</option>
-                <option value="긴급">긴급 PM</option>
-              </select>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div><label className="block text-xs text-gray-500 mb-1">PM 시작 <span className="text-red-500">*</span></label><input type="datetime-local" className="w-full border border-gray-200 rounded p-2 text-sm" /></div>
-              <div><label className="block text-xs text-gray-500 mb-1">PM 종료 <span className="text-red-500">*</span></label><input type="datetime-local" className="w-full border border-gray-200 rounded p-2 text-sm" /></div>
+        <div className="p-5 sm:p-7 flex flex-col gap-6 sm:gap-8 overflow-y-auto scrollbar-hide flex-1">
+          <section className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm transition-all hover:shadow-md">
+            <h3 className={`text-sm font-extrabold text-gray-800 mb-5 border-l-4 ${pmType === '긴급' ? 'border-amber-500' : 'border-primary-500'} pl-3 flex items-center gap-2 uppercase tracking-tight`}>
+              <Settings size={16} className={pmType === '긴급' ? 'text-amber-500' : 'text-primary-500'}/>
+              PM 기본 정보
+            </h3>
+            <div className="flex flex-col gap-5">
+               <div>
+                 <label className="block text-[11px] font-extrabold text-gray-500 mb-1.5 uppercase tracking-tight">PM 구분 <span className="text-red-500">*</span></label>
+                 <div className="grid grid-cols-2 gap-2">
+                    <button onClick={() => setPmType('정기')} className={`py-2.5 rounded-[10px] text-[13px] font-bold border transition-all ${pmType === '정기' ? 'bg-primary-50 border-primary-500 text-primary-700 shadow-sm shadow-primary-500/10' : 'bg-gray-50 border-gray-100 text-gray-500 hover:bg-white hover:border-gray-200'}`}>정기 PM</button>
+                    <button onClick={() => setPmType('긴급')} className={`py-2.5 rounded-[10px] text-[13px] font-bold border transition-all ${pmType === '긴급' ? 'bg-amber-50 border-amber-500 text-amber-700 shadow-sm shadow-amber-500/10' : 'bg-gray-50 border-gray-100 text-gray-500 hover:bg-white hover:border-gray-200'}`}>긴급 PM</button>
+                 </div>
+               </div>
+               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                 <div><label className="block text-[11px] font-extrabold text-gray-500 mb-1.5 uppercase tracking-tight">PM 시작 <span className="text-red-500">*</span></label><input type="datetime-local" className="w-full border border-gray-200 rounded-[10px] p-2.5 text-[13px] font-bold text-gray-800 focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 shadow-sm" /></div>
+                 <div><label className="block text-[11px] font-extrabold text-gray-500 mb-1.5 uppercase tracking-tight">PM 종료 <span className="text-red-500">*</span></label><input type="datetime-local" className="w-full border border-gray-200 rounded-[10px] p-2.5 text-[13px] font-bold text-gray-800 focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 shadow-sm" /></div>
+               </div>
             </div>
           </section>
           
-          <section>
-            <h3 className={`text-sm font-bold text-gray-800 mb-3 border-l-4 ${pmType === '긴급' ? 'border-amber-500' : 'border-blue-500'} pl-2`}>영향 범위</h3>
-            <div className="grid grid-cols-2 gap-4 mb-3">
-              <div><label className="block text-xs text-gray-500 mb-1">대상 노드 <span className="text-red-500">*</span></label><select className="w-full border border-gray-200 rounded p-2 text-sm"><option>Storage</option><option>Network</option></select></div>
-              <div><label className="block text-xs text-gray-500 mb-1">인스턴스 명</label><input type="text" placeholder="예: STOR-01" className="w-full border border-gray-200 rounded p-2 text-sm" /></div>
+          <section className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm transition-all hover:shadow-md">
+            <h3 className={`text-sm font-extrabold text-gray-800 mb-5 border-l-4 ${pmType === '긴급' ? 'border-amber-500' : 'border-primary-500'} pl-3 flex items-center gap-2 uppercase tracking-tight`}>
+              <Box size={16} className={pmType === '긴급' ? 'text-amber-500' : 'text-primary-500'}/>
+              영향 범위 및 대상
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+              <div><label className="block text-[11px] font-extrabold text-gray-500 mb-1.5 uppercase tracking-tight">대상 노드 <span className="text-red-500">*</span></label><select className="w-full border border-gray-200 rounded-[10px] p-2.5 text-[13px] font-bold text-gray-800 bg-white cursor-pointer focus:outline-none focus:border-primary-500 shadow-sm"><option>Storage-NVMe-01</option><option>Network-IB-Leaf-02</option></select></div>
+              <div><label className="block text-[11px] font-extrabold text-gray-500 mb-1.5 uppercase tracking-tight">실제 인스턴스 (자동 맵핑)</label><input type="text" placeholder="예: STOR-01" className="w-full border border-gray-200 rounded-[10px] p-2.5 text-[13px] font-bold text-gray-800 bg-gray-50/50" /></div>
             </div>
-            <div className="p-4 border border-gray-200 rounded-lg bg-gray-50 flex flex-col gap-3">
-               <div className="flex justify-between items-center"><span className="text-xs font-bold text-gray-700">고객사별 GPU 수량</span><button className="text-xs text-primary-600 font-semibold">+ 추가 고객사</button></div>
-               <div className="flex gap-2 items-center"><input type="text" readOnly value="전체 고객사" className="flex-1 border bg-white border-gray-200 rounded p-1.5 text-xs"/><input type="number" defaultValue={8} className="w-20 border border-gray-200 rounded p-1.5 text-xs"/></div>
+            <div className="p-4.5 border border-gray-100 rounded-[12px] bg-gray-50/50 flex flex-col gap-4 shadow-inner">
+               <div className="flex justify-between items-center"><span className="text-[11px] font-extrabold text-gray-500 uppercase tracking-tight">고객사별 GPU 수량</span><button className="text-[11px] text-primary-600 font-extrabold flex items-center gap-1 hover:underline cursor-pointer"><Plus size={12}/> 추가 고객사</button></div>
+               <div className="flex gap-3 items-center">
+                 <input type="text" readOnly value="전체 고객사 (공용 자원)" className="flex-1 border bg-white border-gray-100 rounded-[8px] p-2 text-[12px] font-bold text-gray-700 shadow-sm"/>
+                 <div className="relative">
+                   <input type="number" defaultValue={8} className="w-16 border border-gray-200 rounded-[8px] p-2 text-[12px] font-black text-center text-gray-900 font-mono shadow-sm bg-white"/>
+                   <span className="absolute -top-4 right-0 text-[9px] font-bold text-gray-400">COUNT</span>
+                 </div>
+               </div>
             </div>
           </section>
 
           {pmType === '긴급' && (
-            <section>
-              <h3 className="text-sm font-bold text-gray-800 mb-3 border-l-4 border-amber-500 pl-2">크레딧 산출 (긴급 PM)</h3>
-              <div className="p-4 rounded-lg bg-emerald-50/50 border border-emerald-100 flex justify-between items-center">
-                 <span className="text-sm text-emerald-800 font-medium">크레딧 산출액 (예상)</span>
-                 <span className="font-mono text-lg font-bold text-emerald-600">+₩ 8,000</span>
+            <section className="bg-amber-50/30 p-5 rounded-xl border border-amber-100 shadow-sm animate-in fade-in slide-in-from-bottom-2 duration-500">
+              <h3 className="text-sm font-extrabold text-gray-800 mb-4 border-l-4 border-amber-500 pl-3 uppercase tracking-tight">긴급 PM 크레딧 산출</h3>
+              <div className="p-5 rounded-[14px] bg-white border border-amber-200 shadow-xl shadow-amber-500/5 flex justify-between items-center">
+                 <div className="flex flex-col gap-1">
+                   <span className="text-[11px] text-gray-400 font-extrabold uppercase tracking-tight">예상 보상 크레딧</span>
+                   <span className="text-[13px] text-amber-800 font-bold">인스턴스당 차등 지급</span>
+                 </div>
+                 <span className="font-mono text-[20px] font-black text-amber-600 drop-shadow-sm">+₩ 8,000</span>
               </div>
-              <p className="text-[11px] text-gray-400 mt-2">* 고객에게 적립되는 크레딧 (예상)</p>
+              <p className="text-[10px] text-amber-600/70 font-bold mt-3 px-1 flex items-center gap-1.5"><AlertTriangle size={12}/> 장애 발생 및 긴급 PM 시 규정에 따른 보상금이 산출됩니다.</p>
             </section>
           )}
 
-          <section>
-            <h3 className={`text-sm font-bold text-gray-800 mb-3 border-l-4 ${pmType === '긴급' ? 'border-amber-500' : 'border-blue-500'} pl-2`}>작업 내용</h3>
-            <textarea placeholder="PM 작업 내용 상세 기록" className="w-full border border-gray-200 rounded p-2 text-sm h-20 mb-3"></textarea>
-            <textarea placeholder="메모 (선택)" className="w-full border border-gray-200 rounded p-2 text-sm h-16"></textarea>
+          <section className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm transition-all hover:shadow-md">
+            <h3 className={`text-sm font-extrabold text-gray-800 mb-5 border-l-4 ${pmType === '긴급' ? 'border-amber-500' : 'border-primary-500'} pl-3 flex items-center gap-2 uppercase tracking-tight`}>
+               <FileText size={16} className={pmType === '긴급' ? 'text-amber-500' : 'text-primary-500'}/>
+               세부 내용 작성
+            </h3>
+            <div className="flex flex-col gap-4">
+              <textarea placeholder="PM 작업 내용을 구체적으로 기록하세요 (고객사 공지 포함)" className="w-full border border-gray-200 rounded-[14px] p-4 text-[13px] font-medium h-24 focus:outline-none focus:border-primary-400 transition-all bg-gray-50/20 shadow-inner leading-relaxed"></textarea>
+              <textarea placeholder="관리용 메모 (선택)" className="w-full border border-gray-200 rounded-[14px] p-4 text-[13px] font-medium h-20 focus:outline-none focus:border-primary-400 transition-all bg-gray-50/20 shadow-inner"></textarea>
+            </div>
           </section>
         </div>
-        <div className="p-4 border-t border-gray-100 flex justify-end gap-2 bg-gray-50 rounded-b-xl">
-          <button onClick={onClose} className="px-4 py-2 rounded text-sm font-medium border border-gray-200 bg-white hover:bg-gray-50 text-gray-700">취소</button>
-          <button className={`px-5 py-2 rounded text-sm font-medium text-white ${pmType === '긴급' ? 'bg-amber-500 hover:bg-amber-600' : 'bg-blue-600 hover:bg-blue-700'}`}>등록</button>
+        <div className="px-6 py-5 border-t border-gray-100 flex justify-end gap-3 flex-none bg-gray-50/80 backdrop-blur-md">
+          <button onClick={onClose} className="h-[44px] px-6 rounded-[12px] text-[14px] font-bold text-gray-600 hover:bg-gray-200 transition-all active:scale-[0.98]">취소</button>
+          <button className={`h-[44px] flex-1 sm:flex-none px-10 rounded-[12px] text-[14px] font-black text-white shadow-lg transition-all active:scale-[0.98] uppercase tracking-wider ${pmType === '긴급' ? 'bg-amber-600 hover:bg-amber-700 shadow-amber-600/20' : 'bg-primary-600 hover:bg-primary-700 shadow-primary-600/20'}`}>
+            PM 등록 완료
+          </button>
         </div>
       </div>
     </div>

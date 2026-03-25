@@ -22,7 +22,7 @@ export default function RootLayout({
           <MobileHeader />
           <Topbar />
           <div className="flex-1 overflow-auto bg-[#F9FAFB] min-w-0">
-            <main className="mx-auto w-full min-w-0 md:min-w-[1100px] max-w-full md:max-w-[1400px] px-4 md:px-[32px] py-4 md:py-[24px]">
+            <main className="mx-auto w-full min-w-0 max-w-full lg:max-w-[1600px] px-4 md:px-[32px] py-4 md:py-[24px]">
               {children}
             </main>
           </div>

@@ -325,7 +325,7 @@ export default function ResourceAllocationPage() {
            
            <div className="flex-1 overflow-x-auto overflow-y-auto">
               {isOverview ? (
-                <table className="w-full text-left">
+                <table className="w-full text-left min-w-[1100px]">
                   <thead className="hidden md:table-header-group">
                     <tr className="bg-[#FAFAFA] border-b border-gray-200">
                       <th className="px-6 py-[12px] text-[12px] font-extrabold text-gray-500 whitespace-nowrap">Tenant 명</th>
@@ -338,25 +338,25 @@ export default function ResourceAllocationPage() {
                   <tbody className="flex flex-col gap-4 p-4 md:table-row-group md:p-0">
                      {initialMockData.map((tenant, i) => (
                        <tr key={tenant.tenant} className="flex flex-col border border-gray-200 rounded-xl p-5 shadow-sm bg-white md:table-row md:border-0 md:border-b md:border-gray-100 md:rounded-none md:p-0 md:shadow-none hover:bg-gray-50/50 transition-colors">
-                          <td className="px-0 py-1 md:px-6 md:py-[14px] font-bold text-[15px] md:text-[14px] text-primary-600 cursor-pointer hover:underline border-b border-gray-50 mb-3 pb-2 md:border-0 md:mb-0 md:pb-0 md:text-gray-900" onClick={() => setSelectedTenantIdx(i + 1)}>
+                          <td className="px-0 py-1 md:px-6 md:py-[14px] font-bold text-[15px] md:text-[14px] text-primary-600 cursor-pointer hover:underline border-b border-gray-50 mb-3 pb-2 md:border-0 md:mb-0 md:pb-0 md:text-gray-900 whitespace-nowrap" onClick={() => setSelectedTenantIdx(i + 1)}>
                             <span className="md:hidden text-[10px] text-gray-400 font-normal block mb-0.5">Tenant 명</span>
                             {tenant.tenant}
                           </td>
-                          <td className="px-0 py-1 md:px-6 font-mono text-[13px] font-bold text-gray-600 md:text-center">
+                          <td className="px-0 py-1 md:px-6 font-mono text-[13px] font-bold text-gray-600 md:text-center whitespace-nowrap">
                             <span className="md:hidden text-[10px] text-gray-500 font-normal block mb-0.5">계약 대수</span>
                             {tenant.contractCount}대
                           </td>
-                          <td className="px-0 py-1 md:px-6 font-mono text-[13px] md:text-center">
+                          <td className="px-0 py-1 md:px-6 font-mono text-[13px] md:text-center whitespace-nowrap">
                             <span className="md:hidden text-[10px] text-gray-500 font-normal block mb-0.5">현재 할당 대수</span>
                             {tenant.assignedCount > 0 
                               ? <span className="font-bold text-primary-700 bg-primary-50 border border-primary-200 px-2 py-0.5 rounded md:inline-block">{tenant.assignedCount}대</span>
                               : <span className="text-gray-400 font-bold bg-gray-100 px-2 py-0.5 border border-gray-200 rounded md:inline-block">0대</span>}
                           </td>
-                          <td className="px-0 py-1 md:px-6 font-mono text-[12px] text-gray-500 font-medium">
+                          <td className="px-0 py-1 md:px-6 font-mono text-[12px] text-gray-500 font-medium whitespace-nowrap">
                             <span className="md:hidden text-[10px] text-gray-500 font-normal block mb-0.5">인스턴스 구간 내역</span>
                             {formatIntervals(tenant.intervals)}
                           </td>
-                           <td className="px-0 py-2 md:px-6 text-right mt-2 md:mt-0">
+                           <td className="px-0 py-2 md:px-6 text-right mt-2 md:mt-0 whitespace-nowrap">
                              <button onClick={() => openModal('tenant', tenant.tenant, tenant.contractCount, tenant.intervals, ALL_NODES, new Set())} className="w-full md:w-auto text-[12px] font-bold text-gray-600 hover:text-gray-900 border border-gray-200 bg-white px-3 py-2 md:py-1.5 rounded shadow-sm outline-none">할당 관리</button>
                           </td>
                        </tr>
@@ -364,7 +364,7 @@ export default function ResourceAllocationPage() {
                   </tbody>
                 </table>
               ) : (
-                <table className="w-full text-left">
+                <table className="w-full text-left min-w-[1100px]">
                   <thead className="hidden md:table-header-group">
                     <tr className="bg-[#FAFAFA] border-b border-gray-200">
                       <th className="px-6 py-[12px] text-[12px] font-extrabold text-gray-500 whitespace-nowrap">Subtenant 명</th>

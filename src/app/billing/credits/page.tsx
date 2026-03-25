@@ -52,10 +52,18 @@ mockCreditData.summary.monthlyDeducted = globalDed;
 
 export default function Credits() {
   const [activeTenantIdx, setActiveTenantIdx] = useState(0);
-  const activeTenantName = mockCreditData.tenants[activeTenantIdx]?.name || 'LG그룹';
+  const activeTenant = mockCreditData.tenants[activeTenantIdx] || mockCreditData.tenants[0];
+  const activeTenantName = activeTenant.name;
+
+  // Calculate summary based on active tenant
+  const activeSummary = {
+    currentBalance: activeTenant.currentBalance,
+    monthlyGenerated: activeTenant.subtenants.reduce((acc, sub) => acc + sub.history.reduce((a, h) => a + (h.generated || 0), 0), 0),
+    monthlyDeducted: activeTenant.subtenants.reduce((acc, sub) => acc + sub.history.reduce((a, h) => a + (h.deducted || 0), 0), 0)
+  };
 
   return (
-    <div className="flex flex-col md:flex md:flex-row h-auto md:h-[calc(100vh-112px)] min-h-0 gap-6 text-gray-900">
+    <div className="flex flex-col md:flex md:flex-row h-auto md:h-[calc(100vh-112px)] min-h-0 gap-6 text-gray-900 pb-2">
       <CompanyListPanel
         companies={mockCreditData.tenants.map(t => ({ id: t.name, name: t.name, subCount: t.subtenants.length }))}
         activeIndex={activeTenantIdx}
@@ -70,9 +78,9 @@ export default function Credits() {
         <div className="bg-white border border-gray-200 rounded-[10px] p-5 flex flex-col justify-between shadow-sm">
           <div className="text-[14px] font-semibold text-gray-600 mb-2">현재 크레딧 잔액</div>
           <div className="flex items-baseline gap-2 mt-1">
-            <span className={`text-3xl font-bold tracking-tight ${mockCreditData.summary.currentBalance > 0 ? 'text-emerald-600' : mockCreditData.summary.currentBalance < 0 ? 'text-red-600' : 'text-gray-600'}`}>
-              {mockCreditData.summary.currentBalance > 0 ? '+₩ ' : mockCreditData.summary.currentBalance < 0 ? '-₩ ' : '₩ '}
-              {Math.abs(mockCreditData.summary.currentBalance).toLocaleString()}
+            <span className={`text-3xl font-bold tracking-tight ${activeSummary.currentBalance > 0 ? 'text-emerald-600' : activeSummary.currentBalance < 0 ? 'text-red-600' : 'text-gray-600'}`}>
+              {activeSummary.currentBalance > 0 ? '+₩ ' : activeSummary.currentBalance < 0 ? '-₩ ' : '₩ '}
+              {Math.abs(activeSummary.currentBalance).toLocaleString()}
             </span>
           </div>
           <div className="mt-4 text-[12px] font-medium text-gray-400">누적 발생액 + 누적 차감액</div>
@@ -82,9 +90,9 @@ export default function Credits() {
         <div className="bg-white border border-gray-200 rounded-[10px] p-5 flex flex-col justify-between shadow-sm">
           <div className="text-[14px] font-semibold text-gray-600 mb-2">이번 달 발생액</div>
           <div className="text-3xl font-bold tracking-tight text-emerald-600 mt-1">
-            +₩ {mockCreditData.summary.monthlyGenerated.toLocaleString()}
+            +₩ {activeSummary.monthlyGenerated.toLocaleString()}
           </div>
-          <div className="mt-4 text-[12px] font-medium text-gray-500 flex items-center gap-3">
+          <div className="mt-4 text-[12px] font-medium text-gray-500 flex flex-wrap items-center gap-3">
             <span className="flex items-center gap-1.5 px-2 py-1 bg-gray-50 rounded-md border border-gray-100">
               <AlertTriangle size={12} className="text-red-500"/>장애 발생
             </span>
@@ -98,7 +106,7 @@ export default function Credits() {
         <div className="bg-white border border-gray-200 rounded-[10px] p-5 flex flex-col justify-between shadow-sm">
           <div className="text-[14px] font-semibold text-gray-600 mb-2">이번 달 차감액</div>
           <div className="flex items-baseline gap-2 mt-1">
-            <span className="text-3xl font-bold tracking-tight text-red-600">-₩ {Math.abs(mockCreditData.summary.monthlyDeducted).toLocaleString()}</span>
+            <span className="text-3xl font-bold tracking-tight text-red-600">-₩ {Math.abs(activeSummary.monthlyDeducted).toLocaleString()}</span>
           </div>
           <div className="mt-4 text-[12px] font-medium text-gray-500 flex items-center gap-3">
             <span className="flex items-center gap-1.5 px-2 py-1 bg-gray-50 rounded-md border border-gray-100">

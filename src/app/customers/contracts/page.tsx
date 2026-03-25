@@ -27,16 +27,17 @@ const mockTenants = tenants.map(t => ({
 function TenantModal({ isOpen, onClose, mode, initialData }: any) {
   if (!isOpen) return null;
   return (
-    <div className="fixed inset-0 z-50 bg-gray-900/50 flex flex-col items-center justify-center backdrop-blur-sm">
-      <div className="bg-[#F8FAFC] w-[640px] max-h-[90vh] rounded-[14px] shadow-2xl flex flex-col overflow-hidden">
+    <div className="fixed inset-0 z-50 bg-gray-900/50 flex items-center justify-center backdrop-blur-sm p-4">
+      <div className="bg-[#F8FAFC] w-full max-w-[640px] max-h-full rounded-[14px] shadow-2xl flex flex-col overflow-hidden shadow-gray-900/20">
         <div className="h-[60px] border-b border-gray-200 px-6 flex items-center justify-between bg-white shrink-0">
           <h2 className="text-[16px] font-bold text-gray-900 flex items-center gap-2">
             <Building2 size={18} className="text-primary-600"/>{mode === 'add' ? 'Tenant 추가' : 'Tenant 수정'}
           </h2>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-900"><X size={20}/></button>
         </div>
-        <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
-          <section className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm relative overflow-hidden">
+        <div className="flex-1 overflow-y-auto min-h-0 p-6">
+          <div className="flex flex-col gap-6">
+            <section className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm relative overflow-hidden">
              <div className="absolute top-0 left-0 w-1 h-full bg-primary-500"></div>
              <h3 className="text-sm font-bold text-gray-800 mb-4">회사 기본 정보</h3>
              <div className="grid grid-cols-1 gap-4">
@@ -86,6 +87,7 @@ function TenantModal({ isOpen, onClose, mode, initialData }: any) {
                 </div>
              </div>
           </section>
+          </div>
         </div>
         <div className="p-4 border-t border-gray-200 bg-white flex justify-end gap-3 shrink-0">
           <button onClick={onClose} className="px-5 py-2 border border-gray-200 rounded-lg text-sm font-bold text-gray-600 hover:bg-gray-50">취소</button>
@@ -99,14 +101,15 @@ function TenantModal({ isOpen, onClose, mode, initialData }: any) {
 function SubtenantModal({ isOpen, onClose }: any) {
   if (!isOpen) return null;
   return (
-    <div className="fixed inset-0 z-50 bg-gray-900/50 flex flex-col items-center justify-center backdrop-blur-sm">
-      <div className="bg-[#F8FAFC] w-[560px] max-h-[90vh] rounded-[14px] shadow-2xl flex flex-col overflow-hidden">
+    <div className="fixed inset-0 z-50 bg-gray-900/50 flex items-center justify-center backdrop-blur-sm p-4">
+      <div className="bg-[#F8FAFC] w-full max-w-[560px] max-h-full rounded-[14px] shadow-2xl flex flex-col overflow-hidden shadow-gray-900/20">
         <div className="h-[60px] border-b border-gray-200 px-6 flex items-center justify-between bg-white shrink-0">
           <h2 className="text-[16px] font-bold text-gray-900 flex items-center gap-2"><Package size={18} className="text-emerald-500"/>Subtenant (프로젝트) 생성</h2>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-900"><X size={20}/></button>
         </div>
-        <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-5">
-           <section className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+        <div className="flex-1 overflow-y-auto min-h-0 p-6">
+           <div className="flex flex-col gap-5">
+             <section className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
              <h3 className="text-sm font-bold text-gray-800 border-l-4 border-emerald-500 pl-2 mb-4">기본 정보</h3>
              <div className="space-y-4">
                 <div><label className="text-xs text-gray-500 block mb-1">Subtenant 명 (프로젝트 명) <span className="text-red-500">*</span></label><input type="text" className="w-full border border-gray-200 rounded p-2 text-sm text-gray-800" placeholder="예: Project AI Lab" /></div>
@@ -146,6 +149,7 @@ function SubtenantModal({ isOpen, onClose }: any) {
                 </div>
              </div>
            </section>
+           </div>
         </div>
         <div className="p-4 border-t border-gray-200 bg-white flex justify-end gap-3 shrink-0">
           <button onClick={onClose} className="px-5 py-2 border border-gray-200 rounded-lg text-sm font-bold text-gray-600 hover:bg-gray-50">취소</button>
@@ -272,17 +276,17 @@ export default function ContractsPage() {
                  </button>
                </div>
             </div>
-            <div className="flex-1 overflow-auto md:overflow-y-auto min-h-0">
-               <table className="w-full text-left border-collapse">
+            <div className="flex-1 overflow-x-auto overflow-y-auto min-h-0 scrollbar-thin">
+               <table className="w-full min-w-[1200px] text-left border-collapse">
                   <thead className="hidden md:table-header-group">
-                    <tr className="bg-[#FAFAFA] border-b border-gray-200 sticky top-0">
-                      <th className="px-5 py-3.5 text-[12px] font-extrabold text-gray-500 uppercase tracking-widest">프로젝트 명</th>
-                      <th className="px-5 py-3.5 text-[12px] font-extrabold text-gray-500 uppercase tracking-widest">상태</th>
-                      <th className="px-5 py-3.5 text-[12px] font-extrabold text-gray-500 uppercase tracking-widest">프로젝트 ID</th>
-                      <th className="px-5 py-3.5 text-[12px] font-extrabold text-gray-500 uppercase tracking-widest">포함 상품</th>
-                      <th className="px-5 py-3.5 text-[12px] font-extrabold text-gray-500 uppercase tracking-widest">사용 기간</th>
-                      <th className="px-5 py-3.5 text-[12px] font-extrabold text-gray-500 uppercase tracking-widest">PM</th>
-                      <th className="px-5 py-3.5 text-[12px] font-extrabold text-gray-500 uppercase tracking-widest text-center">멤버 수</th>
+                    <tr className="bg-[#FAFAFA] border-b border-gray-200 sticky top-0 z-10">
+                      <th className="px-5 py-3.5 text-[12px] font-extrabold text-gray-500 uppercase tracking-widest whitespace-nowrap">프로젝트 명</th>
+                      <th className="px-5 py-3.5 text-[12px] font-extrabold text-gray-500 uppercase tracking-widest whitespace-nowrap">상태</th>
+                      <th className="px-5 py-3.5 text-[12px] font-extrabold text-gray-500 uppercase tracking-widest whitespace-nowrap">프로젝트 ID</th>
+                      <th className="px-5 py-3.5 text-[12px] font-extrabold text-gray-500 uppercase tracking-widest whitespace-nowrap">포함 상품</th>
+                      <th className="px-5 py-3.5 text-[12px] font-extrabold text-gray-500 uppercase tracking-widest whitespace-nowrap">사용 기간</th>
+                      <th className="px-5 py-3.5 text-[12px] font-extrabold text-gray-500 uppercase tracking-widest whitespace-nowrap">PM</th>
+                      <th className="px-5 py-3.5 text-[12px] font-extrabold text-gray-500 uppercase tracking-widest text-center whitespace-nowrap">멤버 수</th>
                       <th className="w-[60px]"></th>
                     </tr>
                   </thead>
@@ -292,7 +296,7 @@ export default function ContractsPage() {
                     ) : (
                       t.subtenants.map(sub => (
                         <tr key={sub.id} className="flex flex-col border border-gray-200 rounded-xl p-5 shadow-sm bg-white md:table-row md:border-0 md:border-b md:border-gray-100 md:rounded-none md:p-0 md:shadow-none hover:bg-gray-50/50 transition-colors group relative">
-                           <td className="px-0 py-1 md:px-5 md:py-4 font-bold text-gray-900 text-[16px] md:text-[14px] leading-tight mb-2 md:mb-0">{sub.name}</td>
+                           <td className="px-0 py-1 md:px-5 md:py-4 font-bold text-gray-900 text-[16px] md:text-[14px] leading-tight mb-2 md:mb-0 whitespace-nowrap">{sub.name}</td>
                            <td className="px-0 py-1 md:px-5 md:py-4 md:static absolute top-5 right-5">
                              <span className={`px-2 py-1 text-[10px] md:text-[11px] font-bold rounded-md border 
                                ${sub.status === '활성' ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 
@@ -301,19 +305,19 @@ export default function ContractsPage() {
                                {sub.status}
                              </span>
                            </td>
-                           <td className="px-0 py-1 md:px-5 md:py-4 font-mono text-[11px] md:text-xs font-semibold text-gray-400 md:text-gray-500 mb-4 md:mb-0 border-b border-gray-50 md:border-0 pb-2 md:pb-0">
+                           <td className="px-0 py-1 md:px-5 md:py-4 font-mono text-[11px] md:text-xs font-semibold text-gray-400 md:text-gray-500 mb-4 md:mb-0 border-b border-gray-50 md:border-0 pb-2 md:pb-0 whitespace-nowrap">
                              <span className="md:hidden text-[10px] text-gray-300 font-normal block mb-0.5">프로젝트 ID</span>
                              {sub.id}
                            </td>
-                           <td className="px-0 py-1 md:px-5 md:py-4 text-[12px] md:text-xs font-bold text-gray-600">
+                           <td className="px-0 py-1 md:px-5 md:py-4 text-[12px] md:text-xs font-bold text-gray-600 whitespace-nowrap">
                              <span className="md:hidden text-[10px] text-gray-400 font-normal block mb-0.5 whitespace-nowrap">포함 상품</span>
                              {sub.products}
                            </td>
-                           <td className="px-0 py-1 md:px-5 md:py-4 text-[12px] md:text-xs font-medium text-gray-500">
+                           <td className="px-0 py-1 md:px-5 md:py-4 text-[12px] md:text-xs font-medium text-gray-500 whitespace-nowrap">
                              <span className="md:hidden text-[10px] text-gray-400 font-normal block mb-0.5">사용 기간</span>
-                             {sub.startDate}<span className="md:block md:before:content-['~_'] block">~ {sub.endDate}</span>
+                             {sub.startDate}<span className="md:inline md:before:content-['_~_'] block">~ {sub.endDate}</span>
                            </td>
-                           <td className="px-0 py-1 md:px-5 md:py-4 text-[13px] font-medium text-gray-700 flex md:table-cell items-center justify-between border-t border-gray-50 md:border-0 mt-2 pt-2 md:mt-0 md:pt-0">
+                           <td className="px-0 py-1 md:px-5 md:py-4 text-[13px] font-medium text-gray-700 flex md:table-cell items-center justify-between border-t border-gray-50 md:border-0 mt-2 pt-2 md:mt-0 md:pt-0 whitespace-nowrap">
                              <div className="flex items-center gap-1.5"><span className="md:hidden text-[10px] text-gray-400 font-normal uppercase">PM</span> {sub.pm}</div>
                              <div className="md:hidden text-[12px] font-bold text-gray-800 bg-gray-100 px-2 py-0.5 rounded-full">{sub.memberCount}명</div>
                            </td>

@@ -205,19 +205,19 @@ export default function CustomerLookupPage() {
             </div>
          </div>
 
-         <div className="flex-1 overflow-x-auto overflow-y-auto">
+         <div className="flex-1 overflow-x-auto overflow-y-auto scrollbar-thin">
             {!isUnassigned && rightTab === 'subtenant' && (
-              <div className="p-0 md:p-6">
+              <div className="p-0 md:p-6 min-w-[1100px]">
                  <table className="w-full text-left border-collapse flex-1 inline-table">
                    <thead className="hidden md:table-header-group">
                      <tr className="bg-[#FAFAFA] border-y border-gray-200">
-                       <th className="px-5 py-3 text-[12px] font-extrabold text-gray-500">Subtenant 명</th>
-                       <th className="px-5 py-3 text-[12px] font-extrabold text-gray-500">상태</th>
-                       <th className="px-5 py-3 text-[12px] font-extrabold text-gray-500">프로젝트 ID</th>
-                       <th className="px-5 py-3 text-[12px] font-extrabold text-gray-500">포함 상품</th>
-                       <th className="px-5 py-3 text-[12px] font-extrabold text-gray-500">사용 기간</th>
-                       <th className="px-5 py-3 text-[12px] font-extrabold text-gray-500 text-center">구성원 수</th>
-                       <th className="px-5 py-3 text-[12px] font-extrabold text-gray-500 text-right">관리</th>
+                       <th className="px-5 py-3 text-[12px] font-extrabold text-gray-500 whitespace-nowrap">Subtenant 명</th>
+                       <th className="px-5 py-3 text-[12px] font-extrabold text-gray-500 whitespace-nowrap">상태</th>
+                       <th className="px-5 py-3 text-[12px] font-extrabold text-gray-500 whitespace-nowrap">프로젝트 ID</th>
+                       <th className="px-5 py-3 text-[12px] font-extrabold text-gray-500 whitespace-nowrap">포함 상품</th>
+                       <th className="px-5 py-3 text-[12px] font-extrabold text-gray-500 whitespace-nowrap">사용 기간</th>
+                       <th className="px-5 py-3 text-[12px] font-extrabold text-gray-500 text-center whitespace-nowrap">구성원 수</th>
+                       <th className="px-5 py-3 text-[12px] font-extrabold text-gray-500 text-right whitespace-nowrap">관리</th>
                      </tr>
                    </thead>
                    <tbody className="flex flex-col gap-4 p-4 md:table-row-group md:p-0">
@@ -226,18 +226,18 @@ export default function CustomerLookupPage() {
                      ) : (
                        tenant?.subtenants.map(sub => (
                          <tr key={sub.id} className="flex flex-col border border-gray-200 rounded-xl p-5 shadow-sm bg-white md:table-row md:border-0 md:border-b md:border-gray-100 md:rounded-none md:p-0 md:shadow-none hover:bg-gray-50/50 transition-colors group relative">
-                            <td className="px-0 py-1 md:px-5 md:py-4 font-bold text-gray-900 text-[16px] md:text-[14px] leading-tight mb-2 md:mb-0">{sub.name}</td>
+                            <td className="px-0 py-1 md:px-5 md:py-4 font-bold text-gray-900 text-[16px] md:text-[14px] leading-tight mb-2 md:mb-0 whitespace-nowrap">{sub.name}</td>
                             <td className="px-0 py-1 md:px-5 md:py-4 md:static absolute top-5 right-5">
                                <span className={`inline-flex items-center justify-center px-2 py-0.5 text-[10px] md:text-[11px] font-bold rounded border 
                                  ${sub.status === '활성' ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 'bg-amber-50 text-amber-600 border-amber-200'}`}>
                                  {sub.status}
                                </span>
                             </td>
-                            <td className="px-0 py-1 md:px-5 md:py-4 font-mono text-[11px] md:text-xs font-semibold text-gray-400 md:text-gray-500 md:mb-0 mb-4 border-b border-gray-50 md:border-0 pb-2 md:pb-0">
+                            <td className="px-0 py-1 md:px-5 md:py-4 font-mono text-[11px] md:text-xs font-semibold text-gray-400 md:text-gray-500 md:mb-0 mb-4 border-b border-gray-50 md:border-0 pb-2 md:pb-0 whitespace-nowrap">
                                <span className="md:hidden text-[10px] text-gray-300 font-normal block mb-0.5">프로젝트 ID</span>
                                {sub.id}
                             </td>
-                            <td className="px-0 py-1 md:px-5 md:py-4 text-[12px] md:text-xs font-medium text-gray-600">
+                            <td className="px-0 py-1 md:px-5 md:py-4 text-[12px] md:text-xs font-medium text-gray-600 whitespace-nowrap">
                                <span className="md:hidden text-[10px] text-gray-400 font-normal block mb-0.5">포함 상품</span>
                                <div className="flex items-center gap-1.5 pt-1 md:pt-0">
                                   {sub.products.includes('GPU 인프라') && <span className="bg-[#F8FAFC] border border-gray-200 p-1 rounded"><Cpu size={12} className="text-primary-500"/></span>}
@@ -245,12 +245,12 @@ export default function CustomerLookupPage() {
                                   {sub.products.join(', ')}
                                </div>
                             </td>
-                            <td className="px-0 py-1 md:px-5 md:py-4 text-[12px] md:text-xs font-medium text-gray-500">
+                            <td className="px-0 py-1 md:px-5 md:py-4 text-[12px] md:text-xs font-medium text-gray-500 whitespace-nowrap">
                                <span className="md:hidden text-[10px] text-gray-400 font-normal block mb-0.5">사용 기간</span>
                                {sub.startDate}<span className="md:block md:before:content-['~_'] block">~ {sub.endDate}</span>
                             </td>
-                            <td className="hidden md:table-cell px-5 py-4 text-center font-bold text-gray-800">{sub.memberCount}명</td>
-                            <td className="px-0 py-2 md:px-5 md:py-4 text-right border-t border-gray-50 md:border-0 mt-2 md:mt-0 pt-3 md:pt-0">
+                            <td className="hidden md:table-cell px-5 py-4 text-center font-bold text-gray-800 whitespace-nowrap">{sub.memberCount}명</td>
+                            <td className="px-0 py-2 md:px-5 md:py-4 text-right border-t border-gray-50 md:border-0 mt-2 md:mt-0 pt-3 md:pt-0 whitespace-nowrap">
                                <div className="flex md:block justify-between items-center">
                                   <div className="md:hidden text-[12px] font-bold text-gray-800 bg-gray-100 px-2 py-0.5 rounded-full">{sub.memberCount}명</div>
                                   <button 
@@ -270,7 +270,7 @@ export default function CustomerLookupPage() {
             )}
 
             {currentTab === 'member' && (
-              <div className="p-0 md:p-6 flex flex-col h-full gap-5">
+              <div className="p-0 md:p-6 flex flex-col h-full gap-5 min-w-[1000px]">
                  <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 p-4 md:p-0">
                     <div className="flex flex-col md:flex-row gap-3">
                        {!isUnassigned && (
@@ -301,11 +301,11 @@ export default function CustomerLookupPage() {
                     <table className="w-full text-left border-collapse flex-1 inline-table">
                        <thead className="hidden md:table-header-group">
                          <tr className="bg-[#FAFAFA] border-b border-gray-200">
-                            <th className="px-5 py-3.5 text-[12px] font-extrabold text-gray-500">이름</th>
-                            <th className="px-5 py-3.5 text-[12px] font-extrabold text-gray-500">이메일</th>
-                            <th className="px-5 py-3.5 text-[12px] font-extrabold text-gray-500">소속 Subtenant</th>
-                            <th className="px-5 py-3.5 text-[12px] font-extrabold text-gray-500">역할 권한</th>
-                            <th className="px-5 py-3.5 text-[12px] font-extrabold text-gray-500">최근 접속일</th>
+                            <th className="px-5 py-3.5 text-[12px] font-extrabold text-gray-500 whitespace-nowrap">이름</th>
+                            <th className="px-5 py-3.5 text-[12px] font-extrabold text-gray-500 whitespace-nowrap">이메일</th>
+                            <th className="px-5 py-3.5 text-[12px] font-extrabold text-gray-500 whitespace-nowrap">소속 Subtenant</th>
+                            <th className="px-5 py-3.5 text-[12px] font-extrabold text-gray-500 whitespace-nowrap">역할 권한</th>
+                            <th className="px-5 py-3.5 text-[12px] font-extrabold text-gray-500 whitespace-nowrap">최근 접속일</th>
                             <th className="w-[60px]"></th>
                          </tr>
                        </thead>
@@ -315,15 +315,15 @@ export default function CustomerLookupPage() {
                           ) : (
                             displayMembers.map(m => (
                               <tr key={m.id} className="flex flex-col border border-gray-200 rounded-xl p-5 shadow-sm bg-white md:table-row md:border-0 md:border-b md:border-gray-100 md:rounded-none md:p-0 md:shadow-none hover:bg-gray-50/50 transition-colors group relative">
-                                 <td className="px-0 py-1 md:px-5 md:py-4 md:mb-0 mb-4 border-b border-gray-50 md:border-0 pb-2 md:pb-0">
+                                 <td className="px-0 py-1 md:px-5 md:py-4 md:mb-0 mb-4 border-b border-gray-50 md:border-0 pb-2 md:pb-0 whitespace-nowrap">
                                    <div className="flex items-center gap-2">
                                      <span className="font-bold text-gray-900 text-[16px] md:text-[14px]">{m.name}</span>
                                      {m.isContractor && <span className="bg-primary-100 text-primary-700 text-[10px] font-extrabold px-1.5 py-0.5 rounded border border-primary-200">계약 대표자</span>}
                                    </div>
                                    <div className="md:hidden mt-1 font-mono text-[11px] text-gray-400">{m.email}</div>
                                  </td>
-                                 <td className="hidden md:table-cell px-5 py-4 font-mono text-[13px] text-gray-600">{m.email}</td>
-                                 <td className="px-0 py-1 md:px-5 md:py-4 text-[13px] font-semibold text-gray-700">
+                                 <td className="hidden md:table-cell px-5 py-4 font-mono text-[13px] text-gray-600 whitespace-nowrap">{m.email}</td>
+                                 <td className="px-0 py-1 md:px-5 md:py-4 text-[13px] font-semibold text-gray-700 whitespace-nowrap">
                                    <span className="md:hidden text-[10px] text-gray-400 font-normal block mb-0.5">소속 Subtenant</span>
                                    {m.subtenant || <span className="text-gray-400 italic font-normal text-[12px]">소속 없음</span>}
                                  </td>
@@ -340,7 +340,7 @@ export default function CustomerLookupPage() {
                                       <option value="member">멤버 (일반)</option>
                                    </select>
                                  </td>
-                                 <td className="px-0 py-1 md:px-5 md:py-4 font-mono text-[12px] text-gray-500">
+                                 <td className="px-0 py-1 md:px-5 md:py-4 font-mono text-[12px] text-gray-500 whitespace-nowrap">
                                    <span className="md:hidden text-[10px] text-gray-400 font-normal block mb-0.5">최근 접속일</span>
                                    {m.lastLogin}
                                  </td>

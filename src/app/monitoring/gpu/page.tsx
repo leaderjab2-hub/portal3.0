@@ -62,7 +62,7 @@ export default function GPUMonitoring() {
   }, [selectedTenantId, selectedSubtenantId]);
 
   return (
-    <div className="flex flex-col-reverse md:flex-row h-auto md:h-[calc(100vh-112px)] gap-6">
+    <div className="flex flex-col md:flex-row h-auto md:h-[calc(100vh-112px)] gap-6">
       <div className="w-full md:w-[260px] bg-white border border-gray-200 rounded-[10px] flex flex-col overflow-hidden md:shrink-0">
         <div className="p-4 border-b border-gray-100 flex flex-col gap-3 flex-none">
           <select 
@@ -100,7 +100,7 @@ export default function GPUMonitoring() {
           <span className="text-[12px] font-semibold text-gray-900">Total {filteredNodes.length}</span>
           <span className="text-[12px] text-gray-600">{selectedInstances.length}개 선택됨</span>
         </div>
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 max-h-[40vh] md:max-h-none overflow-y-auto">
           {filteredNodes.map((n) => {
             const isSelected = selectedInstances.includes(n.name);
             const subName = currentSubtenants.find(s => s.id === n.subtenantId)?.name || '미배정 / 공용';

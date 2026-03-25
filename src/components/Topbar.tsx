@@ -33,7 +33,7 @@ export default function Topbar() {
   }).join(' > ');
 
   return (
-    <div className="h-[52px] w-full bg-white border-b border-[#E5E7EB] flex items-center justify-between px-6 sticky top-0 z-10">
+    <div className="hidden md:flex h-[52px] w-full bg-white border-b border-[#E5E7EB] items-center justify-between px-6 sticky top-0 z-10">
       <div className="text-[13px] font-semibold text-gray-900">
         {breadcrumb}
       </div>

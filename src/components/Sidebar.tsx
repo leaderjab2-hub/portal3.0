@@ -74,7 +74,7 @@ export default function Sidebar() {
   };
 
   return (
-    <div className="w-[240px] h-screen bg-white border-r border-[#E5E7EB] flex flex-col fixed left-0 top-0">
+    <div className="hidden md:flex w-[240px] h-screen bg-white border-r border-[#E5E7EB] flex-col fixed left-0 top-0">
       <div className="h-[64px] border-b border-[#E5E7EB] flex items-center justify-center">
         <Image src="/logo1.svg" alt="Logo" width={140} height={40} />
       </div>

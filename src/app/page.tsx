@@ -104,7 +104,7 @@ export default function HomeDashboard() {
 
   return (
     <div className="flex flex-col gap-6 w-full min-w-0">
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <KPICard title="GPU 점유율" value="95.0%" subtext="할당된 GPU 중 활성화 비율" percentage={95.0} status="normal" />
         <KPICard title="AI 스토리지 사용률" value="45.2%" subtext="전체 2.6PB 중 1.2PB 사용" percentage={45.2} status="normal" />
         <KPICard title="CPU 사용률" value="32.1%" subtext="전체 클러스터 vCPU 사용" percentage={32.1} status="normal" />
@@ -128,7 +128,7 @@ export default function HomeDashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-[300px_1fr_1fr] gap-4 items-stretch relative">
+      <div className="flex flex-col md:grid md:grid-cols-[300px_1fr_1fr] gap-4 items-stretch relative">
         {/* 1열 - 300px 고정: GPU 사용 현황 */}
         <div className="bg-white border border-gray-200 rounded-[10px] p-6 flex flex-col relative overflow-visible h-full">
           <h2 className="text-[14px] font-semibold text-gray-900 mb-6">GPU 사용 현황</h2>
@@ -336,6 +336,7 @@ export default function HomeDashboard() {
 
       {/* 하단 티켓 목록 */}
       <div className="bg-white border border-gray-200 rounded-[10px] p-0 overflow-hidden relative">
+        <div className="overflow-x-auto">
         <div className="px-5 py-4 flex justify-between items-center bg-[#FAFAFA]">
           <h2 className="text-[14px] font-semibold text-gray-900">최근 지원 티켓</h2>
           <button className="text-[13px] font-semibold text-primary-600 border border-gray-200 px-4 py-1.5 rounded-[6px] bg-white hover:bg-gray-50 transition-colors">전체 보기</button>
@@ -374,6 +375,7 @@ export default function HomeDashboard() {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );

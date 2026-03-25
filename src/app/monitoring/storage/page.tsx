@@ -170,7 +170,7 @@ export default function StorageMonitoring() {
                 </div>
               </div>
               
-              <div className="grid grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div>
                   <div className="flex justify-between items-center mb-3">
                     <h3 className="text-[13px] font-semibold text-gray-900">Tenants BW (GB/s)</h3>

@@ -177,7 +177,7 @@ export default function InvoicesPage() {
   };
 
   return (
-    <div className="flex h-[calc(100vh-112px)] min-h-0 gap-6 text-gray-900">
+    <div className="flex flex-col md:flex md:flex-row h-auto md:h-[calc(100vh-112px)] min-h-0 gap-6 text-gray-900">
       {isModalOpen && <BillingRegistrationModal onClose={() => setIsModalOpen(false)} tenant={t.name} subtenant={sub?.name || ''} />}
 
       {/* 1. Left Panel - Tenant List */}
@@ -192,7 +192,7 @@ export default function InvoicesPage() {
         <div className="flex-none flex flex-col gap-5 mb-5 shrink-0">
 
       {/* 2. KPI Cards */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-white border text-left border-gray-200 rounded-[10px] p-5 flex flex-col justify-between shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)]">
           <div className="text-[14px] font-bold text-gray-500 mb-2">{t.name} 총 청구 금액</div>
           <div className="text-[28px] font-mono font-extrabold tracking-tight text-gray-900 mt-1">₩ {t.totalAmount.toLocaleString()}</div>
@@ -218,7 +218,7 @@ export default function InvoicesPage() {
 
       {/* 3. Subtenant Tabbar & Tools */}
       <div className="flex items-center justify-between">
-        <div className="flex gap-2">
+        <div className="flex gap-2 overflow-x-auto pb-1">
           {t.subtenants.map((ms, i) => (
             <button
               key={ms.name}
@@ -245,7 +245,7 @@ export default function InvoicesPage() {
 
       {/* 4. Table */}
       <div className="flex-1 bg-white border border-gray-200 rounded-[10px] flex flex-col min-h-0 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)]">
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-x-auto overflow-y-auto">
           <table className="w-full text-left border-collapse">
           <thead>
             <tr className="bg-[#FAFAFA] border-b border-gray-200">

@@ -168,12 +168,12 @@ export default function ContractsPage() {
   };
 
   return (
-    <div className="flex gap-6 h-full text-gray-900 pb-8">
+    <div className="flex flex-col md:flex md:flex-row gap-6 h-full text-gray-900 pb-8">
       <TenantModal isOpen={tenantModal.isOpen} mode={tenantModal.mode} initialData={tenantModal.data} onClose={() => setTenantModal({ isOpen: false, mode: 'add', data: null })} />
       <SubtenantModal isOpen={subtenantModal} onClose={() => setSubtenantModal(false)} />
 
       {/* 좌측 패널 — 회사 목록 */}
-      <div className="w-[300px] bg-white border border-gray-200 rounded-[14px] shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] flex flex-col overflow-hidden shrink-0">
+      <div className="w-full md:w-[300px] bg-white border border-gray-200 rounded-[14px] shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] flex flex-col overflow-hidden md:shrink-0">
          <div className="p-5 border-b border-gray-200 flex flex-col gap-4">
             <h2 className="text-[16px] font-bold text-gray-900 flex items-center justify-between">
               Tenant 관리
@@ -230,7 +230,7 @@ export default function ContractsPage() {
          </div>
 
          {/* 3 KPI */}
-         <div className="grid grid-cols-3 gap-5">
+         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             <div className="bg-white border border-gray-200 rounded-[14px] p-5 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] flex items-center gap-4">
                <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center shrink-0"><Package size={24}/></div>
                <div>

@@ -145,7 +145,7 @@ export default function Tickets() {
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-white border text-left border-gray-200 rounded-[10px] p-[16px_20px] flex justify-between items-center shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)]">
               <div>
                 <h3 className="text-[11px] font-bold text-gray-500 uppercase tracking-wide">대기 중</h3>
@@ -209,7 +209,7 @@ export default function Tickets() {
             </div>
           </div>
 
-          <div className="bg-white border border-gray-200 rounded-[10px] overflow-hidden flex flex-col shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] h-full">
+          <div className="bg-white border border-gray-200 rounded-[10px] overflow-x-auto flex flex-col shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] h-full">
             <table className="w-full text-left border-collapse flex-1 inline-table">
               <thead>
                 <tr className="bg-[#FAFAFA] border-b border-gray-200">

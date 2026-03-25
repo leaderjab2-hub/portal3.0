@@ -241,7 +241,7 @@ export default function ResourceAllocationPage() {
   const totalAllocated = initialMockData.reduce((acc, cur) => acc + cur.assignedCount, 0);
 
   return (
-    <div className="flex h-[calc(100vh-112px)] min-h-0 gap-6 text-gray-900 pb-2">
+    <div className="flex flex-col md:flex md:flex-row h-auto md:h-[calc(100vh-112px)] min-h-0 gap-6 text-gray-900 pb-2">
       {modalObj?.isOpen && <IntervalModal isOpen={modalObj.isOpen} onClose={handleClose} targetType={modalObj.type} targetName={modalObj.targetName} contractCount={modalObj.maxTarget} maxLimit={modalObj.maxTarget} initialIntervals={modalObj.initial} allowedNodes={modalObj.allowed} externalUsedNodes={modalObj.externalUsed} />}
 
       <CompanyListPanel
@@ -276,7 +276,7 @@ export default function ResourceAllocationPage() {
            </div>
 
            {isOverview ? (
-             <div className="grid grid-cols-3 gap-5">
+             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                 <div className="bg-white border text-left border-gray-200 rounded-[10px] p-5 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)]">
                    <div className="text-[13px] font-bold text-gray-500 mb-2">데이터센터 전체 노드</div>
                    <div className="text-[26px] font-mono font-extrabold tracking-tight text-gray-900 mt-1">{totalNodes}대</div>
@@ -294,7 +294,7 @@ export default function ResourceAllocationPage() {
                 </div>
              </div>
            ) : (
-             <div className="grid grid-cols-3 gap-5">
+             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                 <div className="bg-white border text-left border-gray-200 rounded-[10px] p-5 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)]">
                    <div className="text-[13px] font-bold text-gray-500 mb-2">계약 수량</div>
                    <div className="text-[26px] font-mono font-extrabold tracking-tight text-gray-900 mt-1">{t!.contractCount}대</div>
@@ -323,7 +323,7 @@ export default function ResourceAllocationPage() {
               )}
            </div>
            
-           <div className="flex-1 overflow-y-auto">
+           <div className="flex-1 overflow-x-auto overflow-y-auto">
               {isOverview ? (
                 <table className="w-full text-left table-auto">
                   <thead>

@@ -8,7 +8,7 @@ export default function Activities() {
 
   return (
     <div className="flex flex-col gap-6 h-full">
-      <div className="bg-white border text-left border-gray-200 rounded-[10px] overflow-hidden flex flex-col">
+      <div className="bg-white border text-left border-gray-200 rounded-[10px] overflow-x-auto flex flex-col">
         <div className="h-[52px] border-b border-gray-200 flex items-center px-4 bg-[#FAFAFA]">
           <div className="flex h-full">
             {['사용자', '관리자'].map(tab => (

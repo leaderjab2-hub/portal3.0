@@ -107,7 +107,7 @@ export default function Admins() {
         </div>
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-[10px] overflow-hidden flex flex-col shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] h-full">
+      <div className="bg-white border border-gray-200 rounded-[10px] overflow-x-auto flex flex-col shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] h-full">
         <table className="w-full text-left border-collapse flex-1 inline-table">
           <thead>
             <tr className="bg-[#FAFAFA] border-b border-gray-200">

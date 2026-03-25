@@ -26,7 +26,7 @@ export default function WithdrawnList() {
         </div>
       </div>
 
-      <div className="flex-1 bg-white border border-gray-200 rounded-[10px] overflow-hidden flex flex-col">
+      <div className="flex-1 bg-white border border-gray-200 rounded-[10px] overflow-x-auto flex flex-col">
         <table className="w-full text-left border-collapse flex-1 inline-table">
           <thead>
             <tr className="bg-[#FAFAFA] border-b border-gray-200">

@@ -55,7 +55,7 @@ export default function Credits() {
   const activeTenantName = mockCreditData.tenants[activeTenantIdx]?.name || 'LG그룹';
 
   return (
-    <div className="flex h-[calc(100vh-112px)] min-h-0 gap-6 text-gray-900">
+    <div className="flex flex-col md:flex md:flex-row h-auto md:h-[calc(100vh-112px)] min-h-0 gap-6 text-gray-900">
       <CompanyListPanel
         companies={mockCreditData.tenants.map(t => ({ id: t.name, name: t.name, subCount: t.subtenants.length }))}
         activeIndex={activeTenantIdx}
@@ -65,7 +65,7 @@ export default function Credits() {
       <div className="flex-1 flex flex-col overflow-hidden relative">
         <div className="flex-none flex flex-col gap-5 mb-5 shrink-0">
       {/* 2. KPI Cards */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* KPI 1: 현재 크레딧 잔액 */}
         <div className="bg-white border border-gray-200 rounded-[10px] p-5 flex flex-col justify-between shadow-sm">
           <div className="text-[14px] font-semibold text-gray-600 mb-2">현재 크레딧 잔액</div>
@@ -136,7 +136,7 @@ export default function Credits() {
 
       {/* 6. Table */}
       <div className="flex-1 bg-white border border-gray-200 rounded-[10px] overflow-hidden shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] flex flex-col min-h-0">
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-x-auto overflow-y-auto">
           <table className="w-full text-left border-collapse table-auto">
             <thead>
               <tr className="bg-[#FAFAFA] border-b border-gray-200">

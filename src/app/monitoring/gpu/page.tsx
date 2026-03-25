@@ -62,8 +62,8 @@ export default function GPUMonitoring() {
   }, [selectedTenantId, selectedSubtenantId]);
 
   return (
-    <div className="flex h-[calc(100vh-112px)] gap-6">
-      <div className="w-[260px] bg-white border border-gray-200 rounded-[10px] flex flex-col overflow-hidden shrink-0">
+    <div className="flex flex-col md:flex md:flex-row h-auto md:h-[calc(100vh-112px)] gap-6">
+      <div className="w-full md:w-[260px] bg-white border border-gray-200 rounded-[10px] flex flex-col overflow-hidden md:shrink-0">
         <div className="p-4 border-b border-gray-100 flex flex-col gap-3 flex-none">
           <select 
             value={selectedTenantId} 
@@ -163,7 +163,7 @@ export default function GPUMonitoring() {
               좌측에서 인스턴스를 1개 이상 선택해 주세요.
             </div>
           ) : (
-            <div className="grid grid-cols-2 gap-5 h-full min-h-[600px]">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 h-full min-h-[600px]">
               {charts.map((chart, idx) => (
                 <div key={idx} className="border border-gray-200 rounded-[10px] p-5 flex flex-col bg-white">
                   <div className="flex justify-between items-center mb-6">

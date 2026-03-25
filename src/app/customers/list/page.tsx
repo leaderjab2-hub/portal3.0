@@ -93,11 +93,11 @@ export default function CustomerLookupPage() {
   }
 
   return (
-    <div className="flex gap-6 h-full text-gray-900 pb-8">
+    <div className="flex flex-col md:flex md:flex-row gap-6 h-full text-gray-900 pb-8">
       <InviteModal isOpen={isInviteModal} onClose={() => setIsInviteModal(false)} subtenants={tenant?.subtenants || []} />
 
       {/* 좌측 패널 — 회사 (Tenant) 목록 */}
-      <div className="w-[300px] bg-white border border-gray-200 rounded-[14px] shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] flex flex-col overflow-hidden shrink-0">
+      <div className="w-full md:w-[300px] bg-white border border-gray-200 rounded-[14px] shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] flex flex-col overflow-hidden md:shrink-0">
          <div className="p-5 border-b border-gray-100 flex flex-col gap-4">
             <h2 className="text-[16px] font-bold text-gray-900 flex items-center justify-between">
               Tenant 목록
@@ -174,7 +174,7 @@ export default function CustomerLookupPage() {
             </div>
          </div>
 
-         <div className="flex-1 overflow-y-auto">
+         <div className="flex-1 overflow-x-auto overflow-y-auto">
             {/* Subtenant 탭 렌더링 */}
             {!isUnassigned && rightTab === 'subtenant' && (
               <div className="p-6">

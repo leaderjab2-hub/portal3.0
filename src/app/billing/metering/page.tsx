@@ -75,7 +75,7 @@ export default function Metering() {
          <div className="space-y-6 flex flex-col shrink-0 pb-10">
             <div className="border border-gray-200 rounded-[8px] p-5 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.02)] shrink-0 bg-white">
               <h3 className="text-[14px] font-semibold text-gray-900 mb-4 flex items-center gap-2">고정 항목 <span className="text-[11px] font-normal text-gray-400">계약 수량 기준</span></h3>
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-gray-50 rounded-[8px] p-5 border border-gray-100">
                    <div className="flex justify-between items-end mb-3">
                      <span className="text-[13px] font-semibold text-gray-600">{isProj ? '할당 CPU 자원' : 'CPU 과금 코어 수'}</span>
@@ -105,7 +105,7 @@ export default function Metering() {
 
             <div className="border border-gray-200 rounded-[8px] p-5 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.02)] flex flex-col shrink-0 min-h-[400px] bg-white">
               <h3 className="text-[14px] font-semibold text-gray-900 mb-4 flex items-center gap-2">변동 항목 <span className="text-[11px] font-normal text-gray-400">실시간 측정 기반</span></h3>
-              <div className="grid grid-cols-2 gap-6 flex-1 min-h-[200px]">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1 min-h-[200px]">
                 <div className="bg-white rounded-[8px] border border-gray-200 flex flex-col shadow-sm h-full min-h-0">
                    <div className="p-4 border-b border-gray-100 shrink-0">
                      <span className="text-[13px] font-semibold text-gray-900">스토리지 사용량 (월 평균)</span>
@@ -165,7 +165,7 @@ export default function Metering() {
   };
 
   return (
-    <div className="flex h-[calc(100vh-112px)] min-h-0 gap-6 text-gray-900 pb-2">
+    <div className="flex flex-col md:flex md:flex-row h-auto md:h-[calc(100vh-112px)] min-h-0 gap-6 text-gray-900 pb-2">
       {/* 1. Left Panel - Tenant List (Always Visible) */}
       <CompanyListPanel 
         companies={displayTenants.map(t => ({ id: t.id, name: t.name, subCount: t.subtenants.length }))}

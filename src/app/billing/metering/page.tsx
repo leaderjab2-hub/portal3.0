@@ -7,7 +7,7 @@ import {
   Tooltip as RechartsTooltip, ResponsiveContainer 
 } from 'recharts';
 import { tenants } from '@/lib/mockData';
-import CompanyListPanel, { CompanyItem } from '@/components/CompanyListPanel';
+import CompanyListPanel from '@/components/CompanyListPanel';
 
 // Calculate count for assignedNodes
 const getIntervalNodesCount = (ranges?: any[]) => {
@@ -105,13 +105,13 @@ export default function Metering() {
 
             <div className="border border-gray-200 rounded-[8px] p-5 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.02)] flex flex-col shrink-0 min-h-[400px] bg-white">
               <h3 className="text-[14px] font-semibold text-gray-900 mb-4 flex items-center gap-2">변동 항목 <span className="text-[11px] font-normal text-gray-400">실시간 측정 기반</span></h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1 min-h-[200px]">
-                <div className="bg-white rounded-[8px] border border-gray-200 flex flex-col shadow-sm h-full min-h-0">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1">
+                <div className="bg-white rounded-[8px] border border-gray-200 flex flex-col shadow-sm min-h-[300px]">
                    <div className="p-4 border-b border-gray-100 shrink-0">
                      <span className="text-[13px] font-semibold text-gray-900">스토리지 사용량 (월 평균)</span>
                      <div className="text-[22px] font-bold font-mono text-primary-600 mt-1">1,248 TB</div>
                    </div>
-                   <div className="flex-1 p-4 bg-gradient-to-br from-[#F8F9FF] to-[#EFF6FF] border-dashed border-primary-200 m-2 rounded-[6px] border min-h-0 relative">
+                   <div className="flex-1 p-4 bg-gradient-to-br from-[#F8F9FF] to-[#EFF6FF] border-dashed border-primary-200 m-2 rounded-[6px] border relative min-h-[220px]">
                      <div className="absolute inset-0 p-4">
                         <ResponsiveContainer width="100%" height="100%">
                           <AreaChart data={mockStorageData} margin={{ top: 5, right: 0, left: -20, bottom: 0 }}>
@@ -131,7 +131,7 @@ export default function Metering() {
                       </div>
                    </div>
                 </div>
-                <div className="bg-white rounded-[8px] border border-gray-200 flex flex-col shadow-sm h-full min-h-0">
+                <div className="bg-white rounded-[8px] border border-gray-200 flex flex-col shadow-sm min-h-[300px]">
                    <div className="p-4 border-b border-gray-100 flex justify-between shrink-0">
                      <div>
                        <span className="text-[13px] font-semibold text-gray-900">네트워크 트래픽 Outbound (GB)</span>
@@ -142,7 +142,7 @@ export default function Metering() {
                        <div className="text-[18px] font-bold font-mono text-gray-600 mt-1">8,204 GB</div>
                      </div>
                    </div>
-                   <div className="flex-1 p-4 bg-gradient-to-br from-[#F8F9FF] to-[#EFF6FF] border-dashed border-primary-200 m-2 rounded-[6px] border min-h-0 relative">
+                   <div className="flex-1 p-4 bg-gradient-to-br from-[#F8F9FF] to-[#EFF6FF] border-dashed border-primary-200 m-2 rounded-[6px] border relative min-h-[220px]">
                      <div className="absolute inset-0 p-4">
                         <ResponsiveContainer width="100%" height="100%">
                           <LineChart data={mockNetworkData} margin={{ top: 5, right: 0, left: -10, bottom: 0 }}>
@@ -166,16 +166,13 @@ export default function Metering() {
 
   return (
     <div className="flex flex-col md:flex md:flex-row h-auto md:h-[calc(100vh-112px)] min-h-0 gap-6 text-gray-900 pb-2">
-      {/* 1. Left Panel - Tenant List (Always Visible) */}
       <CompanyListPanel 
         companies={displayTenants.map(t => ({ id: t.id, name: t.name, subCount: t.subtenants.length }))}
         activeIndex={safeCompanyIdx}
         onCompanyClick={handleCompanyClick}
       />
 
-      {/* 2. Right Panel - Content */}
       <div className="flex-1 bg-white border border-gray-200 rounded-[10px] flex flex-col overflow-hidden h-full shadow-[0_2px_10px_-3px_rgba(0,0,0,0.02)]">
-        {/* Right Header (Tabs + Tools) */}
         <div className="flex flex-col md:flex-row md:h-[52px] shrink-0 border-b border-gray-200 md:items-center px-4 bg-white gap-3 md:gap-0 py-3 md:py-0">
           <div className="flex h-[40px] md:h-full border-b md:border-none border-gray-100 pb-2 md:pb-0">
             <button 
@@ -193,7 +190,7 @@ export default function Metering() {
           </div>
           <div className="flex-1 hidden md:block" />
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-            <div className="flex items-center gap-2 text-[12px] font-semibold text-gray-400 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-200" title="권한 시뮬레이션">
+            <div className="flex items-center gap-2 text-[12px] font-semibold text-gray-400 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-200">
                <span className="whitespace-nowrap">역할:</span>
                <select value={role} onChange={e => setRole(e.target.value as any)} className="bg-transparent text-gray-700 outline-none font-bold w-full sm:w-auto">
                   <option value="admin">관리자</option>
@@ -202,19 +199,18 @@ export default function Metering() {
                </select>
             </div>
             <div className="flex items-center gap-2">
-              <select className="h-[36px] w-full sm:w-[110px] border border-gray-200 rounded-[8px] text-[13px] px-3 font-bold focus:outline-none focus:border-primary-500 bg-white cursor-pointer transition-all">
+              <select className="h-[36px] w-full sm:w-[110px] border border-gray-200 rounded-[8px] text-[13px] px-3 font-bold focus:outline-none focus:border-primary-500 bg-white">
                 <option>2026.03</option>
                 <option>2026.02</option>
                 <option>2026.01</option>
               </select>
-              <button className="h-[36px] px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-[13px] rounded-[8px] transition-all shadow-sm outline-none active:scale-[0.98]">
+              <button className="h-[36px] px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-[13px] rounded-[8px] shadow-sm active:scale-[0.98]">
                 다운로드
               </button>
             </div>
           </div>
         </div>
 
-        {/* Subtenant Menu (Only for Project Tab) */}
         {activeTab === 'project' && (
            <div className="flex gap-2 px-6 py-4 border-b border-gray-200 bg-[#FAFAFA] shrink-0">
              {displaySubtenants.length > 0 ? (
@@ -238,17 +234,15 @@ export default function Metering() {
            </div>
         )}
 
-        {/* Dynamic Content Area */}
         <div className="flex-1 p-6 overflow-y-auto flex flex-col bg-[#FAFAFA]">
-          {/* Details */}
           {activeTab === 'company' && selectedCompany && (
              renderContent(
                `${selectedCompany.name} 2026년 3월 미터링 내역`,
                false,
                selectedCompany.contract.gpu.quantity,
-               selectedCompany.contract.gpu.quantity, // 계약 수량 기준 (할당 여부 무관)
+               selectedCompany.contract.gpu.quantity,
                selectedCompany.contract.cpu.quantity,
-               selectedCompany.contract.cpu.quantity  // 계약 수량 기준
+               selectedCompany.contract.cpu.quantity
              )
           )}
 

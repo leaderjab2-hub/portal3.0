@@ -9,6 +9,7 @@ import {
 import { tenants, gpuNodes } from '@/lib/mockData';
 
 export default function GPUMonitoring() {
+  const [activeTab, setActiveTab] = useState<'gpu' | 'cpu'>('gpu');
   const [selectedTenantId, setSelectedTenantId] = useState<string>(tenants[0].id);
   const [selectedSubtenantId, setSelectedSubtenantId] = useState<string>('all');
   const [selectedInstances, setSelectedInstances] = useState<string[]>([]);
@@ -40,15 +41,26 @@ export default function GPUMonitoring() {
     usage: ['#1e40af', '#2563eb', '#3b82f6', '#60a5fa', '#93c5fd', '#1d4ed8', '#bfdbfe', '#1e3a8a'],
     mem: ['#1e40af', '#2563eb', '#3b82f6', '#60a5fa', '#93c5fd', '#1d4ed8', '#bfdbfe', '#1e3a8a'],
     temp: ['#b45309', '#d97706', '#f59e0b', '#fbbf24', '#fcd34d', '#92400e', '#fde68a', '#78350f'],
-    power: ['#047857', '#059669', '#10b981', '#34d399', '#6ee7b7', '#065f46', '#a7f3d0', '#064e3b']
+    power: ['#047857', '#059669', '#10b981', '#34d399', '#6ee7b7', '#065f46', '#a7f3d0', '#064e3b'],
+    cpu: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4', '#ec4899', '#71717a'],
+    load: ['#64748b', '#475569', '#334155', '#1e293b', '#0f172a', '#3f3f46', '#27272a', '#18181b']
   };
 
-  const charts = [
+  const gpuCharts = [
     { title: 'GPU 사용률 (%)', key: 'usage', colors: colorPalettes.usage, domain: [0, 100], unit: '%' },
     { title: 'GPU 메모리 사용량 (MB)', key: 'mem', colors: colorPalettes.mem, domain: [0, 85000], unit: 'MB' },
     { title: 'GPU 온도 (°C)', key: 'temp', colors: colorPalettes.temp, domain: [0, 100], unit: '°C' },
     { title: 'GPU 전력 사용량 (W)', key: 'power', colors: colorPalettes.power, domain: [0, 400], unit: 'W' }
   ];
+
+  const cpuCharts = [
+    { title: 'CPU 사용률 (%)', key: 'usage', colors: colorPalettes.cpu, domain: [0, 100], unit: '%' },
+    { title: 'Load Average (1m)', key: 'temp', colors: colorPalettes.load, domain: [0, 50], unit: '' },
+    { title: 'CPU 클럭 (MHz)', key: 'power', colors: colorPalettes.cpu, domain: [0, 4500], unit: 'MHz' },
+    { title: 'CPU 온도 (°C)', key: 'temp', colors: colorPalettes.temp, domain: [0, 100], unit: '°C' }
+  ];
+
+  const charts = activeTab === 'gpu' ? gpuCharts : cpuCharts;
 
   const currentTenant = tenants.find(t => t.id === selectedTenantId) || tenants[0];
   const currentSubtenants = currentTenant.subtenants.filter(s => s.assignedNodes.length > 0);
@@ -132,10 +144,16 @@ export default function GPUMonitoring() {
       <div className="flex-1 bg-white border border-gray-200 rounded-[10px] flex flex-col overflow-hidden">
         <div className="flex flex-col md:flex-row md:h-[56px] shrink-0 border-b border-gray-200 bg-white">
           <div className="flex h-[48px] md:h-full border-b md:border-b-0 border-gray-100">
-            <button className="flex-1 md:flex-none px-5 h-full border-b-[3px] border-primary-500 text-primary-600 font-extrabold text-[13px] flex items-center justify-center uppercase tracking-tight">
-              노드 모니터링
+            <button 
+              onClick={() => setActiveTab('gpu')}
+              className={`flex-1 md:flex-none px-5 h-full ${activeTab === 'gpu' ? 'border-b-[3px] border-primary-500 text-primary-600 font-extrabold' : 'text-gray-500 font-bold'} text-[13px] flex items-center justify-center uppercase tracking-tight transition-all`}
+            >
+              GPU 모니터링
             </button>
-            <button className="flex-1 md:flex-none px-5 h-full text-gray-500 font-bold text-[13px] flex items-center justify-center hover:text-gray-900 transition-colors uppercase tracking-tight">
+            <button 
+              onClick={() => setActiveTab('cpu')}
+              className={`flex-1 md:flex-none px-5 h-full ${activeTab === 'cpu' ? 'border-b-[3px] border-primary-500 text-primary-600 font-extrabold' : 'text-gray-500 font-bold'} text-[13px] flex items-center justify-center hover:text-gray-900 transition-all uppercase tracking-tight`}
+            >
               CPU 모니터링
             </button>
           </div>

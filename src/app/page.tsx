@@ -22,18 +22,18 @@ function KPICard({ title, value, subtext, percentage, status }: any) {
   };
 
   return (
-    <div className="bg-white border text-left border-gray-200 rounded-[10px] p-[16px_20px] shadow-sm">
-      <div className="flex justify-between items-start mb-2">
+    <div className="bg-white border text-left border-gray-200 rounded-[10px] p-3 sm:p-[16px_20px] shadow-sm">
+      <div className="flex justify-between items-start mb-1 sm:mb-2">
         <div>
-          <h3 className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide">{title}</h3>
-          <p className="text-[12px] text-gray-400 mt-1">{subtext}</p>
+          <h3 className="text-[10px] sm:text-[11px] font-semibold text-gray-400 uppercase tracking-wide">{title}</h3>
+          <p className="hidden sm:block text-[12px] text-gray-400 mt-1">{subtext}</p>
         </div>
       </div>
-      <div className="mt-4">
-        <div className={`text-[28px] font-bold font-mono ${getColorText(status)} leading-none`}>
+      <div className="mt-2 sm:mt-4">
+        <div className={`text-[18px] sm:text-[28px] font-bold font-mono ${getColorText(status)} leading-none`}>
           {value}
         </div>
-        <div className="w-full h-[5px] bg-gray-100 rounded-[3px] mt-4 overflow-hidden">
+        <div className="w-full h-[4px] sm:h-[5px] bg-gray-100 rounded-[3px] mt-3 sm:mt-4 overflow-hidden">
           <div 
             className={`h-full ${getGradient(status)} rounded-[3px] transition-all duration-500`}
             style={{ width: `${percentage}%` }}
@@ -88,7 +88,7 @@ export default function HomeDashboard() {
 
   return (
     <div className="flex flex-col gap-6 w-full min-w-0">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
         <KPICard title="GPU 점유율" value={`${gpuOccupancy}%`} subtext="할당된 GPU 중 활성화 비율" percentage={parseFloat(gpuOccupancy)} status="normal" />
         <KPICard title="AI 스토리지" value={`${tenant.contract.storage.capacity}${tenant.contract.storage.unit}`} subtext="계약 용량" percentage={45.2} status="normal" />
         <KPICard title="CPU 사용률" value={`${cpuUsage}%`} subtext="전체 클러스터 vCPU 사용" percentage={parseFloat(cpuUsage)} status="normal" />

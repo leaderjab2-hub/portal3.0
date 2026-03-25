@@ -76,7 +76,9 @@ export default function Sidebar() {
   return (
     <div className="hidden md:flex w-[240px] h-screen bg-white border-r border-[#E5E7EB] flex-col fixed left-0 top-0">
       <div className="h-[64px] border-b border-[#E5E7EB] flex items-center justify-center">
-        <Image src="/logo1.svg" alt="Logo" width={140} height={40} />
+        <Link href="/">
+          <Image src="/logo1.svg" alt="Logo" width={140} height={40} className="cursor-pointer" />
+        </Link>
       </div>
       
       <div className="flex-1 overflow-y-auto py-4">

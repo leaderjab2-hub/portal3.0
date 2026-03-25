@@ -6,64 +6,57 @@ import CompanyListPanel from '@/components/CompanyListPanel';
 
 import { tenants, incidents, gpuNodes } from '@/lib/mockData';
 
-let gTotalIncidentCount = 0;
-let gTotalPmCount = 0;
-let gTotalCredit = 0;
+const tenantData = tenants.map(t => {
+  let tenantTotalCredit = 0;
+  let tenantIncidentCount = 0;
+  let tenantPmCount = 0;
 
-const mockData = {
-  summary: { totalCount: 0, incidentCount: 0, pmCount: 0, totalCredit: 0, newThisMonth: 0 },
-  tenants: tenants.map(t => {
-    let tenantTotalCredit = 0;
+  const mappedSubtenants = t.subtenants.map(s => {
+    const records = incidents.filter(inc => 
+      inc.affectedSubtenants.some(aff => aff.subtenantId === s.id)
+    ).map(inc => {
+      const aff = inc.affectedSubtenants.find(a => a.subtenantId === s.id);
+      const gpuCount = aff ? aff.gpuCount : 0;
+      
+      let subCredit: number | null = null;
+      if (inc.creditAmount) {
+        subCredit = Math.round(inc.creditAmount * (gpuCount / inc.affectedSubtenants.reduce((sum, a) => sum + a.gpuCount, 0)));
+      }
 
-    const mappedSubtenants = t.subtenants.map(s => {
-      const records = incidents.filter(inc => 
-        inc.affectedSubtenants.some(aff => aff.subtenantId === s.id)
-      ).map(inc => {
-        const aff = inc.affectedSubtenants.find(a => a.subtenantId === s.id);
-        const gpuCount = aff ? aff.gpuCount : 0;
-        
-        let subCredit: number | null = null;
-        if (inc.creditAmount) {
-          subCredit = Math.round(inc.creditAmount * (gpuCount / inc.affectedSubtenants.reduce((sum, a) => sum + a.gpuCount, 0)));
-        }
+      if (inc.type === '장애') tenantIncidentCount++;
+      else tenantPmCount++;
+      
+      if (subCredit) {
+        tenantTotalCredit += subCredit;
+      }
 
-        if (inc.type === '장애') gTotalIncidentCount++;
-        else gTotalPmCount++;
-        if (subCredit) {
-          tenantTotalCredit += subCredit;
-          gTotalCredit += subCredit;
-        }
-
-        return {
-          type: inc.type,
-          start: inc.startDatetime,
-          end: inc.endDatetime,
-          duration: inc.duration,
-          node: inc.node,
-          instance: inc.instance,
-          companies: inc.affectedSubtenants.length > 1 ? `${s.name} 외 ${inc.affectedSubtenants.length - 1}` : s.name,
-          gpu: gpuCount,
-          credit: subCredit,
-          user: inc.registeredBy
-        };
-      });
-
-      return { name: s.name, records };
+      return {
+        type: inc.type,
+        start: inc.startDatetime,
+        end: inc.endDatetime,
+        duration: inc.duration,
+        node: inc.node,
+        instance: inc.instance,
+        companies: inc.affectedSubtenants.length > 1 ? `${s.name} 외 ${inc.affectedSubtenants.length - 1}` : s.name,
+        gpu: gpuCount,
+        credit: subCredit,
+        user: inc.registeredBy,
+        registeredAt: inc.startDatetime.split(' ')[0] // For "new this month" logic
+      };
     });
 
-    return {
-      name: t.name,
-      totalCredit: tenantTotalCredit,
-      subtenants: mappedSubtenants
-    };
-  })
-};
+    return { name: s.name, records };
+  });
 
-mockData.summary.totalCount = gTotalIncidentCount + gTotalPmCount;
-mockData.summary.incidentCount = gTotalIncidentCount;
-mockData.summary.pmCount = gTotalPmCount;
-mockData.summary.totalCredit = gTotalCredit;
-mockData.summary.newThisMonth = incidents.length;
+  return {
+    name: t.name,
+    totalCredit: tenantTotalCredit,
+    incidentCount: tenantIncidentCount,
+    pmCount: tenantPmCount,
+    totalCount: tenantIncidentCount + tenantPmCount,
+    subtenants: mappedSubtenants
+  };
+});
 
 function IncidentModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
   const [startD, setStartD] = useState('');
@@ -267,9 +260,21 @@ function PMModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) 
 
 export default function IncidentRegistration() {
   const [activeTenantIdx, setActiveTenantIdx] = useState(0);
-  const activeTenantName = mockData.tenants[activeTenantIdx]?.name || 'LG그룹';
+  const t = tenantData[activeTenantIdx] || tenantData[0];
   const [isIncidentOpen, setIsIncidentOpen] = useState(false);
   const [isPmOpen, setIsPmOpen] = useState(false);
+
+  // New this month for active tenant
+  const newThisMonth = React.useMemo(() => {
+    let count = 0;
+    const currentMonth = '2026-03';
+    t.subtenants.forEach(s => {
+      s.records.forEach(r => {
+        if (r.start.startsWith(currentMonth)) count++;
+      });
+    });
+    return count;
+  }, [t]);
 
   return (
     <div className="flex flex-col md:flex md:flex-row h-auto md:h-[calc(100vh-112px)] min-h-0 gap-6 text-gray-900">
@@ -277,7 +282,7 @@ export default function IncidentRegistration() {
       <PMModal isOpen={isPmOpen} onClose={() => setIsPmOpen(false)} />
 
       <CompanyListPanel
-        companies={mockData.tenants.map(t => ({ id: t.name, name: t.name, subCount: t.subtenants.length }))}
+        companies={tenantData.map(t => ({ id: t.name, name: t.name, subCount: t.subtenants.length }))}
         activeIndex={activeTenantIdx}
         onCompanyClick={setActiveTenantIdx}
       />
@@ -287,24 +292,24 @@ export default function IncidentRegistration() {
       {/* 2. KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-white border text-left border-gray-200 rounded-[10px] p-5 flex flex-col justify-between shadow-sm">
-          <div className="text-[14px] font-semibold text-gray-600 mb-2">전체 등록 건수</div>
+          <div className="text-[14px] font-semibold text-gray-600 mb-2">{t.name} 상시 등록 건수</div>
           <div className="flex items-baseline gap-2 mt-1">
-            <span className="text-3xl font-bold tracking-tight text-gray-900">{mockData.summary.totalCount}</span><span className="text-gray-500 text-sm">건</span>
+            <span className="text-3xl font-bold tracking-tight text-gray-900">{t.totalCount}</span><span className="text-gray-500 text-sm">건</span>
           </div>
           <div className="mt-4 text-[12px] font-medium text-gray-500 flex items-center gap-3">
-            <span className="flex items-center gap-1.5 px-2 py-1 bg-gray-50 rounded-md border border-gray-100"><AlertTriangle size={12} className="text-red-500"/>장애 {mockData.summary.incidentCount}건</span>
-            <span className="flex items-center gap-1.5 px-2 py-1 bg-gray-50 rounded-md border border-gray-100"><Settings size={12} className="text-blue-500"/>PM {mockData.summary.pmCount}건</span>
+            <span className="flex items-center gap-1.5 px-2 py-1 bg-gray-50 rounded-md border border-gray-100"><AlertTriangle size={12} className="text-red-500"/>장애 {t.incidentCount}건</span>
+            <span className="flex items-center gap-1.5 px-2 py-1 bg-gray-50 rounded-md border border-gray-100"><Settings size={12} className="text-blue-500"/>PM {t.pmCount}건</span>
           </div>
         </div>
         <div className="bg-white border text-left border-gray-200 rounded-[10px] p-5 flex flex-col justify-between shadow-sm">
-          <div className="text-[14px] font-semibold text-gray-600 mb-2">총 크레딧 산출액</div>
-          <div className="text-3xl font-bold tracking-tight text-emerald-600 mt-1">+₩ {Math.abs(mockData.summary.totalCredit).toLocaleString()}</div>
-          <div className="mt-4 text-[12px] font-medium text-gray-400">선택 기간 기준</div>
+          <div className="text-[14px] font-semibold text-gray-600 mb-2">{t.name} 총 크레딧 산출액</div>
+          <div className="text-3xl font-bold tracking-tight text-emerald-600 mt-1">+₩ {Math.abs(t.totalCredit).toLocaleString()}</div>
+          <div className="mt-4 text-[12px] font-medium text-gray-400">전체 기간 누적</div>
         </div>
         <div className="bg-white border text-left border-gray-200 rounded-[10px] p-5 flex flex-col justify-between shadow-sm">
           <div className="text-[14px] font-semibold text-gray-600 mb-2">이번 달 신규 등록</div>
-          <div className="text-3xl font-bold tracking-tight text-emerald-600 mt-1">{mockData.summary.newThisMonth} <span className="text-gray-500 text-sm font-medium">건</span></div>
-          <div className="mt-4 text-[12px] font-medium text-gray-400">이번 달 기준</div>
+          <div className="text-3xl font-bold tracking-tight text-emerald-600 mt-1">{newThisMonth} <span className="text-gray-500 text-sm font-medium">건</span></div>
+          <div className="mt-4 text-[12px] font-medium text-gray-400">2026.03 기준</div>
         </div>
       </div>
 
@@ -360,9 +365,7 @@ export default function IncidentRegistration() {
             </tr>
           </thead>
           <tbody className="flex flex-col gap-4 p-4 md:table-row-group md:p-0">
-            {mockData.tenants.filter(t => t.name === activeTenantName).map(tenant => (
-              <React.Fragment key={tenant.name}>
-                {tenant.subtenants.map(sub => (
+            {t.subtenants.map(sub => (
                    <React.Fragment key={sub.name}>
                      {/* Subtenant Header */}
                      <tr className="flex flex-col md:table-row bg-[#F8FAFC] md:bg-[#FAFAFA] border-b border-gray-100 rounded-t-xl overflow-hidden">
@@ -418,8 +421,6 @@ export default function IncidentRegistration() {
                        </tr>
                      ))}
                    </React.Fragment>
-                ))}
-              </React.Fragment>
             ))}
           </tbody>
         </table>

@@ -109,26 +109,29 @@ export default function Credits() {
       </div>
 
       {/* 4. Filters */}
-      <div className="bg-white border border-gray-200 rounded-[10px] px-4 py-2 flex items-center justify-between shadow-sm">
-        <div className="flex gap-1 pl-1">
-          <span className="text-[14px] font-bold text-gray-900">크레딧 필터 및 조회</span>
+      <div className="bg-white border border-gray-200 rounded-[14px] p-4 flex flex-col md:flex-row md:items-center justify-between shadow-sm gap-4">
+        <div className="flex items-center justify-between md:border-r md:border-gray-200 md:pr-5">
+           <div className="text-[14px] font-bold text-gray-900">크레딧 필터 및 조회</div>
         </div>
-        <div className="flex items-center gap-2 pr-1">
-          <div className="flex items-center gap-2 border border-gray-200 rounded-lg px-3 py-1.5 bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer">
-            <Calendar size={14} className="text-gray-500" />
-            <select className="bg-transparent text-[13px] font-medium text-gray-700 outline-none w-[110px] cursor-pointer">
-               <option>전체 (누적)</option>
-               <option>이번 달 (3월)</option>
-               <option>지난 달 (2월)</option>
-            </select>
-          </div>
-          <div className="flex items-center gap-2 border border-gray-200 rounded-lg px-3 py-1.5 bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer">
-            <select className="bg-transparent text-[13px] font-medium text-gray-700 outline-none w-[110px] cursor-pointer">
-               <option>전체 구분</option>
-               <option>장애</option>
-               <option>PM</option>
-               <option>빌링 차감</option>
-            </select>
+        
+        <div className="flex-1 md:px-5 flex flex-col sm:flex-row items-stretch md:items-center gap-3">
+          <div className="grid grid-cols-2 lg:flex gap-2 flex-1 items-center">
+            <div className="flex items-center gap-2 border border-gray-200 rounded-[8px] px-3 h-[36px] bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer group flex-1">
+              <Calendar size={14} className="text-gray-500 shrink-0" />
+              <select className="bg-transparent text-[13px] font-bold text-gray-700 outline-none w-full cursor-pointer">
+                 <option>전체 (누적)</option>
+                 <option>이번 달 (3월)</option>
+                 <option>지난 달 (2월)</option>
+              </select>
+            </div>
+            <div className="flex items-center gap-2 border border-gray-200 rounded-[8px] px-3 h-[36px] bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer group flex-1">
+              <select className="bg-transparent text-[13px] font-bold text-gray-700 outline-none w-full cursor-pointer">
+                 <option>전체 구분</option>
+                 <option>장애</option>
+                 <option>PM</option>
+                 <option>빌링 차감</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>

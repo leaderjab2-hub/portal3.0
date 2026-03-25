@@ -23,6 +23,7 @@ function CreateTicketModal({ isOpen, onClose, onConfirm }: { isOpen: boolean, on
       type,
       id: `TKT-${Math.floor(10000 + Math.random() * 90000)}`,
       title,
+      content,
       comments: 0,
       status: '대기 중',
       user: '김사원 (LG전자)',
@@ -90,10 +91,56 @@ export default function Tickets() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState<any>(null);
   const [tickets, setTickets] = useState([
-    { type: '장애접수', id: 'TKT-00142', title: 'H100 인스턴스 접속 불가 현상', comments: 0, status: '대기 중', user: '김사원 (LG전자)', date: '2026-03-19 14:22:01', statusColor: 'bg-[#FFFBEB] text-[#D97706]' },
-    { type: '기술지원', id: 'TKT-00141', title: 'PyTorch 노드 환경 설정 문의', comments: 3, status: '처리 중', user: '이대리 (Upstage)', date: '2026-03-19 10:15:44', statusColor: 'bg-primary-50 text-primary-600' },
-    { type: '일반안내', id: 'TKT-00139', title: '월간 크레딧 청구서 재발급 요청', comments: 1, status: '완료', user: '최과장 (Kakao)', date: '2026-03-18 16:40:22', statusColor: 'bg-[#ECFDF5] text-[#059669]' },
-    { type: '일반안내', id: 'TKT-00138', title: '서브테넌트 추가 권한 문의', comments: 5, status: '완료', user: '신팀장 (Naver)', date: '2026-03-17 11:30:10', statusColor: 'bg-[#ECFDF5] text-[#059669]' },
+    { 
+      type: '장애접수', 
+      id: 'TKT-00142', 
+      title: 'H100 인스턴스 접속 불가 현상', 
+      content: '어제 오후부터 H100 인스턴스에 SSH 접속이 되지 않습니다. 보안 그룹 설정은 변경한 적이 없는데 확인 부탁드립니다.',
+      comments: 0, 
+      status: '대기 중', 
+      user: '김사원 (LG전자)', 
+      date: '2026-03-19 14:22:01', 
+      statusColor: 'bg-[#FFFBEB] text-[#D97706]' 
+    },
+    { 
+      type: '기술지원', 
+      id: 'TKT-00141', 
+      title: 'PyTorch 노드 환경 설정 문의', 
+      content: '멀티 노드 학습을 위해 분산 환경 설정을 진행 중인데, NCCL 타임아웃 에러가 발생합니다. 권장되는 환경 설정 가이드가 있을까요?',
+      comments: 1, 
+      status: '처리 중', 
+      user: '이대리 (Upstage)', 
+      date: '2026-03-19 10:15:44', 
+      statusColor: 'bg-primary-50 text-primary-600',
+      replies: [
+        { user: '플랫폼 관리자', date: '2026-03-19 11:30:10', text: '안녕하세요. NCCL 타임아웃의 경우 네트워크 인터페이스 설정 문제일 가능성이 높습니다. 관련 기술 문서를 메일로 보내드렸으니 확인 부탁드립니다.' }
+      ]
+    },
+    { 
+      type: '일반안내', 
+      id: 'TKT-00139', 
+      title: '월간 크레딧 청구서 재발급 요청', 
+      content: '2월분 크레딧 청구서를 분실하여 재발급을 요청합니다. 등록된 관리자 이메일로 다시 보내주시면 감사하겠습니다.',
+      comments: 1, 
+      status: '완료', 
+      user: '최과장 (Kakao)', 
+      date: '2026-03-18 16:40:22', 
+      statusColor: 'bg-[#ECFDF5] text-[#059669]',
+      replies: [
+        { user: '회계팀 김철수', date: '2026-03-18 17:00:00', text: '재발급 처리 완료되었습니다. 이메일 확인 부탁드립니다.' }
+      ]
+    },
+    { 
+      type: '일반안내', 
+      id: 'TKT-00138', 
+      title: '서브테넌트 추가 권한 문의', 
+      content: '특정 프로젝트를 위해 서브테넌트를 2개 더 생성해야 합니다. 현재 한도가 초과되었다고 나오는데 증설이 가능한가요?',
+      comments: 5, 
+      status: '완료', 
+      user: '신팀장 (Naver)', 
+      date: '2026-03-17 11:30:10', 
+      statusColor: 'bg-[#ECFDF5] text-[#059669]' 
+    },
   ]);
 
   const handleCreateTicket = (newTicket: any) => {
@@ -126,14 +173,40 @@ export default function Tickets() {
             <span>등록 일시: <span className="font-mono">{selectedTicket.date}</span></span>
           </div>
           
-          <div className="min-h-[200px] md:min-h-[250px] text-[14px] text-gray-800 bg-[#FAFAFA] p-5 md:p-6 rounded-[8px] border border-gray-100 mb-8 whitespace-pre-wrap">
-            상세 내용을 입력해주세요
+          <div className="min-h-[200px] md:min-h-[250px] text-[14px] text-gray-800 bg-[#FAFAFA] p-5 md:p-6 rounded-[8px] border border-gray-100 mb-8 whitespace-pre-wrap leading-relaxed">
+            {selectedTicket.content || '상세 내용이 없습니다.'}
           </div>
 
           <div className="border-t border-gray-200 pt-8">
-             <h3 className="text-[14px] font-bold text-gray-900 mb-4">댓글 ({selectedTicket.comments})</h3>
-             <textarea placeholder="답변이나 관련된 메모를 입력하세요..." className="w-full border border-gray-200 rounded-[8px] p-4 text-[13px] text-gray-900 h-[100px] resize-none focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 mb-3"></textarea>
-             <div className="flex justify-end"><button className="w-full md:w-auto px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-[13px] font-bold rounded-lg transition-colors shadow-sm shadow-primary-500/20 outline-none">등록</button></div>
+             <h3 className="text-[14px] font-bold text-gray-900 mb-6 flex items-center gap-2">
+               댓글 <span className="bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full text-[12px]">{selectedTicket.comments}</span>
+             </h3>
+             
+             {selectedTicket.replies && selectedTicket.replies.length > 0 && (
+               <div className="flex flex-col gap-6 mb-8">
+                 {selectedTicket.replies.map((reply: any, idx: number) => (
+                   <div key={idx} className="bg-white border border-gray-100 rounded-xl p-5 shadow-sm">
+                     <div className="flex items-center justify-between mb-3">
+                       <div className="flex items-center gap-2">
+                         <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 text-[12px] font-bold">
+                           {reply.user.substring(0, 1)}
+                         </div>
+                         <span className="text-[13px] font-bold text-gray-900">{reply.user}</span>
+                       </div>
+                       <span className="text-[11px] font-mono text-gray-400">{reply.date}</span>
+                     </div>
+                     <p className="text-[13px] text-gray-700 leading-relaxed pl-10">
+                       {reply.text}
+                     </p>
+                   </div>
+                 ))}
+               </div>
+             )}
+
+             <div className="bg-gray-50 rounded-xl p-4 md:p-6 border border-gray-200">
+               <textarea placeholder="답변이나 관련된 메모를 입력하세요..." className="w-full border border-gray-200 rounded-[8px] p-4 text-[13px] text-gray-900 h-[100px] resize-none focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 mb-3 bg-white"></textarea>
+               <div className="flex justify-end"><button className="w-full md:w-auto px-6 py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-[13px] font-bold rounded-lg transition-colors shadow-sm shadow-primary-500/20 outline-none">등록</button></div>
+             </div>
           </div>
         </div>
       ) : (
@@ -162,43 +235,62 @@ export default function Tickets() {
             </div>
           </div>
 
-          <div className="bg-white border text-left border-gray-200 rounded-[10px] p-4 flex flex-col md:flex-row items-stretch md:items-center justify-between shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] gap-4 md:gap-0">
-            <div className="text-[14px] font-semibold text-gray-900 md:border-r md:border-gray-200 pr-0 md:pr-5 border-b md:border-b-0 pb-3 md:pb-0">티켓 목록 <span className="text-gray-400 font-normal ml-2">Total {56 + (tickets.length - 4)}</span></div>
-            <div className="flex-1 px-0 md:px-5 flex flex-wrap md:flex-nowrap items-center gap-2 md:gap-3">
-              <select className="h-[38px] md:h-[34px] flex-1 md:flex-none md:w-[130px] border border-gray-200 rounded-[7px] text-[13px] px-3 focus:outline-none focus:border-primary-500 bg-white cursor-pointer">
-                <option>전체 유형</option>
-                <option>기술 지원</option>
-                <option>장애 접수</option>
-                <option>일반 문의</option>
-              </select>
-              <select className="h-[38px] md:h-[34px] flex-1 md:flex-none md:w-[120px] border border-gray-200 rounded-[7px] text-[13px] px-3 focus:outline-none focus:border-primary-500 bg-white cursor-pointer">
-                <option>전체 상태</option>
-                <option>대기 중</option>
-                <option>처리 중</option>
-                <option>완료</option>
-              </select>
-              <div className="flex items-center gap-2 border border-gray-200 rounded-[7px] px-3 h-[38px] md:h-[34px] bg-white flex-1 md:flex-none md:w-[200px] overflow-hidden transition-all">
-                <Calendar size={14} className="text-gray-400 shrink-0" />
-                <span className="text-[11px] md:text-[12px] font-mono text-gray-600 whitespace-nowrap truncate">2026.03.12 - 03.19</span>
-              </div>
-              <div className="relative flex-1 md:flex-none">
-                <input type="text" placeholder="제목 검색" className="w-full md:w-[160px] h-[38px] md:h-[34px] border border-gray-200 rounded-[7px] text-[13px] px-3 pl-8 focus:outline-none focus:border-primary-500 bg-white transition-all" />
-                <Search size={14} className="absolute left-3 top-3 md:top-2.5 text-gray-400" />
-              </div>
-              <button className="h-[38px] md:h-[34px] w-[38px] md:w-[34px] flex items-center justify-center border border-gray-200 rounded-[7px] text-gray-600 hover:bg-[#F9FAFB] shrink-0 transition-colors">
-                <RotateCcw size={14} />
-              </button>
-              <button className="h-[38px] md:h-[34px] flex-1 md:flex-none px-4 md:w-[60px] bg-primary-500 hover:bg-primary-600 text-white font-semibold text-[13px] rounded-[7px] flex items-center justify-center transition-colors">
-                검색
-              </button>
+          <div className="bg-white border text-left border-gray-200 rounded-[14px] p-4 flex flex-col md:flex-row md:items-center justify-between shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] gap-4 md:gap-0">
+            {/* 상단: 타이틀 및 티켓 개수 */}
+            <div className="flex items-center justify-between md:border-r md:border-gray-200 md:pr-5">
+               <div className="text-[14px] font-bold text-gray-900">
+                 티켓 목록 <span className="text-gray-400 font-normal ml-2">Total {56 + (tickets.length - 4)}</span>
+               </div>
+               {/* 모바일 대시보드 옵션 버튼 (모니터링 등 용도) */}
+               <button className="md:hidden w-[34px] h-[34px] flex items-center justify-center text-gray-400 hover:text-gray-900 rounded-[7px] hover:bg-gray-50 transition-colors">
+                 <Settings size={18} />
+               </button>
             </div>
-            <div className="flex gap-2 items-center justify-end border-t md:border-t-0 pt-3 md:pt-0">
-              <button className="w-[34px] h-[34px] hidden md:flex items-center justify-center text-gray-400 hover:text-gray-900 rounded-[7px] hover:bg-[#F9FAFB] transition-colors">
-                <Settings size={18} />
-              </button>
-              <button onClick={() => setIsModalOpen(true)} className="h-[38px] md:h-[34px] px-6 md:px-4 bg-primary-500 hover:bg-primary-600 text-white font-semibold text-[13px] rounded-[7px] flex items-center gap-1.5 shadow-sm transition-all outline-none">
-                <Plus size={14} /> <span>티켓 등록</span>
-              </button>
+
+            {/* 중간: 필터 및 검색 바 */}
+            <div className="flex-1 md:px-5 flex flex-col md:flex-row items-stretch md:items-center gap-3">
+               <div className="grid grid-cols-2 lg:flex gap-2">
+                 <select className="h-[36px] lg:w-[130px] border border-gray-200 rounded-[8px] text-[13px] px-3 focus:outline-none focus:border-primary-500 bg-white cursor-pointer transition-all">
+                   <option>전체 유형</option>
+                   <option>기술 지원</option>
+                   <option>장애 접수</option>
+                   <option>일반 문의</option>
+                 </select>
+                 <select className="h-[36px] lg:w-[120px] border border-gray-200 rounded-[8px] text-[13px] px-3 focus:outline-none focus:border-primary-500 bg-white cursor-pointer transition-all">
+                   <option>전체 상태</option>
+                   <option>대기 중</option>
+                   <option>처리 중</option>
+                   <option>완료</option>
+                 </select>
+               </div>
+               
+               <div className="flex flex-col sm:flex-row md:flex-1 gap-2">
+                 <div className="flex items-center gap-2 border border-gray-200 rounded-[8px] px-3 h-[36px] bg-white flex-1 lg:max-w-[180px] overflow-hidden transition-all group hover:border-gray-300">
+                   <Calendar size={14} className="text-gray-400 shrink-0" />
+                   <span className="text-[12px] font-mono text-gray-600 whitespace-nowrap truncate cursor-pointer">2026.03.12 - 03.19</span>
+                 </div>
+                 <div className="relative flex-1 lg:max-w-[200px]">
+                   <input type="text" placeholder="제목 검색" className="w-full h-[36px] border border-gray-200 rounded-[8px] text-[13px] px-3 pl-8 focus:outline-none focus:border-primary-500 bg-white transition-all" />
+                   <Search size={14} className="absolute left-3 top-[11px] text-gray-400" />
+                 </div>
+               </div>
+            </div>
+
+            {/* 하단/우측: 액션 버튼 */}
+            <div className="flex items-center gap-2 pt-3 md:pt-0 border-t border-gray-50 md:border-none">
+               <button className="h-[36px] w-[36px] flex items-center justify-center border border-gray-200 rounded-[8px] text-gray-500 hover:bg-gray-50 shrink-0 transition-colors">
+                 <RotateCcw size={14} />
+               </button>
+               <button className="h-[36px] w-[50px] bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-[13px] rounded-[8px] flex items-center justify-center transition-colors">
+                 검색
+               </button>
+               <div className="w-[1px] h-[16px] bg-gray-200 mx-1 md:hidden"></div>
+               <button onClick={() => setIsModalOpen(true)} className="flex-1 md:flex-none h-[36px] px-4 bg-primary-600 hover:bg-primary-700 text-white font-bold text-[13px] rounded-[8px] flex items-center justify-center gap-1.5 shadow-sm shadow-primary-500/10 transition-all active:scale-[0.98]">
+                 <Plus size={14} /> <span className="whitespace-nowrap">티켓 등록</span>
+               </button>
+               <button className="hidden md:flex w-[36px] h-[36px] items-center justify-center text-gray-400 hover:text-gray-900 rounded-[8px] hover:bg-gray-50 transition-colors outline-none ml-2">
+                 <Settings size={18} />
+               </button>
             </div>
           </div>
 

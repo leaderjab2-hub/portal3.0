@@ -217,13 +217,13 @@ export default function InvoicesPage() {
       </div>
 
       {/* 3. Subtenant Tabbar & Tools */}
-      <div className="flex items-center justify-between">
-        <div className="flex gap-2 overflow-x-auto pb-1">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide no-scrollbar">
           {t.subtenants.map((ms, i) => (
             <button
               key={ms.name}
               onClick={() => handleSubtenantClick(i)}
-              className={`px-4 py-2 rounded-lg text-[13px] font-bold flex items-center gap-1.5 transition-all outline-none ${
+              className={`px-4 py-2 rounded-lg text-[13px] font-bold flex items-center gap-1.5 transition-all outline-none whitespace-nowrap ${
                 activeSubtenantIdx === i
                 ? 'bg-gray-800 text-white shadow-sm ring-2 ring-gray-800 ring-offset-2'
                 : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-100'
@@ -235,8 +235,8 @@ export default function InvoicesPage() {
           ))}
         </div>
         {isAdmin && sub && (
-          <button onClick={() => setIsModalOpen(true)} className="flex items-center gap-1.5 px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg text-[13px] font-bold shadow-sm shadow-primary-500/20 transition-all">
-            <Plus size={16}/> 빌링 등록
+          <button onClick={() => setIsModalOpen(true)} className="flex items-center justify-center gap-1.5 px-6 py-2.5 sm:px-4 sm:py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg text-[13px] font-bold shadow-sm shadow-primary-500/20 transition-all active:scale-[0.98]">
+            <Plus size={16}/> <span>빌링 등록</span>
           </button>
         )}
       </div>

@@ -86,22 +86,27 @@ export default function Admins() {
     <div className="flex flex-col gap-6 h-full relative">
       <CreateAdminModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onConfirm={handleCreateAdmin} />
 
-      <div className="bg-white border text-left border-gray-200 rounded-[10px] p-4 flex items-center justify-between shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)]">
-        <div className="text-[14px] font-semibold text-gray-900 border-r border-gray-200 pr-5">플랫폼 관리자 <span className="text-gray-400 font-normal ml-2">Total {admins.length}</span></div>
-        <div className="flex-1 px-5 flex items-center gap-3">
-          <div className="relative">
-            <input type="text" placeholder="관리자 명 검색" className="w-[200px] h-[34px] border border-gray-200 rounded-[7px] text-[13px] px-3 pl-8 focus:outline-none focus:border-primary-500 bg-white" />
-            <Search size={14} className="absolute left-3 top-2.5 text-gray-400" />
+      <div className="bg-white border text-left border-gray-200 rounded-[14px] p-4 flex flex-col md:flex-row md:items-center justify-between shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] gap-4">
+        <div className="flex items-center justify-between md:border-r md:border-gray-200 md:pr-5">
+           <div className="text-[14px] font-bold text-gray-900">플랫폼 관리자 <span className="text-gray-400 font-normal ml-2">Total {admins.length}</span></div>
+        </div>
+        
+        <div className="flex-1 md:px-5 flex flex-col sm:flex-row items-stretch md:items-center gap-3">
+          <div className="relative flex-1 sm:max-w-[300px]">
+            <input type="text" placeholder="관리자 명 검색" className="w-full h-[36px] border border-gray-200 rounded-[8px] text-[13px] px-3 pl-8 focus:outline-none focus:border-primary-500 bg-white transition-all shadow-sm" />
+            <Search size={14} className="absolute left-3 top-[11px] text-gray-400" />
           </div>
-          <button className="h-[34px] w-[34px] flex items-center justify-center border border-gray-200 rounded-[7px] text-gray-600 hover:bg-[#F9FAFB]">
+        </div>
+
+        <div className="flex items-center gap-2 pt-3 md:pt-0 border-t border-gray-50 md:border-none">
+          <button className="h-[36px] w-[36px] flex items-center justify-center border border-gray-200 rounded-[8px] text-gray-500 hover:bg-gray-50 transition-colors">
             <RotateCcw size={14} />
           </button>
-          <button className="h-[34px] w-[80px] bg-primary-500 hover:bg-primary-600 text-white font-semibold text-[13px] rounded-[7px] flex items-center justify-center transition-colors">
+          <button className="h-[36px] px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-[13px] rounded-[8px] flex items-center justify-center transition-colors">
             검색
           </button>
-        </div>
-        <div className="flex gap-2">
-          <button onClick={() => setIsModalOpen(true)} className="h-[34px] px-4 bg-primary-500 hover:bg-primary-600 text-white font-semibold text-[13px] rounded-[7px] flex items-center gap-1.5 shadow-sm transition-colors outline-none">
+          <div className="w-[1px] h-[16px] bg-gray-200 mx-1"></div>
+          <button onClick={() => setIsModalOpen(true)} className="flex-1 md:flex-none h-[36px] px-4 bg-primary-600 hover:bg-primary-700 text-white font-bold text-[13px] rounded-[8px] flex items-center justify-center gap-1.5 shadow-sm shadow-primary-500/10 transition-all active:scale-[0.98]">
             <Plus size={14} /> <span>생성</span>
           </button>
         </div>

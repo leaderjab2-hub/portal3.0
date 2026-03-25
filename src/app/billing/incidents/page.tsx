@@ -280,26 +280,35 @@ export default function IncidentRegistration() {
       </div>
 
       {/* 3, 4. Header Tools */}
-      <div className="bg-white border border-gray-200 rounded-[10px] px-4 py-3 md:py-2 flex flex-col md:flex-row md:items-center justify-between shadow-sm gap-4 md:gap-0">
-        <div className="flex gap-1 pl-1">
-          <span className="text-[14px] font-bold text-gray-900">조회 필터 및 등록</span>
+      <div className="bg-white border border-gray-200 rounded-[14px] p-4 flex flex-col md:flex-row md:items-center justify-between shadow-sm gap-4">
+        {/* 상단: 타이틀 */}
+        <div className="flex items-center justify-between md:border-r md:border-gray-200 md:pr-5">
+           <div className="text-[14px] font-bold text-gray-900 flex items-center gap-2">
+             조회 필터 및 등록
+           </div>
         </div>
-        <div className="flex flex-wrap items-center gap-2 pr-0 md:pr-2">
-          <div className="flex-1 md:flex-none flex items-center gap-2 border border-gray-200 rounded-lg px-3 py-1.5 bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer">
-            <Calendar size={14} className="text-gray-500"/>
-            <select className="bg-transparent text-[13px] font-medium text-gray-700 outline-none w-full md:w-28 cursor-pointer"><option>최근 3개월</option></select>
+
+        {/* 중간: 필터 섹션 */}
+        <div className="flex-1 md:px-5 flex flex-col sm:flex-row items-stretch md:items-center gap-3">
+          <div className="grid grid-cols-2 lg:flex gap-2 flex-1">
+            <div className="flex items-center gap-2 border border-gray-200 rounded-[8px] px-3 h-[36px] bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer group">
+              <Calendar size={14} className="text-gray-500 shrink-0"/>
+              <select className="bg-transparent text-[13px] font-bold text-gray-700 outline-none w-full cursor-pointer"><option>최근 3개월</option></select>
+            </div>
+            <div className="flex items-center gap-2 border border-gray-200 rounded-[8px] px-3 h-[36px] bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer group">
+              <select className="bg-transparent text-[13px] font-bold text-gray-700 outline-none w-full cursor-pointer"><option>전체 구분</option><option>장애</option><option>긴급 PM</option><option>정기 PM</option></select>
+            </div>
           </div>
-          <div className="flex-1 md:flex-none flex items-center gap-2 border border-gray-200 rounded-lg px-3 py-1.5 bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer mr-0 md:mr-2">
-            <select className="bg-transparent text-[13px] font-medium text-gray-700 outline-none w-full md:w-24 cursor-pointer"><option>전체 구분</option><option>장애</option><option>긴급 PM</option><option>정기 PM</option></select>
-          </div>
-          <div className="flex w-full md:w-auto gap-2">
-            <button onClick={() => setIsIncidentOpen(true)} className="flex-1 md:flex-none flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 text-[13px] font-bold border border-red-200 shadow-sm transition-colors">
-              <AlertTriangle size={14}/><Plus size={14}/> 장애 등록
-            </button>
-            <button onClick={() => setIsPmOpen(true)} className="flex-1 md:flex-none flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 text-[13px] font-bold border border-blue-200 shadow-sm transition-colors">
-              <Settings size={14}/><Plus size={14}/> PM 등록
-            </button>
-          </div>
+        </div>
+
+        {/* 하단/우측: 액션 버튼 */}
+        <div className="flex flex-col sm:flex-row items-center gap-2 pt-3 md:pt-0 border-t border-gray-50 md:border-none">
+          <button onClick={() => setIsIncidentOpen(true)} className="w-full sm:w-auto flex items-center justify-center gap-1.5 px-4 py-2 rounded-[8px] bg-red-50 text-red-700 hover:bg-red-100 text-[13px] font-bold border border-red-200 shadow-sm transition-all active:scale-[0.98]">
+            <AlertTriangle size={14}/><Plus size={14}/> <span>장애 등록</span>
+          </button>
+          <button onClick={() => setIsPmOpen(true)} className="w-full sm:w-auto flex items-center justify-center gap-1.5 px-4 py-2 rounded-[8px] bg-blue-50 text-blue-700 hover:bg-blue-100 text-[13px] font-bold border border-blue-200 shadow-sm transition-all active:scale-[0.98]">
+            <Settings size={14}/><Plus size={14}/> <span>PM 등록</span>
+          </button>
         </div>
       </div>
       </div>

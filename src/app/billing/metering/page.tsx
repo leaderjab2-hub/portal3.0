@@ -176,39 +176,41 @@ export default function Metering() {
       {/* 2. Right Panel - Content */}
       <div className="flex-1 bg-white border border-gray-200 rounded-[10px] flex flex-col overflow-hidden h-full shadow-[0_2px_10px_-3px_rgba(0,0,0,0.02)]">
         {/* Right Header (Tabs + Tools) */}
-        <div className="h-[52px] shrink-0 border-b border-gray-200 flex items-center px-4 bg-white">
-          <div className="flex h-full">
+        <div className="flex flex-col md:flex-row md:h-[52px] shrink-0 border-b border-gray-200 md:items-center px-4 bg-white gap-3 md:gap-0 py-3 md:py-0">
+          <div className="flex h-[40px] md:h-full border-b md:border-none border-gray-100 pb-2 md:pb-0">
             <button 
               onClick={() => setActiveTab('company')}
-              className={`px-5 h-full font-bold text-[13px] flex items-center transition-colors outline-none ${activeTab === 'company' ? 'border-b-[2px] border-primary-500 text-primary-600' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50 border-b-[2px] border-transparent'}`}
+              className={`px-5 h-full font-bold text-[13px] flex items-center transition-colors outline-none whitespace-nowrap ${activeTab === 'company' ? 'border-b-[2px] border-primary-500 text-primary-600' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50 border-b-[2px] border-transparent'}`}
             >
               회사별
             </button>
             <button 
               onClick={() => setActiveTab('project')}
-              className={`px-5 h-full font-bold text-[13px] flex items-center transition-colors outline-none ${activeTab === 'project' ? 'border-b-[2px] border-primary-500 text-primary-600' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50 border-b-[2px] border-transparent'}`}
+              className={`px-5 h-full font-bold text-[13px] flex items-center transition-colors outline-none whitespace-nowrap ${activeTab === 'project' ? 'border-b-[2px] border-primary-500 text-primary-600' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50 border-b-[2px] border-transparent'}`}
             >
               프로젝트별
             </button>
           </div>
-          <div className="flex-1" />
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-2 mr-4 text-[12px] font-semibold text-gray-400 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-200" title="권한 시뮬레이션">
-               <span>역할:</span>
-               <select value={role} onChange={e => setRole(e.target.value as any)} className="bg-transparent text-gray-700 outline-none font-bold">
+          <div className="flex-1 hidden md:block" />
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+            <div className="flex items-center gap-2 text-[12px] font-semibold text-gray-400 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-200" title="권한 시뮬레이션">
+               <span className="whitespace-nowrap">역할:</span>
+               <select value={role} onChange={e => setRole(e.target.value as any)} className="bg-transparent text-gray-700 outline-none font-bold w-full sm:w-auto">
                   <option value="admin">관리자</option>
                   <option value="tenant">Tenant Admin</option>
                   <option value="subtenant">Subtenant Member</option>
                </select>
             </div>
-            <select className="h-[34px] w-[110px] border border-gray-200 rounded-[7px] text-[13px] px-3 font-semibold focus:outline-none focus:border-primary-500 bg-white">
-              <option>2026.03</option>
-              <option>2026.02</option>
-              <option>2026.01</option>
-            </select>
-            <button className="h-[34px] px-4 bg-white border border-gray-200 hover:bg-[#F9FAFB] text-gray-900 font-semibold text-[13px] rounded-[7px] transition-colors shadow-sm outline-none">
-              다운로드
-            </button>
+            <div className="flex items-center gap-2">
+              <select className="h-[36px] w-full sm:w-[110px] border border-gray-200 rounded-[8px] text-[13px] px-3 font-bold focus:outline-none focus:border-primary-500 bg-white cursor-pointer transition-all">
+                <option>2026.03</option>
+                <option>2026.02</option>
+                <option>2026.01</option>
+              </select>
+              <button className="h-[36px] px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-[13px] rounded-[8px] transition-all shadow-sm outline-none active:scale-[0.98]">
+                다운로드
+              </button>
+            </div>
           </div>
         </div>
 

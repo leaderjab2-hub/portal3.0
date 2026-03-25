@@ -128,7 +128,7 @@ export default function HomeDashboard() {
         </div>
       </div>
 
-      <div className="flex flex-col md:grid md:grid-cols-[300px_1fr_1fr] gap-4 items-stretch relative">
+      <div className="flex flex-col lg:grid lg:grid-cols-[300px_1fr_1fr] gap-4 items-stretch relative">
         {/* 1열 - 300px 고정: GPU 사용 현황 */}
         <div className="bg-white border border-gray-200 rounded-[10px] p-6 flex flex-col relative overflow-visible h-full">
           <h2 className="text-[14px] font-semibold text-gray-900 mb-6">GPU 사용 현황</h2>
@@ -228,8 +228,8 @@ export default function HomeDashboard() {
 
           <div className="w-full relative overflow-visible">
             <div 
-              className="grid gap-[4px] w-[252px]" 
-              style={{ gridTemplateColumns: 'repeat(8, 28px)' }}
+              className="grid gap-[4px] w-full max-w-[252px] mx-auto lg:mx-0" 
+              style={{ gridTemplateColumns: 'repeat(8, 1fr)' }}
             >
               {filteredInstances.map((inst, i) => {
                 let bg = 'bg-[#BFDBFE] hover:bg-[#93C5FD]'; // OK
@@ -341,8 +341,8 @@ export default function HomeDashboard() {
           <h2 className="text-[14px] font-semibold text-gray-900">최근 지원 티켓</h2>
           <button className="text-[13px] font-semibold text-primary-600 border border-gray-200 px-4 py-1.5 rounded-[6px] bg-white hover:bg-gray-50 transition-colors">전체 보기</button>
         </div>
-        <table className="w-full text-left border-collapse">
-          <thead>
+        <table className="w-full text-left border-collapse flex-1 inline-table">
+          <thead className="hidden md:table-header-group">
             <tr className="bg-[#FAFAFA] border-b border-gray-200">
               <th className="px-[14px] py-[10px] text-[11px] font-semibold text-gray-400 uppercase tracking-wide">유형</th>
               <th className="px-[14px] py-[10px] text-[11px] font-semibold text-gray-400 uppercase tracking-wide">티켓 ID</th>
@@ -352,25 +352,43 @@ export default function HomeDashboard() {
               <th className="px-[14px] py-[10px] text-[11px] font-semibold text-gray-400 uppercase tracking-wide">등록 일시</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="flex flex-col gap-4 p-4 md:table-row-group md:p-0">
             {[
               { type: '장애접수', id: 'TKT-00142', title: 'H100 인스턴스 접속 불가 현상', status: '대기 중', user: '김사원', date: '2026-03-19 14:22:01', statusColor: 'bg-[#FFFBEB] text-[#D97706]' },
               { type: '기술지원', id: 'TKT-00141', title: 'PyTorch 노드 환경 설정 문의', status: '처리 중', user: '이대리', date: '2026-03-19 10:15:44', statusColor: 'bg-primary-50 text-primary-600' },
               { type: '일반안내', id: 'TKT-00139', title: '월간 크레딧 청구서 재발급 요청', status: '완료', user: '최과장', date: '2026-03-18 16:40:22', statusColor: 'bg-[#ECFDF5] text-[#059669]' },
             ].map(row => (
-              <tr key={row.id} className="border-b border-[#F3F4F6] text-[13px] text-gray-900 hover:bg-[#F9FAFB] transition-colors">
-                <td className="px-[14px] py-[12px]">
-                  <span className="font-semibold text-gray-600">{row.type}</span>
+              <tr key={row.id} className="flex flex-col border border-gray-200 rounded-xl p-5 shadow-sm bg-white md:table-row md:border-0 md:border-b md:border-gray-100 md:rounded-none md:p-0 md:shadow-none hover:bg-gray-50/50 transition-colors group relative">
+                <td className="px-0 py-1 md:px-[14px] md:py-[12px] font-bold text-primary-600 md:text-gray-900 text-[11px] md:text-[13px]">
+                   <div className="flex items-center gap-2">
+                     <span className={`md:hidden px-1.5 py-0.5 rounded text-[10px] bg-primary-50 text-primary-600 border border-primary-100`}>{row.type}</span>
+                     <span className="hidden md:inline font-semibold text-gray-600">{row.type}</span>
+                   </div>
                 </td>
-                <td className="px-[14px] py-[12px] font-mono text-gray-500">{row.id}</td>
-                <td className="px-[14px] py-[12px] font-medium hover:text-primary-600 cursor-pointer w-[40%]">{row.title}</td>
-                <td className="px-[14px] py-[12px]">
+                <td className="px-0 py-1 md:px-[14px] md:py-[12px] font-mono text-gray-400 md:text-gray-500 text-[11px] md:text-[12px] border-b border-gray-50 pb-2 md:border-0 md:pb-0 md:mb-0 mb-3 flex justify-between items-center">
+                   {row.id}
+                   <div className="md:hidden">
+                      <span className={`px-2 py-1 rounded-[5px] text-[10px] font-bold ${row.statusColor}`}>
+                        {row.status}
+                      </span>
+                   </div>
+                </td>
+                <td className="px-0 py-1 md:px-[14px] md:py-[12px] font-bold text-gray-900 text-[16px] md:text-[13px] hover:text-primary-600 cursor-pointer mb-4 md:mb-0 leading-tight">
+                  <Link href="/support/tickets">{row.title}</Link>
+                </td>
+                <td className="hidden md:table-cell px-[14px] py-[12px]">
                   <span className={`px-2 py-1 rounded-[5px] text-[11px] font-bold ${row.statusColor}`}>
                     {row.status}
                   </span>
                 </td>
-                <td className="px-[14px] py-[12px] text-gray-600">{row.user}</td>
-                <td className="px-[14px] py-[12px] font-mono text-gray-400 text-[12px]">{row.date}</td>
+                <td className="px-0 py-1 md:px-[14px] md:py-[12px] font-medium text-gray-500 md:text-gray-600 text-[12px] md:text-[13px] border-t border-gray-50 pt-3 md:border-0 md:pt-0 mt-2 md:mt-0 flex md:table-cell justify-between items-center">
+                   <div className="flex items-center gap-2">
+                     <span className="md:hidden text-[10px] text-gray-300 font-normal underline decoration-gray-100 underline-offset-4">작성자</span>
+                     {row.user}
+                   </div>
+                   <div className="md:hidden font-mono text-[11px] text-gray-400">{row.date}</div>
+                </td>
+                <td className="hidden md:table-cell px-[14px] py-[12px] font-mono text-gray-400 text-[12px]">{row.date}</td>
               </tr>
             ))}
           </tbody>

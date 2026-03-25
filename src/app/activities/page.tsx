@@ -27,28 +27,36 @@ export default function Activities() {
           </div>
         </div>
         
-        <div className="p-4 flex items-center justify-between border-b border-gray-100">
-          <div className="text-[14px] font-semibold text-gray-900 border-r border-gray-200 pr-5">활동 내역 <span className="text-gray-400 font-normal ml-2">Total 842</span></div>
-          <div className="flex-1 px-5 flex items-center gap-3">
-            <select className="h-[34px] w-[160px] border border-gray-200 rounded-[7px] text-[13px] px-3 focus:outline-none focus:border-primary-500 bg-white">
-              <option>전체 회사</option>
-              <option>LG전자</option>
-              <option>Upstage</option>
-            </select>
-            <select className="h-[34px] w-[140px] border border-gray-200 rounded-[7px] text-[13px] px-3 focus:outline-none focus:border-primary-500 bg-white">
-              <option>전체 유형</option>
-              <option>접속</option>
-              <option>권한 변경</option>
-              <option>계정 관리</option>
-            </select>
-            <div className="relative">
-              <input type="text" placeholder="호출 계정 검색 (이메일)" className="w-[240px] h-[34px] border border-gray-200 rounded-[7px] text-[13px] px-3 pl-8 focus:outline-none focus:border-primary-500 bg-white" />
-              <Search size={14} className="absolute left-3 top-2.5 text-gray-400" />
+        <div className="p-4 flex flex-col md:flex-row md:items-center justify-between border-b border-gray-100 gap-4">
+          <div className="flex items-center justify-between md:border-r md:border-gray-200 md:pr-5">
+            <div className="text-[14px] font-bold text-gray-900">활동 내역 <span className="text-gray-400 font-normal ml-2">Total 842</span></div>
+          </div>
+          
+          <div className="flex-1 md:px-5 flex flex-col lg:flex-row items-stretch md:items-center gap-3">
+            <div className="grid grid-cols-2 gap-2 flex-1">
+              <select className="h-[36px] border border-gray-200 rounded-[8px] text-[13px] px-3 focus:outline-none focus:border-primary-500 bg-white cursor-pointer transition-all">
+                <option>전체 회사</option>
+                <option>LG전자</option>
+                <option>Upstage</option>
+              </select>
+              <select className="h-[36px] border border-gray-200 rounded-[8px] text-[13px] px-3 focus:outline-none focus:border-primary-500 bg-white cursor-pointer transition-all">
+                <option>전체 유형</option>
+                <option>접속</option>
+                <option>권한 변경</option>
+                <option>계정 관리</option>
+              </select>
             </div>
-            <button className="h-[34px] w-[34px] flex items-center justify-center border border-gray-200 rounded-[7px] text-gray-600 hover:bg-[#F9FAFB]">
+            <div className="relative flex-1 lg:max-w-[280px]">
+              <input type="text" placeholder="호출 계정 검색 (이메일)" className="w-full h-[36px] border border-gray-200 rounded-[8px] text-[13px] px-3 pl-8 focus:outline-none focus:border-primary-500 bg-white transition-all" />
+              <Search size={14} className="absolute left-3 top-[11px] text-gray-400" />
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 pt-3 md:pt-0 border-t border-gray-50 md:border-none">
+            <button className="h-[36px] w-[36px] flex items-center justify-center border border-gray-200 rounded-[8px] text-gray-400 hover:bg-gray-50 transition-colors">
               <RotateCcw size={14} />
             </button>
-            <button className="h-[34px] w-[80px] bg-primary-500 hover:bg-primary-600 text-white font-semibold text-[13px] rounded-[7px] flex items-center justify-center">
+            <button className="flex-1 sm:flex-none h-[36px] px-6 bg-primary-600 hover:bg-primary-700 text-white font-bold text-[13px] rounded-[8px] flex items-center justify-center transition-all active:scale-[0.98]">
               검색
             </button>
           </div>

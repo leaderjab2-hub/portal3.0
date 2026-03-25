@@ -29,6 +29,7 @@ function CreateNoticeModal({ isOpen, onClose, onConfirm }: { isOpen: boolean, on
       type,
       typeColor: typeColorMap[type] || typeColorMap['일반'],
       title,
+      content,
       author: '플랫폼 관리자',
       date: dateStr,
     });
@@ -110,10 +111,38 @@ export default function Notices() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedNotice, setSelectedNotice] = useState<any>(null);
   const [notices, setNotices] = useState([
-    { type: '점검', typeColor: 'bg-[#FFFBEB] text-[#D97706]', title: '[공지] GPU 클러스터 A구역 정기 점검 안내 (03/25)', author: '박태민 관리자', date: '2026.03.18 10:00:00' },
-    { type: '업데이트', typeColor: 'bg-primary-50 text-primary-600', title: '운영 포털 3.0 신규 기능 업데이트 배포 완료', author: '시스템', date: '2026.03.15 00:00:00' },
-    { type: '일반', typeColor: 'bg-[#F3F4F6] text-gray-600', title: '청구서 발행 및 결제 방식 변경 사전 안내', author: '김솔솔 관리자', date: '2026.03.10 16:30:22' },
-    { type: '점검', typeColor: 'bg-[#FFFBEB] text-[#D97706]', title: '[공지] 내부 네트워크 스위치 교체에 따른 순단 안내 (종료)', author: '최윤진 관리자', date: '2026.03.01 09:00:00' },
+    { 
+      type: '점검', 
+      typeColor: 'bg-[#FFFBEB] text-[#D97706]', 
+      title: '[공지] GPU 클러스터 A구역 정기 점검 안내 (03/25)', 
+      content: '안녕하세요. 플랫폼 운영팀입니다.\n\nGPU 클러스터 A구역의 안정적인 서비스 제공을 위해 정기 점검을 실시할 예정입니다.\n\n1. 일시: 2026년 3월 25일 02:00 ~ 06:00 (약 4시간)\n2. 대상: GPU 인스턴스 A구역 전체 및 관련 네트워크 장비\n3. 영향: 점검 시간 내 인스턴스 접속 불가 및 서비스 중단\n\n이용에 불편을 드려 죄송합니다.',
+      author: '박태민 관리자', 
+      date: '2026.03.18 10:00:00' 
+    },
+    { 
+      type: '업데이트', 
+      typeColor: 'bg-primary-50 text-primary-600', 
+      title: '운영 포털 3.0 신규 기능 업데이트 배포 완료', 
+      content: '관리자 포털 3.0의 정식 업데이트가 완료되었습니다.\n\n주요 변경 사항:\n- 전체적인 디자인 UI/UX 고도화\n- 대시보드 실시간 모니터링 기능 강화\n- 정산 및 청구 상세 내역 조회 기능 추가\n- 모바일 반응형 최적화\n\n기존 사용하시던 2.0 버전은 당분간 병행 운영되나, 순차적으로 종료될 예정입니다.',
+      author: '시스템', 
+      date: '2026.03.15 00:00:00' 
+    },
+    { 
+      type: '일반', 
+      typeColor: 'bg-[#F3F4F6] text-gray-600', 
+      title: '청구서 발행 및 결제 방식 변경 사전 안내', 
+      content: '익월부터 청구서 발행 방식이 변경될 예정입니다.\n\n기존에는 이메일로만 발송되던 청구서가 이제 포털 내 [빌링 > 인보이스] 메뉴에서 직접 다운로드 가능하게 변경됩니다.\n또한, 가상 계좌 입금 외에 법인카드 결제 수단이 추가될 예정이오니 참고 부탁드립니다.',
+      author: '김솔솔 관리자', 
+      date: '2026.03.10 16:30:22' 
+    },
+    { 
+      type: '점검', 
+      typeColor: 'bg-[#FFFBEB] text-[#D97706]', 
+      title: '[공지] 내부 네트워크 스위치 교체에 따른 순단 안내 (종료)', 
+      content: '네트워크 장비 교체 작업이 성공적으로 완료되었습니다. 현재 모든 서비스 이용이 가능합니다.',
+      author: '최윤진 관리자', 
+      date: '2026.03.01 09:00:00' 
+    },
   ]);
 
   const handleCreateNotice = (newNotice: any) => {
@@ -138,39 +167,52 @@ export default function Notices() {
             <div className="w-[1px] h-[12px] bg-gray-300"></div>
             <span>작성자: {selectedNotice.author}</span>
           </div>
-          <div className="min-h-[300px] text-[14px] text-gray-800 bg-[#FAFAFA] p-6 rounded-[8px] border border-gray-100 whitespace-pre-wrap">
-            상세 내용을 입력해주세요
+          <div className="min-h-[300px] text-[14px] text-gray-800 bg-[#FAFAFA] p-6 rounded-[8px] border border-gray-100 whitespace-pre-wrap leading-relaxed shadow-inner">
+            {selectedNotice.content || '상세 내용이 없습니다.'}
           </div>
         </div>
       ) : (
         <>
-          <div className="bg-white border text-left border-gray-200 rounded-[10px] p-4 flex flex-col md:flex-row items-stretch md:items-center justify-between shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] gap-4 md:gap-0">
-            <div className="text-[14px] font-semibold text-gray-900 md:border-r md:border-gray-200 pr-0 md:pr-5 border-b md:border-b-0 pb-3 md:pb-0">공지사항 <span className="text-gray-400 font-normal ml-2">Total {42 + (notices.length - 4)}</span></div>
-            <div className="flex-1 px-0 md:px-5 flex flex-wrap md:flex-nowrap items-center gap-2 md:gap-3">
-              <select className="h-[38px] md:h-[34px] flex-1 md:flex-none md:w-[140px] border border-gray-200 rounded-[7px] text-[13px] px-3 focus:outline-none focus:border-primary-500 bg-white cursor-pointer">
+          <div className="bg-white border text-left border-gray-200 rounded-[14px] p-4 flex flex-col md:flex-row md:items-center justify-between shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] gap-4 md:gap-0">
+            {/* 상단: 타이틀 및 개수 */}
+            <div className="flex items-center justify-between md:border-r md:border-gray-200 md:pr-5">
+               <div className="text-[14px] font-bold text-gray-900">
+                 공지사항 <span className="text-gray-400 font-normal ml-2">Total {42 + (notices.length - 4)}</span>
+               </div>
+               <button className="md:hidden w-[34px] h-[34px] flex items-center justify-center text-gray-400 hover:text-gray-900 rounded-[7px] hover:bg-gray-50 transition-colors">
+                 <Settings size={18} />
+               </button>
+            </div>
+
+            {/* 중간: 필터 및 검색 바 */}
+            <div className="flex-1 md:px-5 flex flex-col md:flex-row items-stretch md:items-center gap-3">
+              <select className="h-[36px] md:w-[140px] border border-gray-200 rounded-[8px] text-[13px] px-3 focus:outline-none focus:border-primary-500 bg-white cursor-pointer transition-all">
                 <option>전체 유형</option>
                 <option>일반</option>
                 <option>점검</option>
                 <option>업데이트</option>
               </select>
-              <div className="relative flex-1 md:flex-none">
-                <input type="text" placeholder="제목 검색" className="w-full md:w-[200px] h-[38px] md:h-[34px] border border-gray-200 rounded-[7px] text-[13px] px-3 pl-8 focus:outline-none focus:border-primary-500 bg-white" />
-                <Search size={14} className="absolute left-3 top-2.5 md:top-2.5 text-gray-400" />
+              <div className="relative flex-1 md:max-w-[300px]">
+                <input type="text" placeholder="제목 검색" className="w-full h-[36px] border border-gray-200 rounded-[8px] text-[13px] px-3 pl-8 focus:outline-none focus:border-primary-500 bg-white transition-all" />
+                <Search size={14} className="absolute left-3 top-[11px] text-gray-400" />
               </div>
-              <button className="h-[38px] md:h-[34px] w-[38px] md:w-[34px] flex items-center justify-center border border-gray-200 rounded-[7px] text-gray-600 hover:bg-[#F9FAFB]">
-                <RotateCcw size={14} />
-              </button>
-              <button className="h-[38px] md:h-[34px] flex-1 md:flex-none md:w-[80px] bg-primary-500 hover:bg-primary-600 text-white font-semibold text-[13px] rounded-[7px] flex items-center justify-center transition-colors">
-                검색
-              </button>
             </div>
-            <div className="flex gap-2 items-center justify-end border-t md:border-t-0 pt-3 md:pt-0">
-              <button className="w-[34px] h-[34px] hidden md:flex items-center justify-center text-gray-400 hover:text-gray-900 rounded-[7px] hover:bg-[#F9FAFB] transition-colors">
-                <Settings size={18} />
-              </button>
-              <button onClick={() => setIsModalOpen(true)} className="h-[38px] md:h-[34px] px-6 md:px-4 bg-primary-500 hover:bg-primary-600 text-white font-semibold text-[13px] rounded-[7px] flex items-center gap-1.5 shadow-sm transition-colors outline-none">
-                <Pencil size={14} /> <span>작성</span>
-              </button>
+
+            {/* 하단/우측: 액션 버튼 */}
+            <div className="flex items-center gap-2 pt-3 md:pt-0 border-t border-gray-50 md:border-none">
+               <button className="h-[36px] w-[36px] flex items-center justify-center border border-gray-200 rounded-[8px] text-gray-500 hover:bg-gray-50 shrink-0 transition-colors">
+                 <RotateCcw size={14} />
+               </button>
+               <button className="h-[36px] w-[50px] bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-[13px] rounded-[8px] flex items-center justify-center transition-colors">
+                 검색
+               </button>
+               <div className="w-[1px] h-[16px] bg-gray-200 mx-1 md:hidden"></div>
+               <button onClick={() => setIsModalOpen(true)} className="flex-1 md:flex-none h-[36px] px-4 bg-primary-600 hover:bg-primary-700 text-white font-bold text-[13px] rounded-[8px] flex items-center justify-center gap-1.5 shadow-sm shadow-primary-500/10 transition-all active:scale-[0.98]">
+                 <span>작성</span>
+               </button>
+               <button className="hidden md:flex w-[36px] h-[36px] items-center justify-center text-gray-400 hover:text-gray-900 rounded-[8px] hover:bg-gray-50 transition-colors outline-none ml-2">
+                 <Settings size={18} />
+               </button>
             </div>
           </div>
 

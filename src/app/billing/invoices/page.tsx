@@ -247,7 +247,7 @@ export default function InvoicesPage() {
       <div className="flex-1 bg-white border border-gray-200 rounded-[10px] flex flex-col min-h-0 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)]">
         <div className="flex-1 overflow-x-auto overflow-y-auto">
           <table className="w-full text-left border-collapse">
-          <thead>
+          <thead className="hidden md:table-header-group">
             <tr className="bg-[#FAFAFA] border-b border-gray-200">
               <th className="w-10 px-4"></th>
               <th className="px-6 py-4 text-[12px] font-extrabold text-gray-500 uppercase tracking-widest">청구 기간</th>
@@ -258,9 +258,9 @@ export default function InvoicesPage() {
               {isAdmin && <th className="px-6 py-4 text-[12px] font-extrabold text-gray-500 uppercase tracking-widest text-center">관리</th>}
             </tr>
           </thead>
-          <tbody>
+          <tbody className="flex flex-col gap-4 p-4 md:table-row-group md:p-0">
             {!sub || sub.records.length === 0 ? (
-              <tr>
+              <tr className="md:table-row">
                 <td colSpan={isAdmin ? 7 : 6} className="px-6 py-16 text-center text-gray-400 text-[14px]">
                   해당 Subtenant에 등록된 빌링 내역이 없습니다.
                 </td>
@@ -268,44 +268,61 @@ export default function InvoicesPage() {
             ) : (
               sub.records.map((r, rowIdx) => (
                 <React.Fragment key={r.id}>
-                  {/* 메인 행 */}
+                  {/* 메인 행 / 카드 */}
                   <tr 
                     onClick={() => toggleRow(r.id)}
-                    className={`border-b text-[14px] cursor-pointer transition-colors ${
-                      expandedRow === r.id ? 'bg-primary-50/30 border-primary-100' : 'border-gray-100 hover:bg-gray-50/50'
+                    className={`flex flex-col border border-gray-200 rounded-xl p-5 shadow-sm bg-white md:table-row md:border-0 md:border-b md:rounded-none md:p-0 md:shadow-none transition-colors ${
+                      expandedRow === r.id ? 'bg-primary-50/30 border-primary-100 ring-2 ring-primary-500/20 md:ring-0' : 'border-gray-100 hover:bg-gray-50/50'
                     }`}
                   >
-                    <td className="w-10 px-4 text-center">
+                    <td className="hidden md:table-cell w-10 px-4 text-center">
                       <div className={`p-1 rounded-md transition-transform ${expandedRow === r.id ? 'rotate-90 text-primary-600 bg-primary-50' : 'text-gray-400'}`}>
                         <ChevronRight size={16} />
                       </div>
                     </td>
-                    <td className="px-6 py-4 font-mono font-bold text-gray-700">{r.billingStart} <span className="text-gray-300 font-sans px-1">~</span> {r.billingEnd}</td>
-                    <td className="px-6 py-4 font-mono font-extrabold text-gray-900 text-right text-[15px]">{formatCurrency(r.totalAmount)}</td>
-                    <td className="px-6 py-4 font-mono font-semibold text-red-500">{r.creditDeduction !== 0 ? `-₩ ${Math.abs(r.creditDeduction).toLocaleString()}` : <span className="text-gray-300">—</span>}</td>
-                    <td className="px-6 py-4 text-gray-500 font-medium text-[13px]">{r.registeredAt}</td>
-                    <td className="px-6 py-4">
+                    <td className="px-0 py-1 md:px-6 md:py-4 font-mono font-bold text-[15px] md:text-[14px] text-gray-700 border-b border-gray-50 mb-3 pb-2 md:border-0 md:mb-0 md:pb-0">
+                      <div className="flex justify-between items-center md:block">
+                        <span className="md:hidden text-[10px] text-gray-400 font-normal block mb-0.5">청구 기간</span>
+                        <div className={`md:hidden p-1 rounded transition-transform ${expandedRow === r.id ? 'rotate-90 text-primary-600' : 'text-gray-400'}`}>
+                          <ChevronRight size={18} />
+                        </div>
+                      </div>
+                      {r.billingStart} <span className="text-gray-300 font-sans px-1">~</span> {r.billingEnd}
+                    </td>
+                    <td className="px-0 py-1 md:px-6 md:py-4 font-mono font-extrabold text-gray-900 text-left md:text-right text-[18px] md:text-[15px]">
+                      <span className="md:hidden text-[10px] text-gray-500 font-normal block mb-0.5 whitespace-normal">최종 청구 금액</span>
+                      {formatCurrency(r.totalAmount)}
+                    </td>
+                    <td className="px-0 py-1 md:px-6 md:py-4 font-mono font-semibold text-red-500">
+                      <span className="md:hidden text-[10px] text-gray-400 font-normal block mb-0.5">크레딧 차감</span>
+                      {r.creditDeduction !== 0 ? `-₩ ${Math.abs(r.creditDeduction).toLocaleString()}` : <span className="text-gray-300">—</span>}
+                    </td>
+                    <td className="px-0 py-1 md:px-6 md:py-4 text-gray-500 font-medium text-[13px]">
+                      <span className="md:hidden text-[10px] text-gray-400 font-normal block mb-0.5">등록일</span>
+                      {r.registeredAt}
+                    </td>
+                    <td className="px-0 py-3 md:px-6 md:py-4 border-t border-gray-50 mt-2 md:border-0 md:mt-0">
                       <div className="flex gap-2" onClick={e => e.stopPropagation()}>
-                        <button className="flex items-center gap-1.5 text-[11px] font-bold text-gray-600 border border-gray-200 bg-white px-3 py-1.5 rounded-md hover:bg-gray-50 shadow-sm">
+                        <button className="flex-1 md:flex-none flex items-center justify-center gap-1.5 text-[11px] font-bold text-gray-600 border border-gray-200 bg-white px-3 py-2 md:py-1.5 rounded-md hover:bg-gray-50 shadow-sm">
                           <FileText size={14} className={r.invoiceFile ? 'text-primary-500' : 'text-gray-400'}/> 인보이스
                         </button>
-                        <button className="flex items-center gap-1.5 text-[11px] font-bold text-gray-600 border border-gray-200 bg-white px-3 py-1.5 rounded-md hover:bg-gray-50 shadow-sm">
+                        <button className="flex-1 md:flex-none flex items-center justify-center gap-1.5 text-[11px] font-bold text-gray-600 border border-gray-200 bg-white px-3 py-2 md:py-1.5 rounded-md hover:bg-gray-50 shadow-sm">
                           <Download size={14} className="text-emerald-500"/> CSV
                         </button>
                       </div>
                     </td>
                     {isAdmin && (
-                      <td className="px-6 py-4 text-center" onClick={e => e.stopPropagation()}>
-                         <button className="p-1 text-gray-400 hover:text-gray-800 hover:bg-gray-100 rounded"><MoreVertical size={16}/></button>
+                      <td className="absolute top-5 right-5 md:static px-0 md:px-6 md:py-4 text-center" onClick={e => e.stopPropagation()}>
+                         <button className="p-1 text-gray-400 hover:text-gray-800 hover:bg-gray-100 rounded md:block hidden"><MoreVertical size={16}/></button>
                       </td>
                     )}
                   </tr>
 
                   {/* 아코디언 상세 내역 */}
                   {expandedRow === r.id && (
-                    <tr className="bg-[#FCFCFC] border-b border-gray-200 shadow-inner">
+                    <tr className="block md:table-row bg-[#FCFCFC] border-b border-gray-200 shadow-inner -mt-4 md:mt-0 rounded-b-xl overflow-hidden mx-1 md:mx-0">
                       <td colSpan={isAdmin ? 7 : 6} className="p-0">
-                         <div className="px-16 py-8 flex gap-12">
+                         <div className="px-6 py-6 md:px-16 md:py-8 flex flex-col md:flex-row gap-6 md:gap-12">
                             {/* 왼쪽: 항목별 요금 테이블 */}
                             <div className="flex-1 bg-white border border-gray-200 rounded-xl shadow-sm p-5">
                                <h4 className="text-[13px] font-extrabold text-gray-800 mb-4 border-l-4 border-gray-800 pl-2">청구 항목 상세</h4>
@@ -337,16 +354,16 @@ export default function InvoicesPage() {
                                </div>
                             </div>
                             
-                            {/* 오른쪽: 부가 정보 (선택적 표시) */}
-                            <div className="w-[300px] flex flex-col gap-4">
+                            {/* 오른쪽: 부가 정보 */}
+                            <div className="w-full md:w-[300px] flex flex-col gap-4">
                                <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-4">
                                   <h4 className="text-[12px] font-bold text-gray-500 mb-2 uppercase">인보이스 파일</h4>
                                   <div className="flex items-center gap-2 p-3 bg-gray-50 border border-gray-200 rounded-lg">
-                                     <FileText size={24} className="text-red-400 shrink-0" />
+                                     <FileText size={20} className="text-red-400 shrink-0" />
                                      <span className="text-[12px] font-medium text-gray-700 truncate">{r.invoiceFile || '첨부 파일 없음'}</span>
                                   </div>
-                               </div>
-                               <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-4 flex-1">
+                                </div>
+                                <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-4 flex-1">
                                   <h4 className="text-[12px] font-bold text-gray-500 mb-2 uppercase">특이사항 메모</h4>
                                   <p className="text-[13px] text-gray-600 leading-relaxed">
                                     {r.creditDeduction < 0 ? '이전 발생한 장애 내역에 대한 크레딧이 차감 반영되었습니다.' : '특이사항 없음.'}

@@ -138,7 +138,7 @@ export default function Credits() {
       <div className="flex-1 bg-white border border-gray-200 rounded-[10px] overflow-hidden shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] flex flex-col min-h-0">
         <div className="flex-1 overflow-x-auto overflow-y-auto">
           <table className="w-full text-left border-collapse table-auto">
-            <thead>
+            <thead className="hidden md:table-header-group">
               <tr className="bg-[#FAFAFA] border-b border-gray-200">
                 <th className="px-6 py-[14px] text-[12px] font-bold text-gray-500 uppercase tracking-wider whitespace-nowrap">Subtenant</th>
                 <th className="px-6 py-[14px] text-[12px] font-bold text-gray-500 uppercase tracking-wider min-w-[70px] whitespace-nowrap">구분</th>
@@ -150,84 +150,110 @@ export default function Credits() {
                 <th className="px-6 py-[14px] text-[12px] font-bold text-gray-500 uppercase tracking-wider text-right whitespace-nowrap">차감액</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="flex flex-col gap-4 p-4 md:table-row-group md:p-0">
               {mockCreditData.tenants.filter(t => t.name === activeTenantName).map((tenant) => (
                 <React.Fragment key={tenant.name}>
                   {tenant.subtenants.map(subtenant => (
                     <React.Fragment key={subtenant.name}>
-                      {/* Subtenant Group Header 행 */}
-                      <tr className="bg-[#FAFAFA] border-b border-gray-100">
-                         <td colSpan={8} className="px-6 py-3 border-l-4 border-l-transparent">
-                           <div className="ml-4 flex items-center gap-2 text-[13px] font-semibold text-gray-700">
-                              <Building2 size={14} className="text-gray-400"/>
-                              {subtenant.name}
-                              <span className="text-gray-300 mx-1">|</span>
-                              <span className="text-gray-500 font-medium">{subtenant.history.length}건</span>
-                              <span className="text-gray-300 mx-1">|</span>
-                              <span className="text-gray-600 font-medium mr-1">잔액:</span>
-                              <span className={`font-mono font-medium ${subtenant.currentBalance > 0 ? 'text-emerald-500' : subtenant.currentBalance < 0 ? 'text-red-500' : 'text-gray-500'}`}>
-                                {subtenant.currentBalance > 0 ? '+₩ ' : subtenant.currentBalance < 0 ? '-₩ ' : '₩ '}
-                                {Math.abs(subtenant.currentBalance).toLocaleString()}
-                              </span>
+                      {/* Subtenant Group Header */}
+                      <tr className="flex flex-col md:table-row bg-[#F8FAFC] md:bg-[#FAFAFA] border-b border-gray-100 rounded-t-xl overflow-hidden">
+                         <td colSpan={8} className="px-4 py-3 md:px-6 md:py-3 border-l-4 border-primary-500 md:border-l-transparent">
+                           <div className="md:ml-4 flex flex-col md:flex-row md:items-center gap-2 text-[13px] font-semibold text-gray-800">
+                              <div className="flex items-center gap-2">
+                                <Building2 size={14} className="text-primary-500 md:text-gray-400"/>
+                                <span className="text-[14px] md:text-[13px]">{subtenant.name}</span>
+                              </div>
+                              <div className="flex items-center gap-2 text-[12px] md:text-[13px] text-gray-500 font-medium">
+                                <span className="hidden md:inline text-gray-300">|</span>
+                                <span>{subtenant.history.length}건</span>
+                                <span className="text-gray-300">|</span>
+                                <span>잔액:</span>
+                                <span className={`font-mono font-bold ${subtenant.currentBalance > 0 ? 'text-emerald-600' : subtenant.currentBalance < 0 ? 'text-red-600' : 'text-gray-500'}`}>
+                                  {subtenant.currentBalance > 0 ? '+₩ ' : subtenant.currentBalance < 0 ? '-₩ ' : '₩ '}
+                                  {Math.abs(subtenant.currentBalance).toLocaleString()}
+                                </span>
+                              </div>
                            </div>
                          </td>
                       </tr>
 
                       {/* History Data Rows */}
                       {subtenant.history.map((record, idx) => (
-                        <tr key={idx} className="border-b border-gray-100 text-[13px] text-gray-800 hover:bg-gray-50/50 transition-colors group">
-                           <td className="px-6 py-[14px]">
+                        <tr key={idx} className="flex flex-col border border-gray-200 rounded-xl p-5 shadow-sm bg-white md:table-row md:border-0 md:border-b md:border-gray-100 md:rounded-none md:p-0 md:shadow-none hover:bg-gray-50/50 transition-colors relative group">
+                           <td className="hidden md:table-cell px-6 py-[14px]">
                               <div className="ml-10">
                                 <span className="inline-flex items-center px-2.5 py-1 rounded-[6px] bg-white text-gray-700 text-[12px] font-semibold border border-gray-200 shadow-sm group-hover:border-gray-300 transition-colors">
                                   {subtenant.name}
                                 </span>
                               </div>
                            </td>
-                           <td className="px-6 py-[14px] whitespace-nowrap">
-                              <span className={`inline-flex items-center justify-center whitespace-nowrap px-2 py-0.5 rounded-[5px] text-[11px] font-bold border 
+                           <td className="px-0 py-1 md:px-6 md:py-[14px] order-1">
+                              <span className={`inline-flex items-center justify-center whitespace-nowrap px-2 py-0.5 rounded-[5px] text-[10px] md:text-[11px] font-bold border md:static absolute top-5 right-5 
                                 ${record.type === '장애' ? 'bg-[#FEF2F2] text-[#DC2626] border-[#FECACA] min-w-[40px]' : 
                                   record.type === 'PM' ? 'bg-[#FFFBEB] text-[#D97706] border-[#FDE68A] min-w-[52px]' : 
                                   'bg-blue-50 text-blue-600 border-blue-200 min-w-[58px]'}`}>
                                 {record.type}
                               </span>
+                              <div className="md:hidden">
+                                <span className="text-[14px] font-bold text-gray-900 border-b border-gray-50 block pb-2 mb-3">
+                                  {record.source}
+                                </span>
+                              </div>
                            </td>
-                           <td className="px-6 py-[14px] text-gray-700 font-medium whitespace-nowrap">{record.source}</td>
-                           <td className="px-6 py-[14px] font-mono text-gray-500 text-[12px] whitespace-nowrap">{record.datetime}</td>
-                           <td className="px-6 py-[14px] text-gray-400 font-medium whitespace-nowrap">{record.duration || '—'}</td>
-                           <td className="px-6 py-[14px] whitespace-nowrap">
+                           <td className="hidden md:table-cell px-6 py-[14px] text-gray-700 font-medium whitespace-nowrap">{record.source}</td>
+                           <td className="px-0 py-1 md:px-6 md:py-[14px] font-mono text-gray-500 text-[12px] order-2">
+                             <span className="md:hidden text-[10px] text-gray-400 font-normal block mb-0.5">발생 일시</span>
+                             {record.datetime}
+                           </td>
+                           <td className="px-0 py-1 md:px-6 md:py-[14px] text-gray-400 font-medium order-3">
+                             <span className="md:hidden text-[10px] text-gray-400 font-normal block mb-0.5">소용 시간</span>
+                             {record.duration || <span className="text-gray-300">—</span>}
+                           </td>
+                           <td className="px-0 py-1 md:px-6 md:py-[14px] order-4">
+                             <span className="md:hidden text-[10px] text-gray-400 font-normal block mb-0.5">대상 노드</span>
                              {record.node ? (
-                               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[6px] bg-[#F8FAFC] text-gray-600 border border-gray-200 text-[12px] font-medium whitespace-nowrap">
+                               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[6px] bg-[#F8FAFC] text-gray-600 border border-gray-200 text-[12px] font-medium">
                                  <Server size={12} className="text-gray-400"/>
                                  {record.node}
                                </span>
-                             ) : <span className="text-gray-300 ml-4">—</span>}
+                             ) : <span className="text-gray-300">—</span>}
                            </td>
-                           <td className="px-6 py-[14px] font-mono font-semibold text-emerald-600 text-[13px] text-right whitespace-nowrap">
-                             {record.generated ? `+₩ ${record.generated.toLocaleString()}` : <span className="text-gray-300">—</span>}
+                           <td className="px-0 py-2 md:px-6 md:py-[14px] font-mono font-bold text-[14px] md:text-[13px] md:text-right border-t border-gray-50 mt-3 md:border-0 md:mt-0 order-5">
+                             <div className="flex md:block justify-between items-center">
+                               <span className="md:hidden text-[10px] text-emerald-600 font-bold uppercase">발생액 (+)</span>
+                               <span className="text-emerald-600">
+                                 {record.generated ? `+₩ ${record.generated.toLocaleString()}` : <span className="text-gray-300 md:inline hidden">—</span>}
+                               </span>
+                             </div>
                            </td>
-                           <td className="px-6 py-[14px] font-mono font-semibold text-red-600 text-[13px] text-right whitespace-nowrap">
-                             {record.deducted ? `-₩ ${Math.abs(record.deducted).toLocaleString()}` : <span className="text-gray-300">—</span>}
+                           <td className="px-0 py-2 md:px-6 md:py-[14px] font-mono font-bold text-[14px] md:text-[13px] md:text-right order-6">
+                             <div className="flex md:block justify-between items-center">
+                               <span className="md:hidden text-[10px] text-red-600 font-bold uppercase">차감액 (-)</span>
+                               <span className="text-red-600">
+                                 {record.deducted ? `-₩ ${Math.abs(record.deducted).toLocaleString()}` : <span className="text-gray-300 md:inline hidden">—</span>}
+                               </span>
+                             </div>
                            </td>
                         </tr>
                       ))}
                     </React.Fragment>
                   ))}
 
-                  {/* Tenant Total Row */}
-                  <tr className="bg-gray-50 border-t border-gray-200">
-                    <td colSpan={8} className="px-6 py-[18px]">
-                      <div className="flex items-center justify-end gap-6 text-[14px] font-bold">
-                        <div className="flex items-center gap-2">
-                          <span className="text-gray-600">누적 발생액:</span>
+                  {/* Tenant Total Summary Section */}
+                  <tr className="flex flex-col md:table-row bg-gray-50 border-t border-gray-200 mt-6 md:mt-0">
+                    <td colSpan={8} className="px-5 py-6 md:px-6 md:py-[18px]">
+                      <div className="flex flex-col md:flex-row md:items-center md:justify-end gap-4 md:gap-6 text-[14px] font-bold">
+                        <div className="flex justify-between items-center md:justify-end md:gap-2">
+                          <span className="text-gray-600 font-semibold">누적 발생액:</span>
                           <span className="font-mono text-emerald-600">+₩ {tenant.subtenants.reduce((acc, sub) => acc + sub.history.reduce((a, h) => a + (h.generated || 0), 0), 0).toLocaleString()}</span>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-gray-600">누적 차감액:</span>
+                        <div className="flex justify-between items-center md:justify-end md:gap-2">
+                          <span className="text-gray-600 font-semibold">누적 차감액:</span>
                           <span className="font-mono text-red-600">-₩ {Math.abs(tenant.subtenants.reduce((acc, sub) => acc + sub.history.reduce((a, h) => a + (h.deducted || 0), 0), 0)).toLocaleString()}</span>
                         </div>
-                        <div className="flex items-center gap-2 border-l border-gray-300 pl-6">
-                          <span className="text-gray-900">최종 잔액:</span>
-                          <span className={`font-mono text-[16px] font-bold ${tenant.currentBalance > 0 ? 'text-emerald-600' : tenant.currentBalance < 0 ? 'text-red-600' : 'text-gray-600'}`}>
+                        <div className="flex justify-between items-center md:justify-end md:gap-2 border-t md:border-t-0 md:border-l border-gray-300 pt-3 md:pt-0 md:pl-6">
+                          <span className="text-gray-900 font-extrabold text-[15px] md:text-[14px]">최종 잔액:</span>
+                          <span className={`font-mono text-[20px] md:text-[16px] font-extrabold ${tenant.currentBalance > 0 ? 'text-emerald-600' : tenant.currentBalance < 0 ? 'text-red-600' : 'text-gray-600'}`}>
                             {tenant.currentBalance > 0 ? '+₩ ' : tenant.currentBalance < 0 ? '-₩ ' : '₩ '}
                             {Math.abs(tenant.currentBalance).toLocaleString()}
                           </span>

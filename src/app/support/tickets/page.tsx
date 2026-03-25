@@ -15,15 +15,8 @@ function CreateTicketModal({ isOpen, onClose, onConfirm }: { isOpen: boolean, on
   const handleSubmit = () => {
     if (!isFormValid) return;
 
-    const typeToStatusColor: Record<string, string> = {
-      '장애접수': 'bg-[#FFFBEB] text-[#D97706]',
-      '기술지원': 'bg-primary-50 text-primary-600',
-      '일반안내': 'bg-[#ECFDF5] text-[#059669]'
-    };
-
     const now = new Date();
     const pad = (n: number) => n.toString().padStart(2, '0');
-    // For ticket list mock matching date format: "YYYY-MM-DD HH:mm:ss"
     const dateStr = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
 
     onConfirm({
@@ -34,7 +27,7 @@ function CreateTicketModal({ isOpen, onClose, onConfirm }: { isOpen: boolean, on
       status: '대기 중',
       user: '김사원 (LG전자)',
       date: dateStr,
-      statusColor: 'bg-[#FFFBEB] text-[#D97706]' // 대기 중 기본 컬러
+      statusColor: 'bg-[#FFFBEB] text-[#D97706]'
     });
     
     setType('기술지원');
@@ -112,35 +105,35 @@ export default function Tickets() {
       <CreateTicketModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onConfirm={handleCreateTicket} />
 
       {selectedTicket ? (
-        <div className="bg-white border border-gray-200 rounded-[10px] p-8 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] flex-1 overflow-y-auto">
+        <div className="bg-white border border-gray-200 rounded-[10px] p-6 md:p-8 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] flex-1 overflow-y-auto">
           <button onClick={() => setSelectedTicket(null)} className="mb-6 px-4 py-2 border border-gray-200 rounded-lg text-[13px] font-bold text-gray-600 hover:bg-gray-50 flex items-center gap-2 outline-none">
             &larr; 목록으로 돌아가기
           </button>
           
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
             <div className="flex items-center gap-3">
               <span className={`px-2.5 py-1 rounded-[6px] text-[12px] font-bold bg-gray-100 text-gray-600`}>{selectedTicket.type}</span>
-              <h2 className="text-[24px] font-extrabold text-gray-900">{selectedTicket.title}</h2>
+              <h2 className="text-[20px] md:text-[24px] font-extrabold text-gray-900 leading-tight">{selectedTicket.title}</h2>
             </div>
-            <span className={`px-3 py-1.5 rounded-[6px] text-[13px] font-bold ${selectedTicket.statusColor}`}>{selectedTicket.status}</span>
+            <span className={`self-start md:self-center px-3 py-1.5 rounded-[6px] text-[13px] font-bold ${selectedTicket.statusColor}`}>{selectedTicket.status}</span>
           </div>
           
-          <div className="flex items-center gap-4 text-[13px] text-gray-500 font-medium pb-6 border-b border-gray-200 mb-6">
+          <div className="flex flex-wrap items-center gap-2 md:gap-4 text-[12px] md:text-[13px] text-gray-500 font-medium pb-6 border-b border-gray-200 mb-6">
             <span>티켓 ID: <span className="font-mono text-gray-900 font-bold">{selectedTicket.id}</span></span>
-            <div className="w-[1px] h-[12px] bg-gray-300"></div>
+            <div className="hidden md:block w-[1px] h-[12px] bg-gray-300"></div>
             <span>작성자: <span className="text-gray-900">{selectedTicket.user}</span></span>
-            <div className="w-[1px] h-[12px] bg-gray-300"></div>
+            <div className="hidden md:block w-[1px] h-[12px] bg-gray-300"></div>
             <span>등록 일시: <span className="font-mono">{selectedTicket.date}</span></span>
           </div>
           
-          <div className="min-h-[250px] text-[14px] text-gray-800 bg-[#FAFAFA] p-6 rounded-[8px] border border-gray-100 mb-8 whitespace-pre-wrap">
+          <div className="min-h-[200px] md:min-h-[250px] text-[14px] text-gray-800 bg-[#FAFAFA] p-5 md:p-6 rounded-[8px] border border-gray-100 mb-8 whitespace-pre-wrap">
             상세 내용을 입력해주세요
           </div>
 
           <div className="border-t border-gray-200 pt-8">
              <h3 className="text-[14px] font-bold text-gray-900 mb-4">댓글 ({selectedTicket.comments})</h3>
              <textarea placeholder="답변이나 관련된 메모를 입력하세요..." className="w-full border border-gray-200 rounded-[8px] p-4 text-[13px] text-gray-900 h-[100px] resize-none focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 mb-3"></textarea>
-             <div className="flex justify-end"><button className="px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-[13px] font-bold rounded-lg transition-colors shadow-sm shadow-primary-500/20 outline-none">등록</button></div>
+             <div className="flex justify-end"><button className="w-full md:w-auto px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-[13px] font-bold rounded-lg transition-colors shadow-sm shadow-primary-500/20 outline-none">등록</button></div>
           </div>
         </div>
       ) : (
@@ -169,89 +162,108 @@ export default function Tickets() {
             </div>
           </div>
 
-          <div className="bg-white border text-left border-gray-200 rounded-[10px] p-4 flex items-center justify-between shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)]">
-            <div className="text-[14px] font-semibold text-gray-900 border-r border-gray-200 pr-5">티켓 목록 <span className="text-gray-400 font-normal ml-2">Total {56 + (tickets.length - 4)}</span></div>
-            <div className="flex-1 px-5 flex items-center gap-3">
-              <select className="h-[34px] w-[140px] border border-gray-200 rounded-[7px] text-[13px] px-3 focus:outline-none focus:border-primary-500 bg-white">
+          <div className="bg-white border text-left border-gray-200 rounded-[10px] p-4 flex flex-col md:flex-row items-stretch md:items-center justify-between shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] gap-4 md:gap-0">
+            <div className="text-[14px] font-semibold text-gray-900 md:border-r md:border-gray-200 pr-0 md:pr-5 border-b md:border-b-0 pb-3 md:pb-0">티켓 목록 <span className="text-gray-400 font-normal ml-2">Total {56 + (tickets.length - 4)}</span></div>
+            <div className="flex-1 px-0 md:px-5 flex flex-wrap md:flex-nowrap items-center gap-2 md:gap-3">
+              <select className="h-[38px] md:h-[34px] flex-1 md:flex-none md:w-[130px] border border-gray-200 rounded-[7px] text-[13px] px-3 focus:outline-none focus:border-primary-500 bg-white cursor-pointer">
                 <option>전체 유형</option>
                 <option>기술 지원</option>
                 <option>장애 접수</option>
                 <option>일반 문의</option>
               </select>
-              <select className="h-[34px] w-[140px] border border-gray-200 rounded-[7px] text-[13px] px-3 focus:outline-none focus:border-primary-500 bg-white">
+              <select className="h-[38px] md:h-[34px] flex-1 md:flex-none md:w-[120px] border border-gray-200 rounded-[7px] text-[13px] px-3 focus:outline-none focus:border-primary-500 bg-white cursor-pointer">
                 <option>전체 상태</option>
                 <option>대기 중</option>
                 <option>처리 중</option>
                 <option>완료</option>
               </select>
-              <div className="flex items-center gap-2 border border-gray-200 rounded-[7px] px-3 h-[34px] bg-white w-[200px]">
-                <Calendar size={14} className="text-gray-400" />
-                <span className="text-[12px] font-mono text-gray-600">2026.03.12 - 2026.03.19</span>
+              <div className="flex items-center gap-2 border border-gray-200 rounded-[7px] px-3 h-[38px] md:h-[34px] bg-white flex-1 md:flex-none md:w-[200px] overflow-hidden transition-all">
+                <Calendar size={14} className="text-gray-400 shrink-0" />
+                <span className="text-[11px] md:text-[12px] font-mono text-gray-600 whitespace-nowrap truncate">2026.03.12 - 03.19</span>
               </div>
-              <div className="relative">
-                <input type="text" placeholder="제목 검색" className="w-[180px] h-[34px] border border-gray-200 rounded-[7px] text-[13px] px-3 pl-8 focus:outline-none focus:border-primary-500 bg-white" />
-                <Search size={14} className="absolute left-3 top-2.5 text-gray-400" />
+              <div className="relative flex-1 md:flex-none">
+                <input type="text" placeholder="제목 검색" className="w-full md:w-[160px] h-[38px] md:h-[34px] border border-gray-200 rounded-[7px] text-[13px] px-3 pl-8 focus:outline-none focus:border-primary-500 bg-white transition-all" />
+                <Search size={14} className="absolute left-3 top-3 md:top-2.5 text-gray-400" />
               </div>
-              <button className="h-[34px] w-[34px] flex items-center justify-center border border-gray-200 rounded-[7px] text-gray-600 hover:bg-[#F9FAFB]">
+              <button className="h-[38px] md:h-[34px] w-[38px] md:w-[34px] flex items-center justify-center border border-gray-200 rounded-[7px] text-gray-600 hover:bg-[#F9FAFB] shrink-0 transition-colors">
                 <RotateCcw size={14} />
               </button>
-              <button className="h-[34px] w-[60px] bg-primary-500 hover:bg-primary-600 text-white font-semibold text-[13px] rounded-[7px] flex items-center justify-center transition-colors">
+              <button className="h-[38px] md:h-[34px] flex-1 md:flex-none px-4 md:w-[60px] bg-primary-500 hover:bg-primary-600 text-white font-semibold text-[13px] rounded-[7px] flex items-center justify-center transition-colors">
                 검색
               </button>
             </div>
-            <div className="flex gap-2 items-center">
-              <button className="w-[34px] h-[34px] flex items-center justify-center text-gray-400 hover:text-gray-900 rounded-[7px] hover:bg-[#F9FAFB] transition-colors">
+            <div className="flex gap-2 items-center justify-end border-t md:border-t-0 pt-3 md:pt-0">
+              <button className="w-[34px] h-[34px] hidden md:flex items-center justify-center text-gray-400 hover:text-gray-900 rounded-[7px] hover:bg-[#F9FAFB] transition-colors">
                 <Settings size={18} />
               </button>
-              <button onClick={() => setIsModalOpen(true)} className="h-[34px] px-4 bg-primary-500 hover:bg-primary-600 text-white font-semibold text-[13px] rounded-[7px] flex items-center gap-1.5 shadow-sm transition-colors outline-none">
+              <button onClick={() => setIsModalOpen(true)} className="h-[38px] md:h-[34px] px-6 md:px-4 bg-primary-500 hover:bg-primary-600 text-white font-semibold text-[13px] rounded-[7px] flex items-center gap-1.5 shadow-sm transition-all outline-none">
                 <Plus size={14} /> <span>티켓 등록</span>
               </button>
             </div>
           </div>
 
-          <div className="bg-white border border-gray-200 rounded-[10px] overflow-x-auto flex flex-col shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] h-full">
+          <div className="bg-white border border-gray-200 rounded-[10px] overflow-hidden flex flex-col shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] h-full">
             <table className="w-full text-left border-collapse flex-1 inline-table">
-              <thead>
+              <thead className="hidden md:table-header-group">
                 <tr className="bg-[#FAFAFA] border-b border-gray-200">
-                  <th className="px-[20px] py-[14px] text-[12px] font-bold text-gray-500 uppercase tracking-wide">유형</th>
-                  <th className="px-[20px] py-[14px] text-[12px] font-bold text-gray-500 uppercase tracking-wide">티켓 ID</th>
+                  <th className="px-[20px] py-[14px] text-[12px] font-bold text-gray-500 uppercase tracking-wide whitespace-nowrap">유형</th>
+                  <th className="px-[20px] py-[14px] text-[12px] font-bold text-gray-500 uppercase tracking-wide whitespace-nowrap">티켓 ID</th>
                   <th className="px-[20px] py-[14px] text-[12px] font-bold text-gray-500 uppercase tracking-wide">제목</th>
-                  <th className="px-[20px] py-[14px] text-[12px] font-bold text-gray-500 uppercase tracking-wide">상태</th>
-                  <th className="px-[20px] py-[14px] text-[12px] font-bold text-gray-500 uppercase tracking-wide">작성자</th>
-                  <th className="px-[20px] py-[14px] text-[12px] font-bold text-gray-500 uppercase tracking-wide">등록 일시</th>
+                  <th className="px-[20px] py-[14px] text-[12px] font-bold text-gray-500 uppercase tracking-wide whitespace-nowrap">상태</th>
+                  <th className="px-[20px] py-[14px] text-[12px] font-bold text-gray-500 uppercase tracking-wide whitespace-nowrap">작성자</th>
+                  <th className="px-[20px] py-[14px] text-[12px] font-bold text-gray-500 uppercase tracking-wide whitespace-nowrap">등록 일시</th>
                   <th className="px-[20px] py-[14px] text-[12px] font-bold text-gray-500 uppercase tracking-wide w-10"></th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="flex flex-col gap-4 p-4 md:table-row-group md:p-0">
                 {tickets.map((row) => (
-                  <tr key={row.id} className="border-b border-gray-100 text-[13px] text-gray-800 hover:bg-gray-50/50 transition-colors h-[48px]">
-                    <td className="px-[20px] font-bold text-gray-900">{row.type}</td>
-                    <td className="px-[20px] font-mono text-gray-500 text-[12px]">{row.id}</td>
-                    <td className="px-[20px] font-bold text-gray-900 hover:text-primary-600 cursor-pointer" onClick={() => setSelectedTicket(row)}>
-                      {row.title}
-                      {row.comments > 0 && <span className="ml-2 text-primary-500 text-[12px] font-bold">[{row.comments}]</span>}
+                  <tr key={row.id} className="flex flex-col border border-gray-200 rounded-xl p-5 shadow-sm bg-white md:table-row md:border-0 md:border-b md:border-gray-100 md:rounded-none md:p-0 md:shadow-none transition-colors group relative">
+                    <td className="px-0 py-1 md:px-[20px] font-bold text-primary-600 md:text-gray-900 text-[11px] md:text-[13px]">
+                       <div className="flex items-center gap-2">
+                         <span className={`md:hidden px-1.5 py-0.5 rounded text-[10px] bg-primary-50 text-primary-600 border border-primary-100`}>{row.type}</span>
+                         <span className="hidden md:inline">{row.type}</span>
+                       </div>
                     </td>
-                    <td className="px-[20px]">
+                    <td className="px-0 py-1 md:px-[20px] font-mono text-gray-400 md:text-gray-500 text-[11px] md:text-[12px] border-b border-gray-50 pb-2 md:border-0 md:pb-0 md:mb-0 mb-3 flex justify-between items-center">
+                       {row.id}
+                       <div className="md:hidden">
+                          <select className={`h-[24px] border-none text-[10px] font-bold rounded-md pl-2 pr-6 appearance-none cursor-pointer focus:outline-none ${row.statusColor}`} defaultValue={row.status}>
+                             <option value="대기 중">대기 중</option>
+                             <option value="처리 중">처리 중</option>
+                             <option value="완료">완료</option>
+                          </select>
+                       </div>
+                    </td>
+                    <td className="px-0 py-1 md:px-[20px] font-bold text-gray-900 text-[16px] md:text-[13px] hover:text-primary-600 cursor-pointer mb-4 md:mb-0 leading-tight" onClick={() => setSelectedTicket(row)}>
+                      {row.title}
+                      {row.comments > 0 && <span className="ml-2 text-primary-500 text-[12px] md:text-[11px] font-extrabold bg-primary-50 px-1.5 py-0.5 rounded-full inline-flex items-center">[{row.comments}]</span>}
+                    </td>
+                    <td className="hidden md:table-cell px-[20px]">
                       <select className={`h-[28px] border-none text-[11px] font-bold rounded-[5px] pl-2 pr-6 appearance-none cursor-pointer focus:outline-none focus:ring-1 focus:ring-primary-500 ${row.statusColor}`} defaultValue={row.status}>
                          <option value="대기 중" className="text-gray-900 bg-white">대기 중</option>
                          <option value="처리 중" className="text-gray-900 bg-white">처리 중</option>
                          <option value="완료" className="text-gray-900 bg-white">완료</option>
                       </select>
                     </td>
-                    <td className="px-[20px] font-medium text-gray-600 border-none">{row.user}</td>
-                    <td className="px-[20px] font-mono text-[12px] text-gray-500">{row.date}</td>
-                    <td className="px-[20px] text-gray-400 hover:text-gray-900 cursor-pointer"><MoreVertical size={16} /></td>
+                    <td className="px-0 py-1 md:px-[20px] font-medium text-gray-500 md:text-gray-600 text-[12px] md:text-[13px] border-t border-gray-50 pt-3 md:border-0 md:pt-0 mt-2 md:mt-0 flex md:table-cell justify-between items-center">
+                       <div className="flex items-center gap-2">
+                         <span className="md:hidden text-[10px] text-gray-300 font-normal">작성자</span>
+                         {row.user}
+                       </div>
+                       <div className="md:hidden font-mono text-[11px] text-gray-400">{row.date}</div>
+                    </td>
+                    <td className="hidden md:table-cell px-[20px] font-mono text-[12px] text-gray-500">{row.date}</td>
+                    <td className="absolute top-5 right-5 md:static px-0 md:px-[20px] text-gray-400 hover:text-gray-900 cursor-pointer"><MoreVertical size={16} /></td>
                   </tr>
                 ))}
               </tbody>
             </table>
             
-            {/* Pagination mock */}
-            <div className="h-[60px] border-t border-gray-100 flex justify-center items-center gap-1.5 bg-[#FAFAFA] shrink-0">
-              <button className="w-[32px] h-[32px] rounded-[6px] border border-gray-200 bg-white text-gray-400 font-bold hover:bg-gray-50">&lt;</button>
-              <button className="w-[32px] h-[32px] rounded-[6px] border border-primary-500 bg-primary-500 text-white font-bold">1</button>
-              <button className="w-[32px] h-[32px] rounded-[6px] border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 font-bold">2</button>
-              <button className="w-[32px] h-[32px] rounded-[6px] border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 font-bold">&gt;</button>
+            <div className="h-[70px] md:h-[60px] border-t border-gray-100 flex justify-center items-center gap-1.5 bg-[#FAFAFA] shrink-0">
+              <button className="w-[36px] md:w-[32px] h-[36px] md:h-[32px] rounded-[6px] border border-gray-200 bg-white text-gray-400 font-bold hover:bg-gray-50 shadow-sm transition-all">&lt;</button>
+              <button className="w-[36px] md:w-[32px] h-[36px] md:h-[32px] rounded-[6px] border border-primary-500 bg-primary-500 text-white font-bold shadow-sm">1</button>
+              <button className="w-[36px] md:w-[32px] h-[36px] md:h-[32px] rounded-[6px] border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 font-bold shadow-sm">2</button>
+              <button className="w-[36px] md:w-[32px] h-[36px] md:h-[32px] rounded-[6px] border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 font-bold shadow-sm">&gt;</button>
             </div>
           </div>
         </>

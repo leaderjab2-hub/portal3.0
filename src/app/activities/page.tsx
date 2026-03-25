@@ -54,8 +54,8 @@ export default function Activities() {
           </div>
         </div>
 
-        <table className="w-full text-left border-collapse flex-1 inline-table">
-          <thead>
+        <table className="w-full text-left border-collapse flex-1">
+          <thead className="hidden md:table-header-group">
             <tr className="bg-[#FAFAFA] border-b border-gray-200">
               <th className="px-[14px] py-[10px] text-[11px] font-semibold text-gray-400 uppercase tracking-wide">회사명</th>
               <th className="px-[14px] py-[10px] text-[11px] font-semibold text-gray-400 uppercase tracking-wide">유형</th>
@@ -64,7 +64,7 @@ export default function Activities() {
               <th className="px-[14px] py-[10px] text-[11px] font-semibold text-gray-400 uppercase tracking-wide">발생 일시</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="flex flex-col gap-4 p-4 md:table-row-group md:p-0">
             {[
               { company: 'LG전자', type: '접속', message: '사용자 로그인 성공', account: 'dongjoo.kim@lge.com', date: '2026.03.19 14:22:01', color: 'bg-[#ECFDF5] text-[#059669]' },
               { company: 'LG전자', type: '권한 변경', message: 'Project A 프로젝트 매니저 권한 부여', account: 'admin@lge.com', date: '2026.03.19 13:10:45', color: 'bg-[#EFF6FF] text-[#2563EB]' },
@@ -72,14 +72,29 @@ export default function Activities() {
               { company: 'Kakao', type: '접속', message: '비밀번호 5회 오류로 계정 잠금', account: 'unknown@kakao.com', date: '2026.03.18 16:20:00', color: 'bg-[#FEF2F2] text-[#DC2626]' },
               { company: 'Naver', type: '접속', message: '사용자 로그아웃', account: 'jhkim123@naver.com', date: '2026.03.18 11:45:30', color: 'bg-[#F3F4F6] text-gray-600' },
             ].map((row, i) => (
-              <tr key={i} className="border-b border-[#F3F4F6] text-[13px] text-gray-900 hover:bg-[#F9FAFB]">
-                <td className="px-[14px] py-[12px] font-semibold">{row.company}</td>
-                <td className="px-[14px] py-[12px]">
-                  <span className={`px-2 py-1 rounded-[4px] text-[10px] font-bold ${row.color}`}>{row.type}</span>
+              <tr key={i} className="flex flex-col border border-gray-200 rounded-xl p-5 shadow-sm bg-white md:table-row md:border-0 md:border-b md:border-[#F3F4F6] md:rounded-none md:p-0 md:shadow-none hover:bg-[#F9FAFB] transition-colors relative">
+                <td className="px-0 py-1 md:px-[14px] md:py-[12px] font-bold text-primary-600 border-b border-gray-50 mb-3 pb-2 md:border-0 md:mb-0 md:pb-0 md:text-gray-900">
+                  <span className="md:hidden text-[10px] text-gray-400 font-normal block mb-0.5">회사명</span>
+                  {row.company}
+                  <div className="absolute top-5 right-5 md:static md:inline-block md:ml-2">
+                    <span className={`px-2 py-0.5 rounded-[4px] text-[10px] font-bold ${row.color}`}>{row.type}</span>
+                  </div>
                 </td>
-                <td className="px-[14px] py-[12px] text-gray-600">{row.message}</td>
-                <td className="px-[14px] py-[12px] font-mono text-gray-600">{row.account}</td>
-                <td className="px-[14px] py-[12px] font-mono text-[12px] text-gray-400">{row.date}</td>
+                <td className="hidden md:table-cell px-[14px] py-[12px]">
+                   {/* PC 전용 (유형은 위에서 처리) */}
+                </td>
+                <td className="px-0 py-1 md:px-[14px] md:py-[12px] text-gray-800 md:text-gray-600 text-[14px] md:text-[13px] leading-relaxed">
+                  <span className="md:hidden text-[10px] text-gray-400 font-normal block mb-0.5">상세 내용</span>
+                  {row.message}
+                </td>
+                <td className="px-0 py-1 md:px-[14px] md:py-[12px] font-mono text-[13px] md:text-[13px] text-gray-600">
+                  <span className="md:hidden text-[10px] text-gray-400 font-normal block mb-0.5">호출 계정</span>
+                  {row.account}
+                </td>
+                <td className="px-0 py-1 md:px-[14px] md:py-[12px] font-mono text-[12px] text-gray-400">
+                  <span className="md:hidden text-[10px] text-gray-400 font-normal block mb-0.5">발생 일시</span>
+                  {row.date}
+                </td>
               </tr>
             ))}
           </tbody>

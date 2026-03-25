@@ -144,39 +144,39 @@ export default function Notices() {
         </div>
       ) : (
         <>
-          <div className="bg-white border text-left border-gray-200 rounded-[10px] p-4 flex items-center justify-between shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)]">
-            <div className="text-[14px] font-semibold text-gray-900 border-r border-gray-200 pr-5">공지사항 <span className="text-gray-400 font-normal ml-2">Total {42 + (notices.length - 4)}</span></div>
-            <div className="flex-1 px-5 flex items-center gap-3">
-              <select className="h-[34px] w-[140px] border border-gray-200 rounded-[7px] text-[13px] px-3 focus:outline-none focus:border-primary-500 bg-white">
+          <div className="bg-white border text-left border-gray-200 rounded-[10px] p-4 flex flex-col md:flex-row items-stretch md:items-center justify-between shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] gap-4 md:gap-0">
+            <div className="text-[14px] font-semibold text-gray-900 md:border-r md:border-gray-200 pr-0 md:pr-5 border-b md:border-b-0 pb-3 md:pb-0">공지사항 <span className="text-gray-400 font-normal ml-2">Total {42 + (notices.length - 4)}</span></div>
+            <div className="flex-1 px-0 md:px-5 flex flex-wrap md:flex-nowrap items-center gap-2 md:gap-3">
+              <select className="h-[38px] md:h-[34px] flex-1 md:flex-none md:w-[140px] border border-gray-200 rounded-[7px] text-[13px] px-3 focus:outline-none focus:border-primary-500 bg-white cursor-pointer">
                 <option>전체 유형</option>
                 <option>일반</option>
                 <option>점검</option>
                 <option>업데이트</option>
               </select>
-              <div className="relative">
-                <input type="text" placeholder="제목 검색" className="w-[200px] h-[34px] border border-gray-200 rounded-[7px] text-[13px] px-3 pl-8 focus:outline-none focus:border-primary-500 bg-white" />
-                <Search size={14} className="absolute left-3 top-2.5 text-gray-400" />
+              <div className="relative flex-1 md:flex-none">
+                <input type="text" placeholder="제목 검색" className="w-full md:w-[200px] h-[38px] md:h-[34px] border border-gray-200 rounded-[7px] text-[13px] px-3 pl-8 focus:outline-none focus:border-primary-500 bg-white" />
+                <Search size={14} className="absolute left-3 top-2.5 md:top-2.5 text-gray-400" />
               </div>
-              <button className="h-[34px] w-[34px] flex items-center justify-center border border-gray-200 rounded-[7px] text-gray-600 hover:bg-[#F9FAFB]">
+              <button className="h-[38px] md:h-[34px] w-[38px] md:w-[34px] flex items-center justify-center border border-gray-200 rounded-[7px] text-gray-600 hover:bg-[#F9FAFB]">
                 <RotateCcw size={14} />
               </button>
-              <button className="h-[34px] w-[80px] bg-primary-500 hover:bg-primary-600 text-white font-semibold text-[13px] rounded-[7px] flex items-center justify-center transition-colors">
+              <button className="h-[38px] md:h-[34px] flex-1 md:flex-none md:w-[80px] bg-primary-500 hover:bg-primary-600 text-white font-semibold text-[13px] rounded-[7px] flex items-center justify-center transition-colors">
                 검색
               </button>
             </div>
-            <div className="flex gap-2 items-center">
-              <button className="w-[34px] h-[34px] flex items-center justify-center text-gray-400 hover:text-gray-900 rounded-[7px] hover:bg-[#F9FAFB] transition-colors">
+            <div className="flex gap-2 items-center justify-end border-t md:border-t-0 pt-3 md:pt-0">
+              <button className="w-[34px] h-[34px] hidden md:flex items-center justify-center text-gray-400 hover:text-gray-900 rounded-[7px] hover:bg-[#F9FAFB] transition-colors">
                 <Settings size={18} />
               </button>
-              <button onClick={() => setIsModalOpen(true)} className="h-[34px] px-4 bg-primary-500 hover:bg-primary-600 text-white font-semibold text-[13px] rounded-[7px] flex items-center gap-1.5 shadow-sm transition-colors outline-none">
+              <button onClick={() => setIsModalOpen(true)} className="h-[38px] md:h-[34px] px-6 md:px-4 bg-primary-500 hover:bg-primary-600 text-white font-semibold text-[13px] rounded-[7px] flex items-center gap-1.5 shadow-sm transition-colors outline-none">
                 <Pencil size={14} /> <span>작성</span>
               </button>
             </div>
           </div>
 
-          <div className="bg-white border border-gray-200 rounded-[10px] overflow-x-auto flex flex-col shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] h-full">
+          <div className="bg-white border border-gray-200 rounded-[10px] overflow-hidden flex flex-col shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] h-full">
             <table className="w-full text-left border-collapse flex-1 inline-table">
-              <thead>
+              <thead className="hidden md:table-header-group">
                 <tr className="bg-[#FAFAFA] border-b border-gray-200">
                   <th className="px-[20px] py-[14px] text-[12px] font-bold text-gray-500 uppercase tracking-wide">유형</th>
                   <th className="px-[20px] py-[14px] text-[12px] font-bold text-gray-500 uppercase tracking-wide">제목</th>
@@ -185,28 +185,34 @@ export default function Notices() {
                   <th className="px-[20px] py-[14px] text-[12px] font-bold text-gray-500 uppercase tracking-wide w-10"></th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="flex flex-col gap-4 p-4 md:table-row-group md:p-0">
                 {notices.map((row, i) => (
-                  <tr key={i} className="border-b border-gray-100 text-[13px] text-gray-800 hover:bg-gray-50/50 transition-colors h-[48px]">
-                    <td className="px-[20px]">
-                      <span className={`px-2 py-0.5 rounded-[4px] text-[11px] font-bold ${row.typeColor}`}>{row.type}</span>
+                  <tr key={i} className="flex flex-col border border-gray-200 rounded-xl p-5 shadow-sm bg-white md:table-row md:border-0 md:border-b md:border-gray-100 md:rounded-none md:p-0 md:shadow-none transition-colors group relative">
+                    <td className="px-0 py-1 md:px-[20px]">
+                      <span className={`px-2 py-0.5 rounded-[4px] text-[10px] md:text-[11px] font-bold ${row.typeColor}`}>{row.type}</span>
                     </td>
-                    <td className="px-[20px] font-bold text-gray-900 text-[13px] hover:text-primary-600 cursor-pointer" onClick={() => setSelectedNotice(row)}>{row.title}</td>
-                    <td className="px-[20px] font-medium text-gray-600 text-[13px]">{row.author}</td>
-                    <td className="px-[20px] font-mono text-[12px] text-gray-500">{row.date}</td>
-                    <td className="px-[20px] text-gray-400 hover:text-gray-900 cursor-pointer"><MoreVertical size={16} /></td>
+                    <td className="px-0 py-1 md:px-[20px] font-bold text-gray-900 text-[16px] md:text-[13px] hover:text-primary-600 cursor-pointer mb-4 md:mb-0" onClick={() => setSelectedNotice(row)}>{row.title}</td>
+                    <td className="px-0 py-1 md:px-[20px] font-medium text-gray-500 md:text-gray-600 text-[12px] md:text-[13px] border-t border-gray-50 pt-3 md:border-0 md:pt-0 mt-2 md:mt-0 flex md:table-cell justify-between items-center">
+                       <div className="flex items-center gap-2">
+                         <span className="md:hidden text-[10px] text-gray-400 font-normal">작성자</span>
+                         {row.author}
+                       </div>
+                       <div className="md:hidden font-mono text-[11px] text-gray-400">{row.date}</div>
+                    </td>
+                    <td className="hidden md:table-cell px-[20px] font-mono text-[12px] text-gray-500">{row.date}</td>
+                    <td className="absolute top-5 right-5 md:static px-0 md:px-[20px] text-gray-400 hover:text-gray-900 cursor-pointer"><MoreVertical size={16} /></td>
                   </tr>
                 ))}
               </tbody>
             </table>
             
             {/* Pagination mock */}
-            <div className="h-[60px] border-t border-gray-100 flex justify-center items-center gap-1.5 bg-[#FAFAFA] shrink-0">
-              <button className="w-[32px] h-[32px] rounded-[6px] border border-gray-200 bg-white text-gray-400 font-bold hover:bg-gray-50">&lt;</button>
-              <button className="w-[32px] h-[32px] rounded-[6px] border border-primary-500 bg-primary-500 text-white font-bold">1</button>
-              <button className="w-[32px] h-[32px] rounded-[6px] border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 font-bold">2</button>
-              <button className="w-[32px] h-[32px] rounded-[6px] border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 font-bold">3</button>
-              <button className="w-[32px] h-[32px] rounded-[6px] border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 font-bold">&gt;</button>
+            <div className="h-[70px] md:h-[60px] border-t border-gray-100 flex justify-center items-center gap-1.5 bg-[#FAFAFA] shrink-0">
+              <button className="w-[36px] md:w-[32px] h-[36px] md:h-[32px] rounded-[6px] border border-gray-200 bg-white text-gray-400 font-bold hover:bg-gray-50">&lt;</button>
+              <button className="w-[36px] md:w-[32px] h-[36px] md:h-[32px] rounded-[6px] border border-primary-500 bg-primary-500 text-white font-bold shadow-sm">1</button>
+              <button className="w-[36px] md:w-[32px] h-[36px] md:h-[32px] rounded-[6px] border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 font-bold">2</button>
+              <button className="w-[36px] md:w-[32px] h-[36px] md:h-[32px] rounded-[6px] border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 font-bold">3</button>
+              <button className="w-[36px] md:w-[32px] h-[36px] md:h-[32px] rounded-[6px] border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 font-bold">&gt;</button>
             </div>
           </div>
         </>

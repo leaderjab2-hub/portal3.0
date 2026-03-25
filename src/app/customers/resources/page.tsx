@@ -325,8 +325,8 @@ export default function ResourceAllocationPage() {
            
            <div className="flex-1 overflow-x-auto overflow-y-auto">
               {isOverview ? (
-                <table className="w-full text-left table-auto">
-                  <thead>
+                <table className="w-full text-left">
+                  <thead className="hidden md:table-header-group">
                     <tr className="bg-[#FAFAFA] border-b border-gray-200">
                       <th className="px-6 py-[12px] text-[12px] font-extrabold text-gray-500 whitespace-nowrap">Tenant 명</th>
                       <th className="px-6 py-[12px] text-[12px] font-extrabold text-gray-500 text-center whitespace-nowrap">계약 대수</th>
@@ -335,27 +335,37 @@ export default function ResourceAllocationPage() {
                       <th className="px-6 py-[12px] text-[12px] font-extrabold text-gray-500 text-right whitespace-nowrap">관리 액션</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="flex flex-col gap-4 p-4 md:table-row-group md:p-0">
                      {initialMockData.map((tenant, i) => (
-                       <tr key={tenant.tenant} className="border-b border-gray-100 hover:bg-gray-50/50 transition-colors h-[48px]">
-                          <td className="px-6 font-bold text-gray-900 text-[14px] cursor-pointer hover:underline underline-offset-2 whitespace-nowrap" onClick={() => setSelectedTenantIdx(i + 1)}>{tenant.tenant}</td>
-                          <td className="px-6 font-mono text-[13px] font-bold text-gray-600 text-center whitespace-nowrap">{tenant.contractCount}대</td>
-                          <td className="px-6 font-mono text-[13px] text-center whitespace-nowrap">
-                            {tenant.assignedCount > 0 
-                              ? <span className="font-bold text-primary-700 bg-primary-50 border border-primary-200 px-2 py-0.5 rounded">{tenant.assignedCount}대</span>
-                              : <span className="text-gray-400 font-bold bg-gray-100 px-2 py-0.5 border border-gray-200 rounded">0대</span>}
+                       <tr key={tenant.tenant} className="flex flex-col border border-gray-200 rounded-xl p-5 shadow-sm bg-white md:table-row md:border-0 md:border-b md:border-gray-100 md:rounded-none md:p-0 md:shadow-none hover:bg-gray-50/50 transition-colors">
+                          <td className="px-0 py-1 md:px-6 md:py-[14px] font-bold text-[15px] md:text-[14px] text-primary-600 cursor-pointer hover:underline border-b border-gray-50 mb-3 pb-2 md:border-0 md:mb-0 md:pb-0 md:text-gray-900" onClick={() => setSelectedTenantIdx(i + 1)}>
+                            <span className="md:hidden text-[10px] text-gray-400 font-normal block mb-0.5">Tenant 명</span>
+                            {tenant.tenant}
                           </td>
-                          <td className="px-6 font-mono text-[12px] text-gray-500 font-medium whitespace-nowrap">{formatIntervals(tenant.intervals)}</td>
-                           <td className="px-6 text-right whitespace-nowrap">
-                             <button onClick={() => openModal('tenant', tenant.tenant, tenant.contractCount, tenant.intervals, ALL_NODES, new Set())} className="text-[12px] font-bold text-gray-600 hover:text-gray-900 border border-gray-200 bg-white px-3 py-1.5 rounded shadow-sm outline-none">할당 관리</button>
+                          <td className="px-0 py-1 md:px-6 font-mono text-[13px] font-bold text-gray-600 md:text-center">
+                            <span className="md:hidden text-[10px] text-gray-500 font-normal block mb-0.5">계약 대수</span>
+                            {tenant.contractCount}대
+                          </td>
+                          <td className="px-0 py-1 md:px-6 font-mono text-[13px] md:text-center">
+                            <span className="md:hidden text-[10px] text-gray-500 font-normal block mb-0.5">현재 할당 대수</span>
+                            {tenant.assignedCount > 0 
+                              ? <span className="font-bold text-primary-700 bg-primary-50 border border-primary-200 px-2 py-0.5 rounded md:inline-block">{tenant.assignedCount}대</span>
+                              : <span className="text-gray-400 font-bold bg-gray-100 px-2 py-0.5 border border-gray-200 rounded md:inline-block">0대</span>}
+                          </td>
+                          <td className="px-0 py-1 md:px-6 font-mono text-[12px] text-gray-500 font-medium">
+                            <span className="md:hidden text-[10px] text-gray-500 font-normal block mb-0.5">인스턴스 구간 내역</span>
+                            {formatIntervals(tenant.intervals)}
+                          </td>
+                           <td className="px-0 py-2 md:px-6 text-right mt-2 md:mt-0">
+                             <button onClick={() => openModal('tenant', tenant.tenant, tenant.contractCount, tenant.intervals, ALL_NODES, new Set())} className="w-full md:w-auto text-[12px] font-bold text-gray-600 hover:text-gray-900 border border-gray-200 bg-white px-3 py-2 md:py-1.5 rounded shadow-sm outline-none">할당 관리</button>
                           </td>
                        </tr>
                      ))}
                   </tbody>
                 </table>
               ) : (
-                <table className="w-full text-left table-auto">
-                  <thead>
+                <table className="w-full text-left">
+                  <thead className="hidden md:table-header-group">
                     <tr className="bg-[#FAFAFA] border-b border-gray-200">
                       <th className="px-6 py-[12px] text-[12px] font-extrabold text-gray-500 whitespace-nowrap">Subtenant 명</th>
                       <th className="px-6 py-[12px] text-[12px] font-extrabold text-gray-500 text-center whitespace-nowrap">분배 수량 (대)</th>
@@ -364,23 +374,31 @@ export default function ResourceAllocationPage() {
                       <th className="px-6 py-[12px] text-[12px] font-extrabold text-gray-500 text-right whitespace-nowrap">분배 관리</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="flex flex-col gap-4 p-4 md:table-row-group md:p-0">
                      {t!.subtenants.length === 0 ? (
-                       <tr><td colSpan={5} className="text-center py-12 text-gray-400 text-[13px] font-medium">등록된 Subtenant(프로젝트)가 없습니다.</td></tr>
+                       <tr className="md:table-row md:border-b-0"><td colSpan={5} className="text-center py-12 text-gray-400 text-[13px] font-medium border-b-0">등록된 Subtenant(프로젝트)가 없습니다.</td></tr>
                      ) : (
                        t!.subtenants.map(sub => {
                          const maxAlloc = t!.poolRemaining + sub.count;
                          const usageRatio = t!.assignedCount > 0 ? (sub.count / t!.assignedCount) * 100 : 0;
                          return (
-                           <tr key={sub.name} className="border-b border-gray-100 hover:bg-gray-50/50 transition-colors h-[48px]">
-                              <td className="px-6 font-bold text-gray-800 text-[13px] whitespace-nowrap">{sub.name}</td>
-                              <td className="px-6 font-mono text-[13px] text-center whitespace-nowrap">
-                                {sub.count > 0 
-                                  ? <span className="font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded">{sub.count}대</span>
-                                  : <span className="text-gray-400 font-bold bg-gray-100 px-2 py-0.5 border border-gray-200 rounded">미분배</span>}
+                           <tr key={sub.name} className="flex flex-col border border-gray-200 rounded-xl p-5 shadow-sm bg-white md:table-row md:border-0 md:border-b md:border-gray-100 md:rounded-none md:p-0 md:shadow-none hover:bg-gray-50/50 transition-colors">
+                              <td className="px-0 py-1 md:px-6 md:py-[14px] font-bold text-gray-800 text-[15px] md:text-[13px] border-b border-gray-50 mb-3 pb-2 md:border-0 md:mb-0 md:pb-0">
+                                <span className="md:hidden text-[10px] text-gray-400 font-normal block mb-0.5">Subtenant 명</span>
+                                {sub.name}
                               </td>
-                              <td className="px-6 font-mono text-[12px] text-gray-500 font-medium whitespace-nowrap">{formatIntervals(sub.intervals)}</td>
-                              <td className="px-6 whitespace-nowrap">
+                              <td className="px-0 py-1 md:px-6 font-mono text-[13px] md:text-center text-left">
+                                <span className="md:hidden text-[10px] text-gray-500 font-normal block mb-0.5">분배 수량 (대)</span>
+                                {sub.count > 0 
+                                  ? <span className="font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded md:inline-block">{sub.count}대</span>
+                                  : <span className="text-gray-400 font-bold bg-gray-100 px-2 py-0.5 border border-gray-200 rounded md:inline-block">미분배</span>}
+                              </td>
+                              <td className="px-0 py-1 md:px-6 font-mono text-[12px] text-gray-500 font-medium">
+                                <span className="md:hidden text-[10px] text-gray-500 font-normal block mb-0.5">인스턴스 구간 내역</span>
+                                {formatIntervals(sub.intervals)}
+                              </td>
+                              <td className="px-0 py-1 md:px-6">
+                                <span className="md:hidden text-[10px] text-gray-500 font-normal block mb-0.5">비율 (Pool 대비)</span>
                                 <div className="flex items-center gap-2">
                                    <div className="w-24 h-1.5 bg-gray-100 rounded-full overflow-hidden shrink-0">
                                       <div className="h-full bg-emerald-400 rounded-full" style={{ width: `${usageRatio}%` }}></div>
@@ -388,12 +406,12 @@ export default function ResourceAllocationPage() {
                                    <span className="text-[11px] font-mono font-bold text-gray-500 w-8">{Math.round(usageRatio)}%</span>
                                 </div>
                               </td>
-                              <td className="px-6 text-right whitespace-nowrap">
+                              <td className="px-0 py-2 md:px-6 text-right mt-2 md:mt-0">
                                  <button onClick={() => {
                                    const externalUsed = new Set(t!.allSubtenantNodes);
                                    sub.intervals.forEach((inv: IntervalData) => getIntervalNodes(inv.start, inv.end).forEach(n => externalUsed.delete(n)));
                                    openModal('subtenant', sub.name, maxAlloc, sub.intervals, t!.tenantNodes, externalUsed);
-                                 }} className="text-[12px] font-bold text-gray-600 hover:text-gray-900 border border-gray-200 bg-white px-3 py-1.5 rounded shadow-sm outline-none">할당 관리</button>
+                                 }} className="w-full md:w-auto text-[12px] font-bold text-gray-600 hover:text-gray-900 border border-gray-200 bg-white px-3 py-2 md:py-1.5 rounded shadow-sm outline-none">할당 관리</button>
                               </td>
                            </tr>
                          );

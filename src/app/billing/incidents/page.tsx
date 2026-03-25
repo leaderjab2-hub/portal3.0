@@ -280,24 +280,26 @@ export default function IncidentRegistration() {
       </div>
 
       {/* 3, 4. Header Tools */}
-      <div className="bg-white border border-gray-200 rounded-[10px] px-4 py-2 flex items-center justify-between shadow-sm">
+      <div className="bg-white border border-gray-200 rounded-[10px] px-4 py-3 md:py-2 flex flex-col md:flex-row md:items-center justify-between shadow-sm gap-4 md:gap-0">
         <div className="flex gap-1 pl-1">
           <span className="text-[14px] font-bold text-gray-900">조회 필터 및 등록</span>
         </div>
-        <div className="flex items-center gap-2 pr-2">
-          <div className="flex items-center gap-2 border border-gray-200 rounded-lg px-3 py-1.5 bg-gray-50 hover:bg-gray-100 cursor-pointer">
+        <div className="flex flex-wrap items-center gap-2 pr-0 md:pr-2">
+          <div className="flex-1 md:flex-none flex items-center gap-2 border border-gray-200 rounded-lg px-3 py-1.5 bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer">
             <Calendar size={14} className="text-gray-500"/>
-            <select className="bg-transparent text-[13px] font-medium text-gray-700 outline-none w-28"><option>최근 3개월</option></select>
+            <select className="bg-transparent text-[13px] font-medium text-gray-700 outline-none w-full md:w-28 cursor-pointer"><option>최근 3개월</option></select>
           </div>
-          <div className="flex items-center gap-2 border border-gray-200 rounded-lg px-3 py-1.5 bg-gray-50 hover:bg-gray-100 cursor-pointer mr-2">
-            <select className="bg-transparent text-[13px] font-medium text-gray-700 outline-none w-24"><option>전체 구분</option><option>장애</option><option>긴급 PM</option><option>정기 PM</option></select>
+          <div className="flex-1 md:flex-none flex items-center gap-2 border border-gray-200 rounded-lg px-3 py-1.5 bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer mr-0 md:mr-2">
+            <select className="bg-transparent text-[13px] font-medium text-gray-700 outline-none w-full md:w-24 cursor-pointer"><option>전체 구분</option><option>장애</option><option>긴급 PM</option><option>정기 PM</option></select>
           </div>
-          <button onClick={() => setIsIncidentOpen(true)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 text-[13px] font-bold border border-red-200 shadow-sm transition-colors">
-            <AlertTriangle size={14}/><Plus size={14}/> 장애 등록
-          </button>
-          <button onClick={() => setIsPmOpen(true)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 text-[13px] font-bold border border-blue-200 shadow-sm transition-colors">
-            <Settings size={14}/><Plus size={14}/> PM 등록
-          </button>
+          <div className="flex w-full md:w-auto gap-2">
+            <button onClick={() => setIsIncidentOpen(true)} className="flex-1 md:flex-none flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 text-[13px] font-bold border border-red-200 shadow-sm transition-colors">
+              <AlertTriangle size={14}/><Plus size={14}/> 장애 등록
+            </button>
+            <button onClick={() => setIsPmOpen(true)} className="flex-1 md:flex-none flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 text-[13px] font-bold border border-blue-200 shadow-sm transition-colors">
+              <Settings size={14}/><Plus size={14}/> PM 등록
+            </button>
+          </div>
         </div>
       </div>
       </div>
@@ -306,7 +308,7 @@ export default function IncidentRegistration() {
       <div className="flex-1 bg-white border border-gray-200 rounded-[10px] overflow-hidden shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] flex flex-col text-left min-h-0">
         <div className="flex-1 overflow-x-auto overflow-y-auto">
           <table className="w-full text-left border-collapse table-auto">
-          <thead>
+          <thead className="hidden md:table-header-group">
             <tr className="bg-[#FAFAFA] border-b border-gray-200">
               <th className="px-5 py-[14px] text-[12px] font-bold text-gray-500 uppercase min-w-[70px] whitespace-nowrap">구분</th>
               <th className="px-5 py-[14px] text-[12px] font-bold text-gray-500 uppercase whitespace-nowrap">발생/시작 일시</th>
@@ -319,29 +321,62 @@ export default function IncidentRegistration() {
               <th className="px-5 py-[14px] text-[12px] font-bold text-gray-500 uppercase whitespace-nowrap">등록자</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="flex flex-col gap-4 p-4 md:table-row-group md:p-0">
             {mockData.tenants.filter(t => t.name === activeTenantName).map(tenant => (
               <React.Fragment key={tenant.name}>
                 {tenant.subtenants.map(sub => (
                    <React.Fragment key={sub.name}>
-                     <tr className="bg-[#FAFAFA] border-b border-gray-100">
-                        <td colSpan={9} className="px-7 py-3">
-                          <div className="flex items-center gap-2 text-[13px] font-semibold text-gray-600"><Building2 size={14}/>{sub.name}<span className="text-gray-300 mx-1">|</span>{sub.records.length}건</div>
+                     {/* Subtenant Header */}
+                     <tr className="flex flex-col md:table-row bg-[#F8FAFC] md:bg-[#FAFAFA] border-b border-gray-100 rounded-t-xl overflow-hidden">
+                        <td colSpan={9} className="px-4 py-3 md:px-7 md:py-3 border-l-4 border-primary-500 md:border-l-transparent">
+                          <div className="flex items-center gap-2 text-[13px] font-semibold text-gray-700">
+                            <Building2 size={14} className="text-primary-500 md:text-gray-400"/>
+                            <span className="text-[14px] md:text-[13px]">{sub.name}</span>
+                            <span className="text-gray-300 mx-1">|</span>
+                            <span className="text-gray-500 font-medium">{sub.records.length}건</span>
+                          </div>
                         </td>
                      </tr>
+
                      {sub.records.map((r, i) => (
-                       <tr key={i} className="border-b border-gray-100 hover:bg-gray-50/50 text-[13px] group">
-                          <td className="px-5 py-3 whitespace-nowrap">
-                            <span className={`inline-flex items-center justify-center whitespace-nowrap px-2 py-1 rounded-[5px] text-[11px] font-bold border ${r.type === '장애' ? 'bg-[#FEF2F2] text-[#DC2626] border-[#FECACA] min-w-[40px]' : r.type === '긴급PM' ? 'bg-[#FFFBEB] text-[#D97706] border-[#FDE68A] min-w-[52px]' : 'bg-[#EFF6FF] text-[#2563EB] border-[#BFDBFE] min-w-[52px]'}`}>{r.type}</span>
+                       <tr key={i} className="flex flex-col border border-gray-200 rounded-xl p-5 shadow-sm bg-white md:table-row md:border-0 md:border-b md:border-gray-100 md:rounded-none md:p-0 md:shadow-none hover:bg-gray-50/50 transition-colors group">
+                          <td className="px-0 py-1 md:px-5 md:py-3 order-1 md:order-none">
+                            <span className={`inline-flex items-center justify-center whitespace-nowrap px-2 py-0.5 md:py-1 rounded-[5px] text-[10px] md:text-[11px] font-bold border ${r.type === '장애' ? 'bg-[#FEF2F2] text-[#DC2626] border-[#FECACA] min-w-[40px]' : r.type === '긴급PM' ? 'bg-[#FFFBEB] text-[#D97706] border-[#FDE68A] min-w-[52px]' : 'bg-[#EFF6FF] text-[#2563EB] border-[#BFDBFE] min-w-[52px]'}`}>{r.type}</span>
+                            <div className="md:hidden mt-3 border-b border-gray-50 pb-2 mb-3">
+                               <div className="flex items-center gap-1.5 text-[15px] font-bold text-gray-900"><AlertTriangle size={16} className="text-red-500"/> {r.node} ({r.instance})</div>
+                            </div>
                           </td>
-                          <td className="px-5 py-3 font-mono text-gray-600 text-[12px] whitespace-nowrap">{r.start}</td>
-                          <td className="px-5 py-3 font-mono text-gray-600 text-[12px] whitespace-nowrap">{r.end}</td>
-                          <td className="px-5 py-3 font-medium text-gray-700 whitespace-nowrap">{r.duration}</td>
-                          <td className="px-5 py-3 whitespace-nowrap"><div className="flex items-center gap-1.5 px-2 py-1 bg-[#F8FAFC] border border-gray-200 rounded text-[12px] font-medium text-gray-600 inline-flex"><Server size={12}/>{r.node} ({r.instance})</div></td>
-                          <td className="px-5 py-3 font-medium text-gray-600 whitespace-nowrap">{r.companies}</td>
-                          <td className="px-5 py-3 font-mono text-gray-600 text-[13px] text-center whitespace-nowrap">{r.gpu}</td>
-                          <td className="px-5 py-3 font-mono font-bold text-[13px] text-right whitespace-nowrap">{r.credit ? <span className="text-emerald-600">+₩ {Math.abs(r.credit).toLocaleString()}</span> : <span className="text-gray-300">—</span>}</td>
-                          <td className="px-5 py-3 font-medium text-gray-500 whitespace-nowrap">{r.user}</td>
+                          <td className="px-0 py-1 md:px-5 md:py-3 font-mono text-gray-600 text-[12px] order-3 md:order-none">
+                            <span className="md:hidden text-[10px] text-gray-400 font-normal block mb-0.5">발생/시작 일시</span>
+                            {r.start}
+                          </td>
+                          <td className="px-0 py-1 md:px-5 md:py-3 font-mono text-gray-600 text-[12px] order-4 md:order-none">
+                            <span className="md:hidden text-[10px] text-gray-400 font-normal block mb-0.5">복구/종료 일시</span>
+                            {r.end}
+                          </td>
+                          <td className="px-0 py-1 md:px-5 md:py-3 font-bold text-gray-800 md:font-medium md:text-gray-700 order-2 md:order-none mb-2 md:mb-0">
+                            <span className="md:hidden text-[10px] text-gray-400 font-normal block mb-0.5">소요 시간</span>
+                            {r.duration}
+                          </td>
+                          <td className="hidden md:table-cell px-5 py-3 md:whitespace-nowrap"><div className="flex items-center gap-1.5 px-2 py-1 bg-[#F8FAFC] border border-gray-200 rounded text-[12px] font-medium text-gray-600 inline-flex"><Server size={12}/>{r.node} ({r.instance})</div></td>
+                          <td className="px-0 py-1 md:px-5 md:py-3 font-medium text-gray-600 order-5 md:order-none">
+                            <span className="md:hidden text-[10px] text-gray-400 font-normal block mb-0.5">해당 고객사</span>
+                            {r.companies}
+                          </td>
+                          <td className="px-0 py-1 md:px-5 md:py-3 font-mono text-gray-600 text-[13px] md:text-center order-6 md:order-none">
+                             <span className="md:hidden text-[10px] text-gray-400 font-normal block mb-0.5">영향 GPU</span>
+                             {r.gpu} HP
+                          </td>
+                          <td className="px-0 py-2 md:px-5 md:py-3 font-mono font-bold text-[16px] md:text-[13px] md:text-right border-t border-gray-50 mt-3 md:border-0 md:mt-0 order-7 md:order-none">
+                            <div className="flex md:block justify-between items-center">
+                              <span className="md:hidden text-[10px] text-emerald-600 font-bold uppercase">크레딧 산출액 (+)</span>
+                              {r.credit ? <span className="text-emerald-600">+₩ {Math.abs(r.credit).toLocaleString()}</span> : <span className="text-gray-300 md:inline hidden">—</span>}
+                            </div>
+                          </td>
+                          <td className="px-0 py-1 md:px-5 md:py-3 font-medium text-gray-400 text-[11px] md:text-[13px] md:text-gray-500 order-8 md:order-none mt-2 md:mt-0">
+                            <span className="md:hidden text-[10px] text-gray-300 font-normal mr-1">등록자</span>
+                            {r.user}
+                          </td>
                        </tr>
                      ))}
                    </React.Fragment>

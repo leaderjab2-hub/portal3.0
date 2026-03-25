@@ -62,7 +62,7 @@ export default function GPUMonitoring() {
   }, [selectedTenantId, selectedSubtenantId]);
 
   return (
-    <div className="flex flex-col md:flex md:flex-row h-auto md:h-[calc(100vh-112px)] gap-6">
+    <div className="flex flex-col-reverse md:flex-row h-auto md:h-[calc(100vh-112px)] gap-6">
       <div className="w-full md:w-[260px] bg-white border border-gray-200 rounded-[10px] flex flex-col overflow-hidden md:shrink-0">
         <div className="p-4 border-b border-gray-100 flex flex-col gap-3 flex-none">
           <select 

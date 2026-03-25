@@ -108,8 +108,8 @@ export default function Admins() {
       </div>
 
       <div className="bg-white border border-gray-200 rounded-[10px] overflow-x-auto flex flex-col shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] h-full">
-        <table className="w-full text-left border-collapse flex-1 inline-table">
-          <thead>
+        <table className="w-full text-left border-collapse flex-1">
+          <thead className="hidden md:table-header-group">
             <tr className="bg-[#FAFAFA] border-b border-gray-200">
               <th className="px-[20px] py-[14px] text-[12px] font-bold text-gray-500 uppercase tracking-wide">관리자 명</th>
               <th className="px-[20px] py-[14px] text-[12px] font-bold text-gray-500 uppercase tracking-wide">이메일</th>
@@ -118,16 +118,30 @@ export default function Admins() {
               <th className="px-[20px] py-[14px] text-[12px] font-bold text-gray-500 uppercase tracking-wide w-10"></th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="flex flex-col gap-4 p-4 md:table-row-group md:p-0">
             {admins.map((row, i) => (
-              <tr key={i} className="border-b border-gray-100 text-[13px] text-gray-800 hover:bg-gray-50/50 transition-colors h-[48px]">
-                <td className="px-[20px] font-bold text-gray-900 text-[13px]">{row.name}</td>
-                <td className="px-[20px] font-medium text-gray-600 text-[13px]">{row.email}</td>
-                <td className="px-[20px]">
-                  <span className={`px-2 py-0.5 rounded-[4px] text-[11px] font-bold ${row.roleBg}`}>{row.role}</span>
+              <tr key={i} className="flex flex-col border border-gray-200 rounded-xl p-5 shadow-sm bg-white md:table-row md:border-0 md:border-b md:border-gray-100 md:rounded-none md:p-0 md:shadow-none hover:bg-gray-50/50 transition-colors relative">
+                <td className="px-0 py-1 md:px-[20px] md:py-[14px] font-bold text-primary-600 border-b border-gray-50 mb-3 pb-2 md:border-0 md:mb-0 md:pb-0 md:text-gray-900 md:text-[13px]">
+                  <span className="md:hidden text-[10px] text-gray-400 font-normal block mb-0.5">관리자 명</span>
+                  {row.name}
+                  <div className="absolute top-5 right-12 md:static md:inline-block md:ml-3">
+                    <span className={`px-2 py-0.5 rounded-[4px] text-[10px] font-bold ${row.roleBg}`}>{row.role}</span>
+                  </div>
                 </td>
-                <td className="px-[20px] font-mono text-[12px] text-gray-500">{row.date}</td>
-                <td className="px-[20px] text-gray-400 hover:text-gray-900 cursor-pointer"><MoreVertical size={16} /></td>
+                <td className="px-0 py-1 md:px-[20px] md:py-[14px]">
+                  <span className="md:hidden text-[10px] text-gray-400 font-normal block mb-0.5">이메일</span>
+                  <span className="text-gray-600 font-medium md:text-[13px]">{row.email}</span>
+                </td>
+                <td className="hidden md:table-cell px-[20px]">
+                   {/* PC 전용 (권한은 위에서 처리) */}
+                </td>
+                <td className="px-0 py-1 md:px-[20px] md:py-[14px] font-mono text-[12px] text-gray-500 md:text-[12px]">
+                  <span className="md:hidden text-[10px] text-gray-400 font-normal block mb-0.5">등록 일시</span>
+                  {row.date}
+                </td>
+                <td className="absolute top-5 right-5 md:static px-0 md:px-[20px] text-gray-400 hover:text-gray-900 cursor-pointer">
+                  <MoreVertical size={16} />
+                </td>
               </tr>
             ))}
           </tbody>
